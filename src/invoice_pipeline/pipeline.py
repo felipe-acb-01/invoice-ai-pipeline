@@ -15,7 +15,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .extract import DEFAULT_MODEL, Extraction, extract
+from .extract import Extraction, extract
 from .store import Store
 from .validate import check
 
@@ -51,7 +51,7 @@ def sha256_of(path: Path) -> str:
 
 
 def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None, alert: Alert = log_alert,
-                   base_currency: str | tuple[str, ...] = "USD", model: str = DEFAULT_MODEL,
+                   base_currency: str | tuple[str, ...] = "USD", model: str | None = None,
                    sources: dict[str, str] | None = None) -> Summary:
     """`sources` maps a file name to where it came from (e.g. the email's sender and subject)."""
     sources = sources or {}

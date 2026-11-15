@@ -19,7 +19,13 @@ import anthropic
 
 from .schema import Invoice
 
-DEFAULT_MODEL = os.environ.get("INVOICE_MODEL", "claude-opus-5-5")
+# Chosen by the evaluation (see README): Haiku matched Opus on all 100 test documents at ~1/30 of the cost.
+FALLBACK_MODEL = "claude-haiku-5-5"
+
+
+def default_model() -> str:
+    """Read at call time, not import time, so a .env loaded later still counts."""
+    return os.environ.get("INVOICE_MODEL", FALLBACK_MODEL)
 
 # US$ per million tokens (input, output). Source: Anthropic pricing, Nov 2026.
 PRICES = {
@@ -62,9 +68,10 @@ class Extraction:
         return (self.input_tokens * price_in + self.output_tokens * price_out) / 1_000_000
 
 
-def extract(pdf: Path, client: anthropic.Anthropic | None = None, model: str = DEFAULT_MODEL,
+def extract(pdf: Path, client: anthropic.Anthropic | None = None, model: str | None = None,
             effort: str | None = None) -> Extraction:
     client = client or anthropic.Anthropic()
+    model = model or default_model()
     data = base64.standard_b64encode(pdf.read_bytes()).decode("ascii")
     media_type = MEDIA_TYPES[pdf.suffix.lower()]
     block_type = "document" if media_type == "application/pdf" else "image"

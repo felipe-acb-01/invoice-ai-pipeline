@@ -134,7 +134,7 @@ def test_end_to_end_gmail_to_approval_email_to_sheet(world):
     first = store.list("pending")[0]
     app = create_app(store, "Ana", after_decision=lambda: sync_approved(store, sheets, "SHEET"))
     TestClient(app).post(f"/invoices/{first.id}/approve", data={"note": "ok"})
-    assert sheets.rows[0][0] == "ID" and sheets.rows[1][0] == first.id and sheets.rows[1][-1].startswith("billing@")
+    assert sheets.rows[0][0] == "Document ID" and sheets.rows[1][0] == first.sha256[:12] and sheets.rows[1][-1].startswith("billing@")
     assert sync_approved(store, sheets, "SHEET") == 0  # idempotent
     assert len(sheets.rows) == 2
 
@@ -158,3 +158,22 @@ def test_flagged_invoice_email_says_why():
     subject, text, html = approval_email(rec, "http://x/invoices/1")
     assert "needs a closer look" in subject and "Subtotal plus tax does not equal the total." in text
     assert "<script" not in html
+
+
+def test_sheet_key_does_not_collide_between_databases(tmp_path):
+    """Regression: keyed by database id, invoice #1 of a second database was skipped because #1 was already there."""
+    import json
+    bank = tmp_path / "bank"
+    manifest = generate(bank)
+    sheets = FakeSheets()
+    for n, name in enumerate(("one", "two")):
+        store = Store(tmp_path / name)
+        inbox = tmp_path / f"in-{name}"
+        inbox.mkdir()
+        f = manifest[n]["file"]
+        (inbox / f).write_bytes((bank / f).read_bytes())
+        process_folder(inbox, store, lambda p, m=manifest[n]: Extraction(Invoice.model_validate(m["truth"]), "fake", 0, 0, 0))
+        store.decide(store.list()[0].id, "approved", "Ana")
+        assert store.list()[0].id == 1
+        assert sync_approved(store, sheets, "S") == 1
+    assert len(sheets.rows) == 3

@@ -28,7 +28,8 @@ from .evaluate import load_dotenv
 def main() -> None:
     load_dotenv()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
-    logging.getLogger("httpx").setLevel(logging.WARNING)
+    for noisy in ("httpx", "httpx2", "googleapiclient.discovery_cache"):
+        logging.getLogger(noisy).setLevel(logging.WARNING)
     parser = argparse.ArgumentParser(prog="invoice_pipeline", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command", required=True)

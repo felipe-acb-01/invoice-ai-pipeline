@@ -18,7 +18,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .extract import DEFAULT_MODEL, PROMPT_VERSION, Extraction, extract
+from .extract import PROMPT_VERSION, Extraction, default_model, extract
 from .schema import HEADER_FIELDS, Invoice
 from .validate import FLAGS, Ledger, check, norm_number
 
@@ -206,7 +206,7 @@ def main() -> None:
     load_dotenv()
     parser =argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--samples", type=Path, default=Path("samples"))
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--model", default=None, help="default: INVOICE_MODEL, else claude-haiku-5-5")
     parser.add_argument("--effort", choices=("low", "medium", "high", "xhigh", "max"))
     parser.add_argument("--dry", action="store_true", help="feed the right answers instead of calling the API ($0)")
     parser.add_argument("--limit", type=int, help="only the first N documents")
@@ -214,6 +214,7 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("reports"))
     args = parser.parse_args()
 
+    args.model = args.model or default_model()
     results = run(args.samples, args.model, args.effort, args.dry, args.limit, args.fresh)
     text = report(results, args.samples, args.model, args.effort, args.dry)
     args.out.mkdir(parents=True, exist_ok=True)

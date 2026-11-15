@@ -31,7 +31,7 @@ SECRETS = Path("secrets")
 GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]  # read, label and send; never delete
 SHEETS_SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 PROCESSED_LABEL = "Invoices/Processed"
-SHEET_HEADER = ["ID", "Vendor", "Vendor tax ID", "Invoice number", "Issue date", "Due date", "Currency", "Subtotal",
+SHEET_HEADER = ["Document ID", "Vendor", "Vendor tax ID", "Invoice number", "Issue date", "Due date", "Currency", "Subtotal",
                 "Tax", "Total", "Approved at (UTC)", "Approved by", "Note", "Source"]
 
 
@@ -212,9 +212,15 @@ def email_alert(gmail: Gmail, to: str):
 # ── Sheets ─────────────────────────────────────────────────────────────────
 
 
+def document_key(rec: Record) -> str:
+    """The sheet's key: a fingerprint of the original file. Unlike a database id, it never collides
+    between two databases (a reset, a second machine), so the sync can never skip or duplicate a row."""
+    return rec.sha256[:12]
+
+
 def sheet_row(rec: Record) -> list:
     inv = rec.invoice
-    return [rec.id, inv.vendor_name, inv.vendor_tax_id or "", inv.invoice_number, inv.issue_date, inv.due_date or "",
+    return [document_key(rec), inv.vendor_name, inv.vendor_tax_id or "", inv.invoice_number, inv.issue_date, inv.due_date or "",
             inv.currency, inv.subtotal, inv.tax, inv.total, rec.decided_at, rec.decided_by, rec.note or "",
             rec.source or rec.file_name]
 
@@ -225,7 +231,7 @@ def sync_approved(store: Store, service, sheet_id: str) -> int:
     column = values.get(spreadsheetId=sheet_id, range="A:A").execute().get("values", [])
     present = {str(row[0]) for row in column[1:] if row}
     rows = [] if column else [SHEET_HEADER]
-    rows += [sheet_row(r) for r in store.list("approved") if str(r.id) not in present]
+    rows += [sheet_row(r) for r in store.list("approved") if document_key(r) not in present]
     new = len(rows) - (0 if column else 1)
     if new or not column:
         values.append(spreadsheetId=sheet_id, range="A1", valueInputOption="RAW", insertDataOption="INSERT_ROWS",

@@ -131,3 +131,12 @@ def test_cache_is_separate_per_bank(tmp_path):
     a = _cache_path(tmp_path, "samples", "m", None, "001.pdf")
     b = _cache_path(tmp_path, "samples_hard", "m", None, "001.pdf")
     assert a != b
+
+
+def test_model_setting_is_read_when_used_not_when_imported(monkeypatch):
+    """Regression: a .env loaded after import used to be ignored, so a run billed Opus instead of Haiku."""
+    from invoice_pipeline.extract import default_model
+    monkeypatch.delenv("INVOICE_MODEL", raising=False)
+    assert default_model() == "claude-haiku-5-5"
+    monkeypatch.setenv("INVOICE_MODEL", "claude-sonnet-5-5")
+    assert default_model() == "claude-sonnet-5-5"

@@ -15,8 +15,7 @@ anything doubtful to a person for approval, and writes the rest to a spreadsheet
    the reason for any alert in one sentence and a link to the earlier invoice it may repeat.
 3. Approved invoices export to Excel (one sheet of invoices, one of lines), with who approved them, when, and their note.
 
-Settings: `ANTHROPIC_API_KEY`, `INVOICE_MODEL` (default `claude-opus-5-5`; the evaluation recommends
-`claude-haiku-5-5`), `BASE_CURRENCIES` (e.g. `USD,CLP`), `APPROVER_NAME`, `INVOICE_DATA_DIR`.
+Settings: `ANTHROPIC_API_KEY`, `INVOICE_MODEL` (default `claude-haiku-5-5`, the evaluation's choice), `BASE_CURRENCIES` (e.g. `USD,CLP`), `APPROVER_NAME`, `INVOICE_DATA_DIR`.
 
 ## How well it reads: measured, not claimed
 

@@ -1,5 +1,7 @@
 # Invoice AI pipeline
 
+[![tests](https://github.com/felipe-acb-01/invoice-ai-pipeline/actions/workflows/tests.yml/badge.svg)](https://github.com/felipe-acb-01/invoice-ai-pipeline/actions/workflows/tests.yml)
+
 **Vendor invoices arrive by email. This reads them with Claude, checks them with plain rules, asks a person to
 approve each one, and writes the approved ones to a spreadsheet. Nobody types an invoice again.**
 

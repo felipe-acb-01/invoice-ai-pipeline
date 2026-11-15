@@ -1,0 +1,2430 @@
+[
+  {
+    "file": "001.pdf",
+    "received_order": 1,
+    "kind": "two_page",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#226",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-14",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Sep 4",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 5",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 9",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 11",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Sep 13",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 15",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 17",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 18",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 19",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 20",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 21",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 23",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 25",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 26",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 27",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 28",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 29",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 3",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 4",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Oct 5",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 6",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 7",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 8",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 9",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 10",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 11",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 12",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Oct 13",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        }
+      ],
+      "subtotal": 3612.5,
+      "tax": 0.0,
+      "total": 3612.5
+    }
+  },
+  {
+    "file": "002.pdf",
+    "received_order": 2,
+    "kind": "ambiguous",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#244",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-12",
+      "due_date": "2026-09-11",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Laptop setup",
+          "quantity": 3.0,
+          "unit_price": 140.0,
+          "amount": 420.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 1.5,
+          "unit_price": 125.0,
+          "amount": 187.5
+        }
+      ],
+      "subtotal": 607.5,
+      "tax": 0.0,
+      "total": 607.5
+    }
+  },
+  {
+    "file": "003.pdf",
+    "received_order": 3,
+    "kind": "two_page",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#227",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-03",
+      "due_date": "2026-09-18",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Jul 25",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Jul 26",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Jul 28",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Jul 29",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Jul 30",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 2",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 3",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 4",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 5",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 6",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 8",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 9",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 10",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 13",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 14",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 15",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 16",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 17",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 19",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 20",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 22",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 23",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 24",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 25",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 26",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 27",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 29",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 31",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 1",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        }
+      ],
+      "subtotal": 2805.0,
+      "tax": 0.0,
+      "total": 2805.0
+    }
+  },
+  {
+    "file": "004.pdf",
+    "received_order": 4,
+    "kind": "discount",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0803",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-11",
+      "due_date": "2026-10-11",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Filter replacement",
+          "quantity": 2.0,
+          "unit_price": 38.0,
+          "amount": 76.0
+        },
+        {
+          "description": "HVAC maintenance visit",
+          "quantity": 3.0,
+          "unit_price": 240.0,
+          "amount": 720.0
+        },
+        {
+          "description": "Technician hours",
+          "quantity": 6.5,
+          "unit_price": 92.0,
+          "amount": 598.0
+        },
+        {
+          "description": "Discount (10%)",
+          "quantity": 1.0,
+          "unit_price": -139.4,
+          "amount": -139.4
+        }
+      ],
+      "subtotal": 1254.6,
+      "tax": 94.09,
+      "total": 1348.69
+    }
+  },
+  {
+    "file": "005.pdf",
+    "received_order": 5,
+    "kind": "discount",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#237",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-26",
+      "due_date": "2026-10-26",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Laptop setup",
+          "quantity": 1.0,
+          "unit_price": 140.0,
+          "amount": 140.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 6.5,
+          "unit_price": 125.0,
+          "amount": 812.5
+        },
+        {
+          "description": "Remote support",
+          "quantity": 6.5,
+          "unit_price": 85.0,
+          "amount": 552.5
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 1.5,
+          "unit_price": 95.0,
+          "amount": 142.5
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Discount (10%)",
+          "quantity": 1.0,
+          "unit_price": -185.75,
+          "amount": -185.75
+        }
+      ],
+      "subtotal": 1671.75,
+      "tax": 0.0,
+      "total": 1671.75
+    }
+  },
+  {
+    "file": "006.jpg",
+    "received_order": 6,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "822",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-03",
+      "due_date": "2026-10-03",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Soporte remoto (horas)",
+          "quantity": 1.0,
+          "unit_price": 32000.0,
+          "amount": 32000.0
+        },
+        {
+          "description": "Configuración de notebook",
+          "quantity": 3.0,
+          "unit_price": 70000.0,
+          "amount": 210000.0
+        },
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        }
+      ],
+      "subtotal": 301990.0,
+      "tax": 57378.0,
+      "total": 359368.0
+    }
+  },
+  {
+    "file": "007.pdf",
+    "received_order": 7,
+    "kind": "wrapped",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/381",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-26",
+      "due_date": "2026-10-26",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Quarterly review of accounts payable workflow, including vendor master cleanup and approval matrix update",
+          "quantity": 1.0,
+          "unit_price": 1450.0,
+          "amount": 1450.0
+        },
+        {
+          "description": "On-site network assessment for the second floor, with cable certification report and remediation plan",
+          "quantity": 1.0,
+          "unit_price": 980.0,
+          "amount": 980.0
+        },
+        {
+          "description": "Emergency after-hours call-out to restore the main printer and scanner queue for month-end close",
+          "quantity": 1.0,
+          "unit_price": 340.0,
+          "amount": 340.0
+        }
+      ],
+      "subtotal": 2770.0,
+      "tax": 0.0,
+      "total": 2770.0
+    }
+  },
+  {
+    "file": "008.pdf",
+    "received_order": 8,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "244",
+      "vendor_name": "Limpiezas Cordillera Ltda.",
+      "vendor_tax_id": "99.904.118-3",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-14",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Insumos de baño",
+          "quantity": 3.0,
+          "unit_price": 28900.0,
+          "amount": 86700.0
+        }
+      ],
+      "subtotal": 86700.0,
+      "tax": 16473.0,
+      "total": 103173.0
+    }
+  },
+  {
+    "file": "009.jpg",
+    "received_order": 9,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/369",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-15",
+      "due_date": "2026-11-14",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        }
+      ],
+      "subtotal": 450.0,
+      "tax": 0.0,
+      "total": 450.0
+    }
+  },
+  {
+    "file": "010.pdf",
+    "received_order": 10,
+    "kind": "wrapped",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/392",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-14",
+      "due_date": "2026-10-14",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Quarterly review of accounts payable workflow, including vendor master cleanup and approval matrix update",
+          "quantity": 1.0,
+          "unit_price": 1450.0,
+          "amount": 1450.0
+        },
+        {
+          "description": "Migration of shared drive folders to the new document management system, with permission mapping",
+          "quantity": 1.0,
+          "unit_price": 1720.0,
+          "amount": 1720.0
+        }
+      ],
+      "subtotal": 3170.0,
+      "tax": 0.0,
+      "total": 3170.0
+    }
+  },
+  {
+    "file": "011.jpg",
+    "received_order": 11,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0758",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-07",
+      "due_date": "2026-10-07",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Window cleaning",
+          "quantity": 3.0,
+          "unit_price": 180.0,
+          "amount": 540.0
+        }
+      ],
+      "subtotal": 540.0,
+      "tax": 0.0,
+      "total": 540.0
+    }
+  },
+  {
+    "file": "012.jpg",
+    "received_order": 12,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000393",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-08",
+      "due_date": "2026-09-23",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 14.0,
+          "unit_price": 12.5,
+          "amount": 175.0
+        },
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 12.0,
+          "unit_price": 6.0,
+          "amount": 72.0
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        }
+      ],
+      "subtotal": 427.0,
+      "tax": 0.0,
+      "total": 427.0
+    }
+  },
+  {
+    "file": "013.pdf",
+    "received_order": 13,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "813",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-13",
+      "due_date": "2026-10-28",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Soporte remoto (horas)",
+          "quantity": 2.0,
+          "unit_price": 32000.0,
+          "amount": 64000.0
+        },
+        {
+          "description": "Visita técnica",
+          "quantity": 1.0,
+          "unit_price": 45000.0,
+          "amount": 45000.0
+        },
+        {
+          "description": "Configuración de notebook",
+          "quantity": 2.0,
+          "unit_price": 70000.0,
+          "amount": 140000.0
+        },
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        }
+      ],
+      "subtotal": 308990.0,
+      "tax": 58708.0,
+      "total": 367698.0
+    }
+  },
+  {
+    "file": "014.pdf",
+    "received_order": 14,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "806",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-03",
+      "due_date": "2026-10-18",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        },
+        {
+          "description": "Configuración de notebook",
+          "quantity": 2.0,
+          "unit_price": 70000.0,
+          "amount": 140000.0
+        }
+      ],
+      "subtotal": 199990.0,
+      "tax": 37998.0,
+      "total": 237988.0
+    }
+  },
+  {
+    "file": "015.pdf",
+    "received_order": 15,
+    "kind": "discount",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026222",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-25",
+      "due_date": "2026-10-25",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        },
+        {
+          "description": "Logo refresh",
+          "quantity": 1.0,
+          "unit_price": 900.0,
+          "amount": 900.0
+        },
+        {
+          "description": "Discount (5%)",
+          "quantity": 1.0,
+          "unit_price": -77.5,
+          "amount": -77.5
+        }
+      ],
+      "subtotal": 1472.5,
+      "tax": 121.48,
+      "total": 1593.98
+    }
+  },
+  {
+    "file": "016.jpg",
+    "received_order": 16,
+    "kind": "trap",
+    "trap": "Chilean invoice photographed again",
+    "scanned": true,
+    "base_currency": "CLP",
+    "expected_flags": [
+      "duplicate"
+    ],
+    "truth": {
+      "invoice_number": "244",
+      "vendor_name": "Limpiezas Cordillera Ltda.",
+      "vendor_tax_id": "99.904.118-3",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-14",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Insumos de baño",
+          "quantity": 3.0,
+          "unit_price": 28900.0,
+          "amount": 86700.0
+        }
+      ],
+      "subtotal": 86700.0,
+      "tax": 16473.0,
+      "total": 103173.0
+    }
+  },
+  {
+    "file": "017.pdf",
+    "received_order": 17,
+    "kind": "wrapped",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/391",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-27",
+      "due_date": "2026-11-26",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Migration of shared drive folders to the new document management system, with permission mapping",
+          "quantity": 1.0,
+          "unit_price": 1720.0,
+          "amount": 1720.0
+        },
+        {
+          "description": "Emergency after-hours call-out to restore the main printer and scanner queue for month-end close",
+          "quantity": 1.0,
+          "unit_price": 340.0,
+          "amount": 340.0
+        }
+      ],
+      "subtotal": 2060.0,
+      "tax": 0.0,
+      "total": 2060.0
+    }
+  },
+  {
+    "file": "018.pdf",
+    "received_order": 18,
+    "kind": "wrapped",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/386",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-17",
+      "due_date": "2026-09-16",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Quarterly review of accounts payable workflow, including vendor master cleanup and approval matrix update",
+          "quantity": 1.0,
+          "unit_price": 1450.0,
+          "amount": 1450.0
+        },
+        {
+          "description": "On-site network assessment for the second floor, with cable certification report and remediation plan",
+          "quantity": 1.0,
+          "unit_price": 980.0,
+          "amount": 980.0
+        }
+      ],
+      "subtotal": 2430.0,
+      "tax": 0.0,
+      "total": 2430.0
+    }
+  },
+  {
+    "file": "019.jpg",
+    "received_order": 19,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "252",
+      "vendor_name": "Limpiezas Cordillera Ltda.",
+      "vendor_tax_id": "99.904.118-3",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-08-29",
+      "due_date": "2026-09-28",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Limpieza de vidrios",
+          "quantity": 2.0,
+          "unit_price": 95000.0,
+          "amount": 190000.0
+        }
+      ],
+      "subtotal": 190000.0,
+      "tax": 36100.0,
+      "total": 226100.0
+    }
+  },
+  {
+    "file": "020.jpg",
+    "received_order": 20,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0800",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-04",
+      "due_date": "2026-11-03",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "HVAC maintenance visit",
+          "quantity": 3.0,
+          "unit_price": 240.0,
+          "amount": 720.0
+        },
+        {
+          "description": "Filter replacement",
+          "quantity": 1.0,
+          "unit_price": 38.0,
+          "amount": 38.0
+        }
+      ],
+      "subtotal": 758.0,
+      "tax": 56.85,
+      "total": 814.85
+    }
+  },
+  {
+    "file": "021.pdf",
+    "received_order": 21,
+    "kind": "trap",
+    "trap": "same Chilean charge, new folio",
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [
+      "possible_duplicate"
+    ],
+    "truth": {
+      "invoice_number": "828",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-13",
+      "due_date": "2026-10-28",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Soporte remoto (horas)",
+          "quantity": 2.0,
+          "unit_price": 32000.0,
+          "amount": 64000.0
+        },
+        {
+          "description": "Visita técnica",
+          "quantity": 1.0,
+          "unit_price": 45000.0,
+          "amount": 45000.0
+        },
+        {
+          "description": "Configuración de notebook",
+          "quantity": 2.0,
+          "unit_price": 70000.0,
+          "amount": 140000.0
+        },
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        }
+      ],
+      "subtotal": 308990.0,
+      "tax": 58708.0,
+      "total": 367698.0
+    }
+  },
+  {
+    "file": "022.pdf",
+    "received_order": 22,
+    "kind": "ambiguous",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/375",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-10-05",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        },
+        {
+          "description": "Consultation",
+          "quantity": 0.5,
+          "unit_price": 275.0,
+          "amount": 137.5
+        }
+      ],
+      "subtotal": 587.5,
+      "tax": 0.0,
+      "total": 587.5
+    }
+  },
+  {
+    "file": "023.pdf",
+    "received_order": 23,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "674",
+      "vendor_name": "Imprenta Del Pacífico Ltda.",
+      "vendor_tax_id": "99.936.251-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-21",
+      "due_date": "2026-10-21",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Diseño de folleto",
+          "quantity": 1.0,
+          "unit_price": 120000.0,
+          "amount": 120000.0
+        }
+      ],
+      "subtotal": 120000.0,
+      "tax": 22800.0,
+      "total": 142800.0
+    }
+  },
+  {
+    "file": "024.pdf",
+    "received_order": 24,
+    "kind": "discount",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0762",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-07",
+      "due_date": "2026-11-06",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Office cleaning, weekly",
+          "quantity": 1.0,
+          "unit_price": 420.0,
+          "amount": 420.0
+        },
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Carpet deep clean",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        },
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 1.0,
+          "unit_price": 64.5,
+          "amount": 64.5
+        }
+      ],
+      "subtotal": 854.5,
+      "tax": 47.0,
+      "total": 901.5
+    }
+  },
+  {
+    "file": "025.pdf",
+    "received_order": 25,
+    "kind": "ambiguous",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#239",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-03",
+      "due_date": "2026-11-02",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 3.0,
+          "unit_price": 125.0,
+          "amount": 375.0
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        }
+      ],
+      "subtotal": 817.5,
+      "tax": 0.0,
+      "total": 817.5
+    }
+  },
+  {
+    "file": "026.pdf",
+    "received_order": 26,
+    "kind": "wrapped",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/387",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-06",
+      "due_date": "2026-09-05",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "On-site network assessment for the second floor, with cable certification report and remediation plan",
+          "quantity": 1.0,
+          "unit_price": 980.0,
+          "amount": 980.0
+        },
+        {
+          "description": "Emergency after-hours call-out to restore the main printer and scanner queue for month-end close",
+          "quantity": 1.0,
+          "unit_price": 340.0,
+          "amount": 340.0
+        },
+        {
+          "description": "Migration of shared drive folders to the new document management system, with permission mapping",
+          "quantity": 1.0,
+          "unit_price": 1720.0,
+          "amount": 1720.0
+        }
+      ],
+      "subtotal": 3040.0,
+      "tax": 0.0,
+      "total": 3040.0
+    }
+  },
+  {
+    "file": "027.pdf",
+    "received_order": 27,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "712",
+      "vendor_name": "Arriendos Oficina Plaza SpA",
+      "vendor_tax_id": "99.921.874-1",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-02",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Gastos comunes",
+          "quantity": 1.0,
+          "unit_price": 142300.0,
+          "amount": 142300.0
+        }
+      ],
+      "subtotal": 142300.0,
+      "tax": 27037.0,
+      "total": 169337.0
+    }
+  },
+  {
+    "file": "028.pdf",
+    "received_order": 28,
+    "kind": "two_page",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#217",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-02",
+      "due_date": "2026-09-17",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Jul 24",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Jul 26",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Jul 27",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Jul 28",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Jul 30",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Jul 31",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 2",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 3",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 6",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 7",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 9",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 10",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 11",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 12",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 15",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 16",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 17",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 18",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 19",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 20",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 22",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 23",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 26",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 27",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 28",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 29",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 30",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 31",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 1",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        }
+      ],
+      "subtotal": 4080.0,
+      "tax": 0.0,
+      "total": 4080.0
+    }
+  },
+  {
+    "file": "029.jpg",
+    "received_order": 29,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "717",
+      "vendor_name": "Arriendos Oficina Plaza SpA",
+      "vendor_tax_id": "99.921.874-1",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-15",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Estacionamiento",
+          "quantity": 2.0,
+          "unit_price": 85000.0,
+          "amount": 170000.0
+        }
+      ],
+      "subtotal": 170000.0,
+      "tax": 32300.0,
+      "total": 202300.0
+    }
+  },
+  {
+    "file": "030.pdf",
+    "received_order": 30,
+    "kind": "discount",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0768",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-13",
+      "due_date": "2026-10-13",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Carpet deep clean",
+          "quantity": 2.5,
+          "unit_price": 95.0,
+          "amount": 237.5
+        },
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 1.0,
+          "unit_price": 64.5,
+          "amount": 64.5
+        }
+      ],
+      "subtotal": 482.0,
+      "tax": 26.51,
+      "total": 508.51
+    }
+  },
+  {
+    "file": "031.pdf",
+    "received_order": 31,
+    "kind": "two_page",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#222",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-26",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Jul 17",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Jul 20",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Jul 21",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Jul 27",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Jul 28",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 1",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 2",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 3",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 4",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 6",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 8",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 9",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 10",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 11",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 12",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 13",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 15",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 16",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Aug 17",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 18",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 19",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 20",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 21",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Aug 22",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 23",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 24",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 25",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        }
+      ],
+      "subtotal": 3825.0,
+      "tax": 0.0,
+      "total": 3825.0
+    }
+  },
+  {
+    "file": "032.pdf",
+    "received_order": 32,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "709",
+      "vendor_name": "Arriendos Oficina Plaza SpA",
+      "vendor_tax_id": "99.921.874-1",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-24",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Arriendo oficina 1203, mensual",
+          "quantity": 1.0,
+          "unit_price": 1150000.0,
+          "amount": 1150000.0
+        }
+      ],
+      "subtotal": 1150000.0,
+      "tax": 218500.0,
+      "total": 1368500.0
+    }
+  },
+  {
+    "file": "033.pdf",
+    "received_order": 33,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "798",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-14",
+      "due_date": "2026-10-29",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Configuración de notebook",
+          "quantity": 2.0,
+          "unit_price": 70000.0,
+          "amount": 140000.0
+        },
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        },
+        {
+          "description": "Visita técnica",
+          "quantity": 1.0,
+          "unit_price": 45000.0,
+          "amount": 45000.0
+        },
+        {
+          "description": "Soporte remoto (horas)",
+          "quantity": 5.0,
+          "unit_price": 32000.0,
+          "amount": 160000.0
+        }
+      ],
+      "subtotal": 404990.0,
+      "tax": 76948.0,
+      "total": 481938.0
+    }
+  },
+  {
+    "file": "034.jpg",
+    "received_order": 34,
+    "kind": "photo",
+    "trap": null,
+    "scanned": true,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00337",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-14",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Mail handling, monthly",
+          "quantity": 1.0,
+          "unit_price": 35.0,
+          "amount": 35.0
+        }
+      ],
+      "subtotal": 35.0,
+      "tax": 0.0,
+      "total": 35.0
+    }
+  },
+  {
+    "file": "035.pdf",
+    "received_order": 35,
+    "kind": "trap",
+    "trap": "IVA off by $1.000",
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [
+      "iva_mismatch"
+    ],
+    "truth": {
+      "invoice_number": "827",
+      "vendor_name": "Soporte TI Andino SpA",
+      "vendor_tax_id": "99.957.603-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-30",
+      "due_date": "2026-10-15",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Configuración de notebook",
+          "quantity": 2.0,
+          "unit_price": 70000.0,
+          "amount": 140000.0
+        },
+        {
+          "description": "Respaldo en la nube, mensual",
+          "quantity": 1.0,
+          "unit_price": 59990.0,
+          "amount": 59990.0
+        },
+        {
+          "description": "Visita técnica",
+          "quantity": 1.0,
+          "unit_price": 45000.0,
+          "amount": 45000.0
+        },
+        {
+          "description": "Soporte remoto (horas)",
+          "quantity": 3.0,
+          "unit_price": 32000.0,
+          "amount": 96000.0
+        }
+      ],
+      "subtotal": 340990.0,
+      "tax": 65788.0,
+      "total": 406778.0
+    }
+  },
+  {
+    "file": "036.pdf",
+    "received_order": 36,
+    "kind": "ambiguous",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0809",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-10",
+      "due_date": "2026-09-09",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Filter replacement",
+          "quantity": 2.0,
+          "unit_price": 38.0,
+          "amount": 76.0
+        },
+        {
+          "description": "HVAC maintenance visit",
+          "quantity": 3.0,
+          "unit_price": 240.0,
+          "amount": 720.0
+        }
+      ],
+      "subtotal": 796.0,
+      "tax": 59.7,
+      "total": 855.7
+    }
+  },
+  {
+    "file": "037.pdf",
+    "received_order": 37,
+    "kind": "two_page",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#233",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-04",
+      "due_date": "2026-10-19",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Aug 25",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Aug 26",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 28",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Aug 30",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Aug 31",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 1",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Sep 2",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 3",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 4",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 5",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 7",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Sep 8",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 9",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 11",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 16",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 17",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 18",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 19",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 20",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 22",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 23",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 27",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 28",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 30",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Oct 1",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Oct 3",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        }
+      ],
+      "subtotal": 3230.0,
+      "tax": 0.0,
+      "total": 3230.0
+    }
+  },
+  {
+    "file": "038.pdf",
+    "received_order": 38,
+    "kind": "trap",
+    "trap": "subtotal skips the last line on page 2",
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [
+      "subtotal_mismatch"
+    ],
+    "truth": {
+      "invoice_number": "#245",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-14",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support, Sep 4",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 5",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 9",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 11",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Sep 13",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 15",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 17",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 18",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Sep 19",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 20",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 21",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 23",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 25",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Sep 26",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 27",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Sep 28",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Sep 29",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 3",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 4",
+          "quantity": 1.0,
+          "unit_price": 85.0,
+          "amount": 85.0
+        },
+        {
+          "description": "Remote support, Oct 5",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 6",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 7",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 8",
+          "quantity": 1.5,
+          "unit_price": 85.0,
+          "amount": 127.5
+        },
+        {
+          "description": "Remote support, Oct 9",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        },
+        {
+          "description": "Remote support, Oct 10",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 11",
+          "quantity": 2.5,
+          "unit_price": 85.0,
+          "amount": 212.5
+        },
+        {
+          "description": "Remote support, Oct 12",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Remote support, Oct 13",
+          "quantity": 0.5,
+          "unit_price": 85.0,
+          "amount": 42.5
+        }
+      ],
+      "subtotal": 3570.0,
+      "tax": 0.0,
+      "total": 3570.0
+    }
+  },
+  {
+    "file": "039.pdf",
+    "received_order": 39,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "704",
+      "vendor_name": "Arriendos Oficina Plaza SpA",
+      "vendor_tax_id": "99.921.874-1",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-27",
+      "due_date": null,
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Gastos comunes",
+          "quantity": 1.0,
+          "unit_price": 142300.0,
+          "amount": 142300.0
+        },
+        {
+          "description": "Estacionamiento",
+          "quantity": 2.0,
+          "unit_price": 85000.0,
+          "amount": 170000.0
+        }
+      ],
+      "subtotal": 312300.0,
+      "tax": 59337.0,
+      "total": 371637.0
+    }
+  },
+  {
+    "file": "040.pdf",
+    "received_order": 40,
+    "kind": "chile",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "683",
+      "vendor_name": "Imprenta Del Pacífico Ltda.",
+      "vendor_tax_id": "99.936.251-6",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-08-28",
+      "due_date": "2026-09-27",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Talonarios de recibos",
+          "quantity": 2.0,
+          "unit_price": 18500.0,
+          "amount": 37000.0
+        },
+        {
+          "description": "Tarjetas de presentación (caja)",
+          "quantity": 5.0,
+          "unit_price": 12900.0,
+          "amount": 64500.0
+        },
+        {
+          "description": "Diseño de folleto",
+          "quantity": 1.0,
+          "unit_price": 120000.0,
+          "amount": 120000.0
+        }
+      ],
+      "subtotal": 221500.0,
+      "tax": 42085.0,
+      "total": 263585.0
+    }
+  }
+]

@@ -1,0 +1,2238 @@
+[
+  {
+    "file": "001.pdf",
+    "received_order": 1,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026866",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-17",
+      "due_date": "2026-11-16",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Logo refresh",
+          "quantity": 1.0,
+          "unit_price": 900.0,
+          "amount": 900.0
+        }
+      ],
+      "subtotal": 900.0,
+      "tax": 74.25,
+      "total": 974.25
+    }
+  },
+  {
+    "file": "002.pdf",
+    "received_order": 2,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000170",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-05",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 12.0,
+          "unit_price": 12.5,
+          "amount": 150.0
+        }
+      ],
+      "subtotal": 330.0,
+      "tax": 0.0,
+      "total": 330.0
+    }
+  },
+  {
+    "file": "003.pdf",
+    "received_order": 3,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#646",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-26",
+      "due_date": "2026-11-10",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Laptop setup",
+          "quantity": 1.0,
+          "unit_price": 140.0,
+          "amount": 140.0
+        }
+      ],
+      "subtotal": 140.0,
+      "tax": 0.0,
+      "total": 140.0
+    }
+  },
+  {
+    "file": "004.pdf",
+    "received_order": 4,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026836",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-15",
+      "due_date": "2026-09-30",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Print-ready files",
+          "quantity": 2.0,
+          "unit_price": 120.0,
+          "amount": 240.0
+        }
+      ],
+      "subtotal": 240.0,
+      "tax": 19.8,
+      "total": 259.8
+    }
+  },
+  {
+    "file": "005.pdf",
+    "received_order": 5,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0770",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-09-20",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 3.0,
+          "unit_price": 64.5,
+          "amount": 193.5
+        }
+      ],
+      "subtotal": 193.5,
+      "tax": 0.0,
+      "total": 193.5
+    }
+  },
+  {
+    "file": "006.pdf",
+    "received_order": 6,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000155",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-18",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 19.0,
+          "unit_price": 12.5,
+          "amount": 237.5
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        }
+      ],
+      "subtotal": 417.5,
+      "tax": 0.0,
+      "total": 417.5
+    }
+  },
+  {
+    "file": "007.pdf",
+    "received_order": 7,
+    "kind": "trap",
+    "trap": "line amount wrong",
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [
+      "line_math"
+    ],
+    "truth": {
+      "invoice_number": "#669",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-09-20",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Firewall review",
+          "quantity": 4.0,
+          "unit_price": 95.0,
+          "amount": 420.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 6.5,
+          "unit_price": 125.0,
+          "amount": 812.5
+        },
+        {
+          "description": "Remote support",
+          "quantity": 3.0,
+          "unit_price": 85.0,
+          "amount": 255.0
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Laptop setup",
+          "quantity": 3.0,
+          "unit_price": 140.0,
+          "amount": 420.0
+        }
+      ],
+      "subtotal": 2117.5,
+      "tax": 0.0,
+      "total": 2117.5
+    }
+  },
+  {
+    "file": "008.pdf",
+    "received_order": 8,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#666",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-12",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support",
+          "quantity": 4.0,
+          "unit_price": 85.0,
+          "amount": 340.0
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Laptop setup",
+          "quantity": 1.0,
+          "unit_price": 140.0,
+          "amount": 140.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 4.0,
+          "unit_price": 125.0,
+          "amount": 500.0
+        }
+      ],
+      "subtotal": 1190.0,
+      "tax": 0.0,
+      "total": 1190.0
+    }
+  },
+  {
+    "file": "009.pdf",
+    "received_order": 9,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0326",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-02",
+      "due_date": "2026-09-01",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Technician hours",
+          "quantity": 2.0,
+          "unit_price": 92.0,
+          "amount": 184.0
+        },
+        {
+          "description": "Filter replacement",
+          "quantity": 3.0,
+          "unit_price": 38.0,
+          "amount": 114.0
+        },
+        {
+          "description": "HVAC maintenance visit",
+          "quantity": 3.0,
+          "unit_price": 240.0,
+          "amount": 720.0
+        }
+      ],
+      "subtotal": 1018.0,
+      "tax": 76.35,
+      "total": 1094.35
+    }
+  },
+  {
+    "file": "010.pdf",
+    "received_order": 10,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "AT-2026-00901",
+      "vendor_name": "Atlas Telecom",
+      "vendor_tax_id": "00-1147285",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-03",
+      "due_date": "2026-09-18",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Static IP",
+          "quantity": 3.0,
+          "unit_price": 15.0,
+          "amount": 45.0
+        },
+        {
+          "description": "Business internet, monthly",
+          "quantity": 1.0,
+          "unit_price": 189.0,
+          "amount": 189.0
+        }
+      ],
+      "subtotal": 234.0,
+      "tax": 0.0,
+      "total": 234.0
+    }
+  },
+  {
+    "file": "011.pdf",
+    "received_order": 11,
+    "kind": "trap",
+    "trap": "billed in EUR",
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [
+      "foreign_currency"
+    ],
+    "truth": {
+      "invoice_number": "LT-2026-539",
+      "vendor_name": "Lumen Translation Services Lda.",
+      "vendor_tax_id": "PT 000123456",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-28",
+      "due_date": "2026-09-27",
+      "currency": "EUR",
+      "line_items": [
+        {
+          "description": "Translation, per 1,000 words",
+          "quantity": 12.0,
+          "unit_price": 95.0,
+          "amount": 1140.0
+        }
+      ],
+      "subtotal": 1140.0,
+      "tax": 262.2,
+      "total": 1402.2
+    }
+  },
+  {
+    "file": "012.pdf",
+    "received_order": 12,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "AT-2026-00897",
+      "vendor_name": "Atlas Telecom",
+      "vendor_tax_id": "00-1147285",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-01",
+      "due_date": "2026-10-16",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Phone line",
+          "quantity": 2.0,
+          "unit_price": 32.0,
+          "amount": 64.0
+        },
+        {
+          "description": "Business internet, monthly",
+          "quantity": 1.0,
+          "unit_price": 189.0,
+          "amount": 189.0
+        },
+        {
+          "description": "Static IP",
+          "quantity": 1.0,
+          "unit_price": 15.0,
+          "amount": 15.0
+        }
+      ],
+      "subtotal": 268.0,
+      "tax": 0.0,
+      "total": 268.0
+    }
+  },
+  {
+    "file": "013.pdf",
+    "received_order": 13,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#630",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-30",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 2.5,
+          "unit_price": 95.0,
+          "amount": 237.5
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 2.5,
+          "unit_price": 125.0,
+          "amount": 312.5
+        }
+      ],
+      "subtotal": 760.0,
+      "tax": 0.0,
+      "total": 760.0
+    }
+  },
+  {
+    "file": "014.pdf",
+    "received_order": 14,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/784",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-10-05",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Consultation",
+          "quantity": 4.0,
+          "unit_price": 275.0,
+          "amount": 1100.0
+        }
+      ],
+      "subtotal": 1100.0,
+      "tax": 0.0,
+      "total": 1100.0
+    }
+  },
+  {
+    "file": "015.pdf",
+    "received_order": 15,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/791",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-08",
+      "due_date": "2026-10-08",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Contract review",
+          "quantity": 3.0,
+          "unit_price": 310.0,
+          "amount": 930.0
+        }
+      ],
+      "subtotal": 930.0,
+      "tax": 0.0,
+      "total": 930.0
+    }
+  },
+  {
+    "file": "016.pdf",
+    "received_order": 16,
+    "kind": "trap",
+    "trap": "same charge, new number",
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [
+      "possible_duplicate"
+    ],
+    "truth": {
+      "invoice_number": "#667",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-30",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 2.5,
+          "unit_price": 95.0,
+          "amount": 237.5
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 2.5,
+          "unit_price": 125.0,
+          "amount": 312.5
+        }
+      ],
+      "subtotal": 760.0,
+      "tax": 0.0,
+      "total": 760.0
+    }
+  },
+  {
+    "file": "017.pdf",
+    "received_order": 17,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#661",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-04",
+      "due_date": "2026-10-04",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "On-site visit",
+          "quantity": 1.5,
+          "unit_price": 125.0,
+          "amount": 187.5
+        },
+        {
+          "description": "Remote support",
+          "quantity": 6.5,
+          "unit_price": 85.0,
+          "amount": 552.5
+        }
+      ],
+      "subtotal": 740.0,
+      "tax": 0.0,
+      "total": 740.0
+    }
+  },
+  {
+    "file": "018.pdf",
+    "received_order": 18,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00847",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-01",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Meeting room",
+          "quantity": 2.5,
+          "unit_price": 45.0,
+          "amount": 112.5
+        },
+        {
+          "description": "Mail handling, monthly",
+          "quantity": 1.0,
+          "unit_price": 35.0,
+          "amount": 35.0
+        },
+        {
+          "description": "Dedicated desk, monthly",
+          "quantity": 1.0,
+          "unit_price": 390.0,
+          "amount": 390.0
+        }
+      ],
+      "subtotal": 537.5,
+      "tax": 0.0,
+      "total": 537.5
+    }
+  },
+  {
+    "file": "019.pdf",
+    "received_order": 19,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00829",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-28",
+      "due_date": "2026-11-12",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Mail handling, monthly",
+          "quantity": 1.0,
+          "unit_price": 35.0,
+          "amount": 35.0
+        },
+        {
+          "description": "Dedicated desk, monthly",
+          "quantity": 1.0,
+          "unit_price": 390.0,
+          "amount": 390.0
+        }
+      ],
+      "subtotal": 425.0,
+      "tax": 0.0,
+      "total": 425.0
+    }
+  },
+  {
+    "file": "020.pdf",
+    "received_order": 20,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0765",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-03",
+      "due_date": "2026-10-18",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Office cleaning, weekly",
+          "quantity": 1.0,
+          "unit_price": 420.0,
+          "amount": 420.0
+        },
+        {
+          "description": "Carpet deep clean",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        },
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 1.0,
+          "unit_price": 64.5,
+          "amount": 64.5
+        }
+      ],
+      "subtotal": 854.5,
+      "tax": 0.0,
+      "total": 854.5
+    }
+  },
+  {
+    "file": "021.pdf",
+    "received_order": 21,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/790",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-18",
+      "due_date": "2026-11-17",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Consultation",
+          "quantity": 0.5,
+          "unit_price": 275.0,
+          "amount": 137.5
+        },
+        {
+          "description": "Contract review",
+          "quantity": 3.0,
+          "unit_price": 310.0,
+          "amount": 930.0
+        }
+      ],
+      "subtotal": 1067.5,
+      "tax": 0.0,
+      "total": 1067.5
+    }
+  },
+  {
+    "file": "022.pdf",
+    "received_order": 22,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#626",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-05",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support",
+          "quantity": 4.0,
+          "unit_price": 85.0,
+          "amount": 340.0
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 3.0,
+          "unit_price": 125.0,
+          "amount": 375.0
+        },
+        {
+          "description": "Laptop setup",
+          "quantity": 1.0,
+          "unit_price": 140.0,
+          "amount": 140.0
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        }
+      ],
+      "subtotal": 1255.0,
+      "tax": 0.0,
+      "total": 1255.0
+    }
+  },
+  {
+    "file": "023.pdf",
+    "received_order": 23,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "AT-2026-00893",
+      "vendor_name": "Atlas Telecom",
+      "vendor_tax_id": "00-1147285",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-28",
+      "due_date": "2026-11-12",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Phone line",
+          "quantity": 3.0,
+          "unit_price": 32.0,
+          "amount": 96.0
+        },
+        {
+          "description": "Business internet, monthly",
+          "quantity": 1.0,
+          "unit_price": 189.0,
+          "amount": 189.0
+        },
+        {
+          "description": "Static IP",
+          "quantity": 3.0,
+          "unit_price": 15.0,
+          "amount": 45.0
+        }
+      ],
+      "subtotal": 330.0,
+      "tax": 0.0,
+      "total": 330.0
+    }
+  },
+  {
+    "file": "024.pdf",
+    "received_order": 24,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/792",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-16",
+      "due_date": "2026-11-15",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        },
+        {
+          "description": "Contract review",
+          "quantity": 1.5,
+          "unit_price": 310.0,
+          "amount": 465.0
+        }
+      ],
+      "subtotal": 915.0,
+      "tax": 0.0,
+      "total": 915.0
+    }
+  },
+  {
+    "file": "025.pdf",
+    "received_order": 25,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000140",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-26",
+      "due_date": "2026-11-10",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 14.0,
+          "unit_price": 6.0,
+          "amount": 84.0
+        },
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 19.0,
+          "unit_price": 12.5,
+          "amount": 237.5
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        }
+      ],
+      "subtotal": 501.5,
+      "tax": 0.0,
+      "total": 501.5
+    }
+  },
+  {
+    "file": "026.pdf",
+    "received_order": 26,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#653",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-13",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support",
+          "quantity": 4.0,
+          "unit_price": 85.0,
+          "amount": 340.0
+        }
+      ],
+      "subtotal": 340.0,
+      "tax": 0.0,
+      "total": 340.0
+    }
+  },
+  {
+    "file": "027.pdf",
+    "received_order": 27,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00843",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-08",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Dedicated desk, monthly",
+          "quantity": 1.0,
+          "unit_price": 390.0,
+          "amount": 390.0
+        }
+      ],
+      "subtotal": 390.0,
+      "tax": 0.0,
+      "total": 390.0
+    }
+  },
+  {
+    "file": "028.pdf",
+    "received_order": 28,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0789",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-20",
+      "due_date": "2026-11-04",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Office cleaning, weekly",
+          "quantity": 1.0,
+          "unit_price": 420.0,
+          "amount": 420.0
+        },
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 3.0,
+          "unit_price": 64.5,
+          "amount": 193.5
+        },
+        {
+          "description": "Window cleaning",
+          "quantity": 2.0,
+          "unit_price": 180.0,
+          "amount": 360.0
+        },
+        {
+          "description": "Carpet deep clean",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        }
+      ],
+      "subtotal": 1163.5,
+      "tax": 0.0,
+      "total": 1163.5
+    }
+  },
+  {
+    "file": "029.pdf",
+    "received_order": 29,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026854",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-27",
+      "due_date": "2026-11-11",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        },
+        {
+          "description": "Print-ready files",
+          "quantity": 2.0,
+          "unit_price": 120.0,
+          "amount": 240.0
+        },
+        {
+          "description": "Design hours",
+          "quantity": 2.0,
+          "unit_price": 70.0,
+          "amount": 140.0
+        },
+        {
+          "description": "Logo refresh",
+          "quantity": 1.0,
+          "unit_price": 900.0,
+          "amount": 900.0
+        }
+      ],
+      "subtotal": 1930.0,
+      "tax": 159.22,
+      "total": 2089.22
+    }
+  },
+  {
+    "file": "030.pdf",
+    "received_order": 30,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000143",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-23",
+      "due_date": "2026-09-07",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 8.0,
+          "unit_price": 12.5,
+          "amount": 100.0
+        },
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 12.0,
+          "unit_price": 6.0,
+          "amount": 72.0
+        }
+      ],
+      "subtotal": 172.0,
+      "tax": 0.0,
+      "total": 172.0
+    }
+  },
+  {
+    "file": "031.pdf",
+    "received_order": 31,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000148",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-19",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 12.0,
+          "unit_price": 12.5,
+          "amount": 150.0
+        }
+      ],
+      "subtotal": 150.0,
+      "tax": 0.0,
+      "total": 150.0
+    }
+  },
+  {
+    "file": "032.pdf",
+    "received_order": 32,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/770",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-16",
+      "due_date": "2026-10-16",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Consultation",
+          "quantity": 2.5,
+          "unit_price": 275.0,
+          "amount": 687.5
+        },
+        {
+          "description": "Contract review",
+          "quantity": 6.5,
+          "unit_price": 310.0,
+          "amount": 2015.0
+        },
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        }
+      ],
+      "subtotal": 3152.5,
+      "tax": 0.0,
+      "total": 3152.5
+    }
+  },
+  {
+    "file": "033.pdf",
+    "received_order": 33,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#640",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-08",
+      "due_date": "2026-09-23",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Laptop setup",
+          "quantity": 2.0,
+          "unit_price": 140.0,
+          "amount": 280.0
+        },
+        {
+          "description": "Remote support",
+          "quantity": 4.0,
+          "unit_price": 85.0,
+          "amount": 340.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 3.0,
+          "unit_price": 125.0,
+          "amount": 375.0
+        }
+      ],
+      "subtotal": 995.0,
+      "tax": 0.0,
+      "total": 995.0
+    }
+  },
+  {
+    "file": "034.pdf",
+    "received_order": 34,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0783",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-10",
+      "due_date": "2026-09-09",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 1.0,
+          "unit_price": 64.5,
+          "amount": 64.5
+        }
+      ],
+      "subtotal": 244.5,
+      "tax": 0.0,
+      "total": 244.5
+    }
+  },
+  {
+    "file": "035.pdf",
+    "received_order": 35,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/779",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-14",
+      "due_date": "2026-09-13",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Contract review",
+          "quantity": 2.0,
+          "unit_price": 310.0,
+          "amount": 620.0
+        },
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        },
+        {
+          "description": "Consultation",
+          "quantity": 3.0,
+          "unit_price": 275.0,
+          "amount": 825.0
+        }
+      ],
+      "subtotal": 1895.0,
+      "tax": 0.0,
+      "total": 1895.0
+    }
+  },
+  {
+    "file": "036.pdf",
+    "received_order": 36,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/765",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-12",
+      "due_date": "2026-09-11",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Consultation",
+          "quantity": 1.5,
+          "unit_price": 275.0,
+          "amount": 412.5
+        }
+      ],
+      "subtotal": 412.5,
+      "tax": 0.0,
+      "total": 412.5
+    }
+  },
+  {
+    "file": "037.pdf",
+    "received_order": 37,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000160",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-16",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 23.0,
+          "unit_price": 6.0,
+          "amount": 138.0
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 14.0,
+          "unit_price": 12.5,
+          "amount": 175.0
+        }
+      ],
+      "subtotal": 493.0,
+      "tax": 0.0,
+      "total": 493.0
+    }
+  },
+  {
+    "file": "038.pdf",
+    "received_order": 38,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000136",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-11",
+      "due_date": "2026-08-26",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 12.0,
+          "unit_price": 12.5,
+          "amount": 150.0
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 23.0,
+          "unit_price": 6.0,
+          "amount": 138.0
+        }
+      ],
+      "subtotal": 468.0,
+      "tax": 0.0,
+      "total": 468.0
+    }
+  },
+  {
+    "file": "039.pdf",
+    "received_order": 39,
+    "kind": "trap",
+    "trap": "re-sent as a scan",
+    "scanned": true,
+    "layout": "plain",
+    "expected_flags": [
+      "duplicate"
+    ],
+    "truth": {
+      "invoice_number": "HLP/2026/784",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-10-05",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Consultation",
+          "quantity": 4.0,
+          "unit_price": 275.0,
+          "amount": 1100.0
+        }
+      ],
+      "subtotal": 1100.0,
+      "tax": 0.0,
+      "total": 1100.0
+    }
+  },
+  {
+    "file": "040.pdf",
+    "received_order": 40,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00835",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-09",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Mail handling, monthly",
+          "quantity": 1.0,
+          "unit_price": 35.0,
+          "amount": 35.0
+        },
+        {
+          "description": "Dedicated desk, monthly",
+          "quantity": 1.0,
+          "unit_price": 390.0,
+          "amount": 390.0
+        },
+        {
+          "description": "Meeting room",
+          "quantity": 6.5,
+          "unit_price": 45.0,
+          "amount": 292.5
+        }
+      ],
+      "subtotal": 717.5,
+      "tax": 0.0,
+      "total": 717.5
+    }
+  },
+  {
+    "file": "041.pdf",
+    "received_order": 41,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026839",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-05",
+      "due_date": "2026-11-04",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Print-ready files",
+          "quantity": 1.0,
+          "unit_price": 120.0,
+          "amount": 120.0
+        },
+        {
+          "description": "Design hours",
+          "quantity": 3.0,
+          "unit_price": 70.0,
+          "amount": 210.0
+        }
+      ],
+      "subtotal": 330.0,
+      "tax": 27.23,
+      "total": 357.23
+    }
+  },
+  {
+    "file": "042.pdf",
+    "received_order": 42,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0317",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-28",
+      "due_date": "2026-09-27",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Technician hours",
+          "quantity": 0.5,
+          "unit_price": 92.0,
+          "amount": 46.0
+        }
+      ],
+      "subtotal": 46.0,
+      "tax": 3.45,
+      "total": 49.45
+    }
+  },
+  {
+    "file": "043.pdf",
+    "received_order": 43,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000165",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-13",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 19.0,
+          "unit_price": 6.0,
+          "amount": 114.0
+        }
+      ],
+      "subtotal": 294.0,
+      "tax": 0.0,
+      "total": 294.0
+    }
+  },
+  {
+    "file": "044.pdf",
+    "received_order": 44,
+    "kind": "trap",
+    "trap": "total off by 100",
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [
+      "total_mismatch"
+    ],
+    "truth": {
+      "invoice_number": "INV-2026-0795",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-30",
+      "due_date": "2026-11-29",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Carpet deep clean",
+          "quantity": 1.0,
+          "unit_price": 95.0,
+          "amount": 95.0
+        }
+      ],
+      "subtotal": 95.0,
+      "tax": 0.0,
+      "total": 195.0
+    }
+  },
+  {
+    "file": "045.pdf",
+    "received_order": 45,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026859",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-09-20",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        }
+      ],
+      "subtotal": 650.0,
+      "tax": 53.62,
+      "total": 703.62
+    }
+  },
+  {
+    "file": "046.pdf",
+    "received_order": 46,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "BL-00841",
+      "vendor_name": "Blue Ladder Coworking",
+      "vendor_tax_id": "00-2295018",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-19",
+      "due_date": null,
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Dedicated desk, monthly",
+          "quantity": 1.0,
+          "unit_price": 390.0,
+          "amount": 390.0
+        },
+        {
+          "description": "Meeting room",
+          "quantity": 6.5,
+          "unit_price": 45.0,
+          "amount": 292.5
+        },
+        {
+          "description": "Mail handling, monthly",
+          "quantity": 1.0,
+          "unit_price": 35.0,
+          "amount": 35.0
+        }
+      ],
+      "subtotal": 717.5,
+      "tax": 0.0,
+      "total": 717.5
+    }
+  },
+  {
+    "file": "047.pdf",
+    "received_order": 47,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/773",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-24",
+      "due_date": "2026-11-23",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        }
+      ],
+      "subtotal": 450.0,
+      "tax": 0.0,
+      "total": 450.0
+    }
+  },
+  {
+    "file": "048.pdf",
+    "received_order": 48,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0781",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-20",
+      "due_date": "2026-10-20",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Office cleaning, weekly",
+          "quantity": 1.0,
+          "unit_price": 420.0,
+          "amount": 420.0
+        }
+      ],
+      "subtotal": 600.0,
+      "tax": 0.0,
+      "total": 600.0
+    }
+  },
+  {
+    "file": "049.pdf",
+    "received_order": 49,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "INV-2026-0776",
+      "vendor_name": "Northwind Cleaning Co.",
+      "vendor_tax_id": "00-4821937",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-05",
+      "due_date": "2026-09-20",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Restroom supplies restock",
+          "quantity": 1.0,
+          "unit_price": 64.5,
+          "amount": 64.5
+        },
+        {
+          "description": "Window cleaning",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        },
+        {
+          "description": "Carpet deep clean",
+          "quantity": 2.0,
+          "unit_price": 95.0,
+          "amount": 190.0
+        },
+        {
+          "description": "Office cleaning, weekly",
+          "quantity": 1.0,
+          "unit_price": 420.0,
+          "amount": 420.0
+        }
+      ],
+      "subtotal": 854.5,
+      "tax": 0.0,
+      "total": 854.5
+    }
+  },
+  {
+    "file": "050.pdf",
+    "received_order": 50,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#638",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-06",
+      "due_date": "2026-11-05",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Remote support",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "Managed backup, monthly",
+          "quantity": 1.0,
+          "unit_price": 210.0,
+          "amount": 210.0
+        },
+        {
+          "description": "Laptop setup",
+          "quantity": 1.0,
+          "unit_price": 140.0,
+          "amount": 140.0
+        },
+        {
+          "description": "Firewall review",
+          "quantity": 1.0,
+          "unit_price": 95.0,
+          "amount": 95.0
+        }
+      ],
+      "subtotal": 615.0,
+      "tax": 0.0,
+      "total": 615.0
+    }
+  },
+  {
+    "file": "051.pdf",
+    "received_order": 51,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "GF2026-0322",
+      "vendor_name": "Greenleaf Facilities",
+      "vendor_tax_id": "00-5508613",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-07",
+      "due_date": "2026-09-06",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Technician hours",
+          "quantity": 2.0,
+          "unit_price": 92.0,
+          "amount": 184.0
+        },
+        {
+          "description": "Filter replacement",
+          "quantity": 1.0,
+          "unit_price": 38.0,
+          "amount": 38.0
+        },
+        {
+          "description": "HVAC maintenance visit",
+          "quantity": 1.0,
+          "unit_price": 240.0,
+          "amount": 240.0
+        }
+      ],
+      "subtotal": 462.0,
+      "tax": 34.65,
+      "total": 496.65
+    }
+  },
+  {
+    "file": "052.pdf",
+    "received_order": 52,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026879",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-25",
+      "due_date": "2026-10-25",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        },
+        {
+          "description": "Print-ready files",
+          "quantity": 1.0,
+          "unit_price": 120.0,
+          "amount": 120.0
+        },
+        {
+          "description": "Design hours",
+          "quantity": 0.5,
+          "unit_price": 70.0,
+          "amount": 35.0
+        }
+      ],
+      "subtotal": 805.0,
+      "tax": 66.41,
+      "total": 871.41
+    }
+  },
+  {
+    "file": "053.pdf",
+    "received_order": 53,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "plain",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "HLP/2026/797",
+      "vendor_name": "Harbor Legal Partners",
+      "vendor_tax_id": "00-6650371",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-30",
+      "due_date": "2026-09-29",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Corporate filing",
+          "quantity": 1.0,
+          "unit_price": 450.0,
+          "amount": 450.0
+        }
+      ],
+      "subtotal": 450.0,
+      "tax": 0.0,
+      "total": 450.0
+    }
+  },
+  {
+    "file": "054.pdf",
+    "received_order": 54,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#637",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-18",
+      "due_date": "2026-11-02",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Firewall review",
+          "quantity": 1.0,
+          "unit_price": 95.0,
+          "amount": 95.0
+        },
+        {
+          "description": "Remote support",
+          "quantity": 2.0,
+          "unit_price": 85.0,
+          "amount": 170.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 3.0,
+          "unit_price": 125.0,
+          "amount": 375.0
+        }
+      ],
+      "subtotal": 640.0,
+      "tax": 0.0,
+      "total": 640.0
+    }
+  },
+  {
+    "file": "055.pdf",
+    "received_order": 55,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "#660",
+      "vendor_name": "Cedar IT Support",
+      "vendor_tax_id": "00-7310442",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-24",
+      "due_date": "2026-10-09",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Laptop setup",
+          "quantity": 3.0,
+          "unit_price": 140.0,
+          "amount": 420.0
+        },
+        {
+          "description": "On-site visit",
+          "quantity": 6.5,
+          "unit_price": 125.0,
+          "amount": 812.5
+        }
+      ],
+      "subtotal": 1232.5,
+      "tax": 0.0,
+      "total": 1232.5
+    }
+  },
+  {
+    "file": "056.pdf",
+    "received_order": 56,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026848",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-12",
+      "due_date": "2026-10-12",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Logo refresh",
+          "quantity": 1.0,
+          "unit_price": 900.0,
+          "amount": 900.0
+        },
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        }
+      ],
+      "subtotal": 1550.0,
+      "tax": 127.88,
+      "total": 1677.88
+    }
+  },
+  {
+    "file": "057.pdf",
+    "received_order": 57,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000154",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-08-01",
+      "due_date": "2026-08-16",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 23.0,
+          "unit_price": 12.5,
+          "amount": 287.5
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        }
+      ],
+      "subtotal": 467.5,
+      "tax": 0.0,
+      "total": 467.5
+    }
+  },
+  {
+    "file": "058.pdf",
+    "received_order": 58,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "classic",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "SPS-000144",
+      "vendor_name": "Summit Payroll Services",
+      "vendor_tax_id": "00-3374901",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-14",
+      "due_date": "2026-10-29",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Year-end W-2 preparation",
+          "quantity": 12.0,
+          "unit_price": 6.0,
+          "amount": 72.0
+        },
+        {
+          "description": "Payroll processing per employee",
+          "quantity": 12.0,
+          "unit_price": 12.5,
+          "amount": 150.0
+        },
+        {
+          "description": "Quarterly tax filing",
+          "quantity": 1.0,
+          "unit_price": 180.0,
+          "amount": 180.0
+        }
+      ],
+      "subtotal": 402.0,
+      "tax": 0.0,
+      "total": 402.0
+    }
+  },
+  {
+    "file": "059.pdf",
+    "received_order": 59,
+    "kind": "scanned",
+    "trap": null,
+    "scanned": true,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026872",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-10-19",
+      "due_date": "2026-11-03",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Logo refresh",
+          "quantity": 1.0,
+          "unit_price": 900.0,
+          "amount": 900.0
+        },
+        {
+          "description": "Print-ready files",
+          "quantity": 1.0,
+          "unit_price": 120.0,
+          "amount": 120.0
+        },
+        {
+          "description": "Design hours",
+          "quantity": 4.0,
+          "unit_price": 70.0,
+          "amount": 280.0
+        },
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        }
+      ],
+      "subtotal": 1950.0,
+      "tax": 160.88,
+      "total": 2110.88
+    }
+  },
+  {
+    "file": "060.pdf",
+    "received_order": 60,
+    "kind": "clean",
+    "trap": null,
+    "scanned": false,
+    "layout": "band",
+    "expected_flags": [],
+    "truth": {
+      "invoice_number": "QW-2026845",
+      "vendor_name": "Quillwork Design Studio",
+      "vendor_tax_id": "00-9182736",
+      "customer_name": "Brightline Accounting LLC",
+      "issue_date": "2026-09-29",
+      "due_date": "2026-10-14",
+      "currency": "USD",
+      "line_items": [
+        {
+          "description": "Brochure design",
+          "quantity": 1.0,
+          "unit_price": 650.0,
+          "amount": 650.0
+        },
+        {
+          "description": "Design hours",
+          "quantity": 0.5,
+          "unit_price": 70.0,
+          "amount": 35.0
+        }
+      ],
+      "subtotal": 685.0,
+      "tax": 56.51,
+      "total": 741.51
+    }
+  }
+]

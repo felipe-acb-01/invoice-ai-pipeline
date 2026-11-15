@@ -162,3 +162,15 @@ def test_a_document_that_is_not_an_invoice_goes_to_errors(tmp_path):
     s = process_folder(inbox, store, lambda p: Extraction(make(is_invoice=False), "fake", 0, 0, 0), alert=alerts.append)
     rec = store.list()[0]
     assert (rec.status, rec.error, s.not_invoices, alerts) == ("error", "This does not look like an invoice.", 1, [])
+
+
+def test_missing_api_key_is_reported_not_raised(monkeypatch, tmp_path):
+    """Regression: without ANTHROPIC_API_KEY the client constructor raised and the demo returned a 500."""
+    from invoice_pipeline.extract import extract
+    for var in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_PROFILE"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("HOME", str(tmp_path))  # no CLI profile on disk either
+    pdf = tmp_path / "x.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+    ex = extract(pdf)
+    assert ex.invoice is None and ex.error.startswith("configuration:")

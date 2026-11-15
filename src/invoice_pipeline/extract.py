@@ -72,8 +72,11 @@ class Extraction:
 
 def extract(pdf: Path, client: anthropic.Anthropic | None = None, model: str | None = None,
             effort: str | None = None) -> Extraction:
-    client = client or anthropic.Anthropic()
     model = model or default_model()
+    try:
+        client = client or anthropic.Anthropic()
+    except anthropic.AnthropicError as exc:  # e.g. no API key configured: report it, never crash the caller
+        return Extraction(None, model, 0.0, 0, 0, f"configuration: {exc}")
     data = base64.standard_b64encode(pdf.read_bytes()).decode("ascii")
     media_type = MEDIA_TYPES[pdf.suffix.lower()]
     block_type = "document" if media_type == "application/pdf" else "image"
@@ -97,6 +100,10 @@ def extract(pdf: Path, client: anthropic.Anthropic | None = None, model: str | N
         return Extraction(None, model, time.perf_counter() - started, 0, 0, f"{exc.status_code}: {exc.message}")
     except anthropic.APIConnectionError as exc:
         return Extraction(None, model, time.perf_counter() - started, 0, 0, f"connection: {exc}")
+    except TypeError as exc:  # SDK 2.x raises this when no API key is configured
+        if "authentication" not in str(exc).lower():
+            raise
+        return Extraction(None, model, 0.0, 0, 0, "configuration: no Anthropic API key is set")
 
     seconds = time.perf_counter() - started
     usage = response.usage

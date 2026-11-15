@@ -156,7 +156,8 @@ def test_flagged_invoice_email_says_why():
     from invoice_pipeline.store import Record
     rec = Record(1, "x", "f.pdf", "x.pdf", "", "pending", ["total_mismatch"], inv, "m", 0, 1.0, None, None, None, None)
     subject, text, html = approval_email(rec, "http://x/invoices/1")
-    assert "needs a closer look" in subject and "Subtotal plus tax does not equal the total." in text
+    assert "needs a closer look" in subject
+    assert "Subtotal $0.00 plus tax $0.00 is $0.00; the invoice says $10.00, $10.00 too much." in text
     assert "<script" not in html
 
 
@@ -177,3 +178,17 @@ def test_sheet_key_does_not_collide_between_databases(tmp_path):
         assert store.list()[0].id == 1
         assert sync_approved(store, sheets, "S") == 1
     assert len(sheets.rows) == 3
+
+
+def test_alerts_carry_their_numbers():
+    """He had to redo the IVA arithmetic by hand to understand an alert: the alert now does it."""
+    from invoice_pipeline.schema import LineItem
+    from invoice_pipeline.web import explain
+    inv = Invoice(invoice_number="827", vendor_name="Soporte TI Andino SpA", vendor_tax_id=None, customer_name="C",
+                  issue_date="2026-09-30", due_date=None, currency="CLP",
+                  line_items=[LineItem(description="x", quantity=1, unit_price=340990, amount=340990)],
+                  subtotal=340990, tax=65788, total=406778)
+    assert explain("iva_mismatch", inv) == ("The IVA should be $64.788 CLP (19 % of $340.990 CLP); the invoice says "
+                                            "$65.788 CLP, $1.000 CLP too much.")
+    bad = inv.model_copy(update=dict(line_items=[LineItem(description="Visita", quantity=2, unit_price=45000, amount=100000)]))
+    assert explain("line_math", bad) == "“Visita”: 2 × $45.000 CLP = $90.000 CLP, but the line says $100.000 CLP."

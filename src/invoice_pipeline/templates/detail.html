@@ -70,7 +70,7 @@
     {% elif rec.flags %}
       <div class="panel checks attention">
         <h2>Review before approving</h2>
-        <ul>{% for f in rec.flags %}<li>{{ FLAGS[f] }}</li>{% endfor %}</ul>
+        <ul>{% for f in rec.flags %}<li>{{ explain(f, inv) }}</li>{% endfor %}</ul>
         {% if matches %}<p class="compare">Compare with:
           {% for why, other in matches %}<a href="/invoices/{{ other.id }}">{{ other.file_name }}</a> ({{ why }}, {{ TAB_LABELS[other.status] | lower }}){{ ", " if not loop.last }}{% endfor %}</p>{% endif %}
       </div>

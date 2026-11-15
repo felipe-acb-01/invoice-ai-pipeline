@@ -42,7 +42,38 @@ def nice_date(value: str | None) -> str:
     return f"{d.strftime('%b')} {d.day}, {d.year}"
 
 
+def explain(flag: str, inv) -> str:
+    """The alert with its numbers, so the approver never has to redo the arithmetic."""
+    m = lambda v: money(v, inv.currency)  # noqa: E731
+
+    def off(diff: float) -> str:
+        return f"{m(abs(diff))} {'too much' if diff > 0 else 'too little'}"
+
+    if flag == "iva_mismatch":
+        expected = round(inv.subtotal * 0.19)
+        return (f"The IVA should be {m(expected)} (19 % of {m(inv.subtotal)}); the invoice says {m(inv.tax)}, "
+                f"{off(inv.tax - expected)}.")
+    if flag == "total_mismatch":
+        expected = inv.subtotal + inv.tax
+        return (f"Subtotal {m(inv.subtotal)} plus tax {m(inv.tax)} is {m(expected)}; the invoice says "
+                f"{m(inv.total)}, {off(inv.total - expected)}.")
+    if flag == "subtotal_mismatch":
+        lines = sum(li.amount for li in inv.line_items)
+        return (f"The lines add up to {m(lines)}; the subtotal says {m(inv.subtotal)}, "
+                f"{off(inv.subtotal - lines)}.")
+    if flag == "line_math":
+        bad = next(li for li in inv.line_items if abs(li.quantity * li.unit_price - li.amount) > 0.01)
+        return (f"“{bad.description}”: {bad.quantity:g} × {m(bad.unit_price)} = {m(bad.quantity * bad.unit_price)}, "
+                f"but the line says {m(bad.amount)}.")
+    if flag == "date_order":
+        return f"Due {nice_date(inv.due_date)}, before the issue date {nice_date(inv.issue_date)}."
+    if flag == "foreign_currency":
+        return f"The invoice is in {inv.currency}, not in the currency the books are kept in."
+    return FLAGS[flag]
+
+
 TEMPLATES.env.filters["money"] = money
+TEMPLATES.env.globals["explain"] = explain
 TEMPLATES.env.filters["nice_date"] = nice_date
 TEMPLATES.env.globals["FLAGS"] = FLAGS
 TEMPLATES.env.globals["TAB_LABELS"] = TAB_LABELS

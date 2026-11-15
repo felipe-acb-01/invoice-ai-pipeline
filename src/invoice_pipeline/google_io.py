@@ -23,7 +23,7 @@ from pathlib import Path
 from .pipeline import ACCEPTED
 from .store import Record, Store
 from .validate import FLAGS
-from .web import money, nice_date
+from .web import explain, money, nice_date
 
 log = logging.getLogger("invoice_pipeline")
 
@@ -160,7 +160,7 @@ def approval_email(rec: Record, review_url: str) -> tuple[str, str, str]:
     """
     inv = rec.invoice
     total = money(inv.total, inv.currency)
-    flag_lines = [FLAGS[f] for f in rec.flags]
+    flag_lines = [explain(f, inv) for f in rec.flags]
     status = "needs a closer look" if flag_lines else "all checks passed"
     subject = f"[Approve] {inv.vendor_name} · {total} · {status}"
     text = "\n".join([

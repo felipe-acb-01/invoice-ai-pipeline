@@ -34,19 +34,23 @@ invoices raise nothing, and reports cost and time per document. Every failure is
 
 | Bank | Model | Fields correct | Traps caught | False alarms | Cost per invoice | Time per invoice |
 |---|---|---|---|---|---|---|
-| Standard (60) | Claude Haiku 5.5 | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0005 | 2.2 s |
-| Standard (60) | Claude Sonnet 5.5 | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0088 | 2.6 s |
-| Standard (60) | Claude Opus 5.5 | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0177 | 3.0 s |
-| Hard (40) | Claude Haiku 5.5 | 440 / 440 | 4 / 4 | 0 / 36 | US$ 0.0007 | 3.5 s |
-| Hard (40) | Claude Opus 5.5 | 440 / 440 | 4 / 4 | 0 / 36 | US$ 0.0230 | 4.2 s |
+| Standard (60) | **Claude Haiku 5.5** | 720 / 720 | 5 / 5 | 0 / 55 | **US$ 0.0005** | 2.6 s |
+| Hard (44) | **Claude Haiku 5.5** | 484 / 484 | 4 / 4 | 0 / 36 | **US$ 0.0007** | 3.9 s |
+| Standard (60) | Claude Sonnet 5.5 · v1 prompt | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0088 | 2.6 s |
+| Standard (60) | Claude Opus 5.5 · v1 prompt | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0177 | 3.0 s |
+| Hard (40) | Claude Opus 5.5 · v1 prompt | 440 / 440 | 4 / 4 | 0 / 36 | US$ 0.0230 | 4.2 s |
+
+"Fields correct" includes whether the document is an invoice at all: the hard bank has four documents that
+are not (a quote, a paid receipt, a contract page, a photo of a whiteboard), and all four were set aside.
+The v1 rows were measured before that check existed.
 
 The hard bank (`samples_hard/`, `python -m invoice_pipeline.synth_hard`) adds Chilean electronic invoices
 (RUT, folio, IVA 19 %, Spanish dates), phone photos as JPG, two-page invoices, discounts and split taxes,
 unlabeled dates such as 08/12/2026 that only the address and payment terms settle, wrapped descriptions,
-and four more traps (an invoice photographed twice, the same charge under a new folio, IVA off by $1.000,
+four documents that are not invoices, and four more traps (an invoice photographed twice, the same charge under a new folio, IVA off by $1.000,
 a subtotal that skips the last line on page 2).
 
-**Decision: Claude Haiku 5.5.** On these 100 documents it matched Opus field for field at about 1/30 of
+**Decision: Claude Haiku 5.5.** On these documents it matched Opus field for field at about 1/30 of
 the cost, roughly US$ 0.50–0.70 per thousand invoices. Re-run the comparison on a sample of each client's
 real invoices before relying on it.
 

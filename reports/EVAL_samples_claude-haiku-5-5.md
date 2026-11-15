@@ -4,12 +4,12 @@
 |---|---|
 | Documents | 60 (40 clean, 15 scanned, 5 trap) |
 | Read without error | 60 / 60 |
-| Fields correct | **100.0 %** (660 / 660) |
+| Fields correct | **100.0 %** (720 / 720) |
 | Documents with every field correct | 100.0 % |
 | Traps caught | **5 / 5** |
 | False alarms on normal invoices | 0 / 55 |
-| Cost | US$ 0.0286 total, US$ 0.0005 per document |
-| Time per document | 2.2 s average, 4.1 s slowest |
+| Cost | US$ 0.0300 total, US$ 0.0005 per document |
+| Time per document | 2.6 s average, 11.3 s slowest |
 
 ## By field
 
@@ -26,6 +26,7 @@
 | tax | 100.0 % |
 | total | 100.0 % |
 | line_items | 100.0 % |
+| is_invoice | 100.0 % |
 
 ## By kind of document
 

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import json
 import os
 import time
 from dataclasses import dataclass
@@ -47,8 +48,9 @@ If no explicit due date is printed (e.g. "due on receipt"), return null.
 Amounts: plain numbers, no currency symbols or thousands separators. A
 European amount such as "1.234,50 €" is 1234.50 with currency EUR."""
 
-# Short fingerprint of the instructions: cached results are only reused for the same prompt.
-PROMPT_VERSION = hashlib.sha256(SYSTEM.encode()).hexdigest()[:8]
+# Short fingerprint of the instructions and the schema: cached results are only reused for the same prompt.
+PROMPT_VERSION = hashlib.sha256(
+    (SYSTEM + json.dumps(Invoice.model_json_schema(), sort_keys=True)).encode()).hexdigest()[:8]
 
 MEDIA_TYPES = {".pdf": "application/pdf", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png"}
 

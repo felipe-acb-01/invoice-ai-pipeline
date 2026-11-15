@@ -2,14 +2,14 @@
 
 | | |
 |---|---|
-| Documents | 40 (5 two_page, 4 ambiguous, 5 discount, 8 photo, 5 wrapped, 9 chile, 4 trap) |
-| Read without error | 40 / 40 |
-| Fields correct | **100.0 %** (440 / 440) |
+| Documents | 44 (5 two_page, 4 ambiguous, 5 discount, 4 not_invoice, 8 photo, 5 wrapped, 9 chile, 4 trap) |
+| Read without error | 44 / 44 |
+| Fields correct | **100.0 %** (484 / 484) |
 | Documents with every field correct | 100.0 % |
 | Traps caught | **4 / 4** |
 | False alarms on normal invoices | 0 / 36 |
-| Cost | US$ 0.0285 total, US$ 0.0007 per document |
-| Time per document | 3.5 s average, 9.1 s slowest |
+| Cost | US$ 0.0317 total, US$ 0.0007 per document |
+| Time per document | 3.9 s average, 18.7 s slowest |
 
 ## By field
 
@@ -26,6 +26,7 @@
 | tax | 100.0 % |
 | total | 100.0 % |
 | line_items | 100.0 % |
+| is_invoice | 100.0 % |
 
 ## By kind of document
 
@@ -34,6 +35,7 @@
 | ambiguous | 4 | 100.0 % |
 | chile | 9 | 100.0 % |
 | discount | 5 | 100.0 % |
+| not_invoice | 4 | 100.0 % |
 | photo | 8 | 100.0 % |
 | two_page | 5 | 100.0 % |
 | wrapped | 5 | 100.0 % |
@@ -43,10 +45,10 @@
 
 | File | Trap | Expected | Raised |
 |---|---|---|---|
-| 016.jpg | Chilean invoice photographed again | duplicate | duplicate |
-| 021.pdf | same Chilean charge, new folio | possible_duplicate | possible_duplicate |
-| 035.pdf | IVA off by $1.000 | iva_mismatch | iva_mismatch |
-| 038.pdf | subtotal skips the last line on page 2 | subtotal_mismatch | subtotal_mismatch |
+| 018.jpg | Chilean invoice photographed again | duplicate | duplicate |
+| 023.pdf | same Chilean charge, new folio | possible_duplicate | possible_duplicate |
+| 039.pdf | IVA off by $1.000 | iva_mismatch | iva_mismatch |
+| 042.pdf | subtotal skips the last line on page 2 | subtotal_mismatch | subtotal_mismatch |
 
 ## Failures, in full (0)
 

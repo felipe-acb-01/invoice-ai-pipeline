@@ -360,6 +360,88 @@ def photo(pdf_bytes: bytes, rng: random.Random) -> bytes:
     return out.getvalue()
 
 
+# ── Documents that are not invoices ────────────────────────────────────────
+
+
+def _page(draw) -> bytes:
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, pagesize=letter)
+    draw(c, *letter)
+    c.setFont("Helvetica", 7)
+    c.setFillColor(HexColor("#777777"))
+    c.drawString(48, 40, FOOTER)
+    c.showPage()
+    c.save()
+    return buf.getvalue()
+
+
+def quote_pdf() -> bytes:
+    def draw(c, w, h):
+        c.setFont("Helvetica-Bold", 15); c.drawString(48, h - 60, "Quillwork Design Studio")
+        c.setFont("Helvetica-Bold", 22); c.drawRightString(w - 48, h - 62, "Quotation")
+        c.setFont("Helvetica", 10)
+        c.drawRightString(w - 48, h - 82, "Quote # Q-2026-118")
+        c.drawRightString(w - 48, h - 96, "Valid until: December 15, 2026")
+        c.drawString(48, h - 140, "Prepared for: Brightline Accounting LLC")
+        y = h - 190
+        for desc, amount in (("Annual report design (estimate)", 2400.0), ("Infographics, up to 6", 900.0)):
+            c.drawString(48, y, desc); c.drawRightString(w - 60, y, f"${amount:,.2f}"); y -= 20
+        c.setFont("Helvetica-Bold", 11); c.drawRightString(w - 60, y - 10, "Estimated total  $3,300.00")
+        c.setFont("Helvetica", 9)
+        c.drawString(48, y - 50, "This is a quotation, not a request for payment. An invoice will follow once the work is approved.")
+    return _page(draw)
+
+
+def receipt_pdf() -> bytes:
+    def draw(c, w, h):
+        c.setFont("Helvetica-Bold", 15); c.drawString(48, h - 60, "Atlas Telecom")
+        c.setFont("Helvetica-Bold", 22); c.drawRightString(w - 48, h - 62, "Payment receipt")
+        c.setFont("Helvetica", 10)
+        c.drawString(48, h - 120, "Thank you! We received your payment.")
+        c.drawString(48, h - 140, "Paid on: October 3, 2026   ·   Card ending 4242   ·   Reference AT-PAY-77310")
+        c.drawString(48, h - 160, "Applied to invoice AT-2026-00881")
+        c.setFont("Helvetica-Bold", 12); c.drawString(48, h - 195, "Amount paid: $219.00")
+        c.setFont("Helvetica", 10); c.drawString(48, h - 215, "Balance due: $0.00")
+    return _page(draw)
+
+
+def contract_pdf() -> bytes:
+    def draw(c, w, h):
+        c.setFont("Helvetica-Bold", 16); c.drawCentredString(w / 2, h - 70, "SERVICE AGREEMENT")
+        c.setFont("Helvetica", 10)
+        text = ("This Service Agreement is entered into between Brightline Accounting LLC (the Client) and Cedar IT "
+                "Support (the Provider). 1. Services. The Provider will deliver remote and on-site IT support as "
+                "described in Schedule A. 2. Fees. Support hours are billed at $85.00 per hour, invoiced monthly, "
+                "payable within 30 days of each invoice. 3. Term. This agreement starts on September 1, 2026 and "
+                "renews every twelve months unless either party gives 60 days written notice. 4. Confidentiality. "
+                "Each party will keep the other's information confidential.")
+        y = h - 110
+        for line in simpleSplit(text, "Helvetica", 10, w - 96):
+            c.drawString(48, y, line); y -= 15
+        c.drawString(48, y - 40, "Signed: ____________________          ____________________")
+    return _page(draw)
+
+
+def snapshot_jpg(rng: random.Random) -> bytes:
+    """A phone photo of a whiteboard after a meeting: an image with text that is not a document."""
+    img = Image.new("RGB", (1200, 900), (rng.randint(225, 240),) * 3)
+    d = ImageDraw.Draw(img)
+    for i in range(40):
+        x, y = rng.randrange(1200), rng.randrange(900)
+        d.ellipse([x, y, x + rng.randint(20, 120), y + rng.randint(20, 120)],
+                  outline=(rng.randrange(255), rng.randrange(120), rng.randrange(255)), width=3)
+    for i, text in enumerate(("Q4 planning", "- close books by Dec 12", "- new AP tool?", "- team lunch Friday")):
+        d.text((120, 160 + i * 90), text, fill=(30, 60, 160))
+    img = img.resize((1600, 1200)).filter(ImageFilter.GaussianBlur(1.2))
+    out = io.BytesIO()
+    img.save(out, "JPEG", quality=55)
+    return out.getvalue()
+
+
+NOT_INVOICE = Invoice(is_invoice=False, invoice_number="", vendor_name="", vendor_tax_id=None, customer_name="",
+                      issue_date="", due_date=None, currency="", line_items=[], subtotal=0, tax=0, total=0)
+
+
 # ── The bank ───────────────────────────────────────────────────────────────
 
 LONG_DESCRIPTIONS = (
@@ -478,12 +560,24 @@ def generate(out: Path, seed: int = 197) -> list[dict]:
                                                     vendor=docs[i]["vendor"], invoice=twin, base="CLP",
                                                     flags=["possible_duplicate"]))
 
+    # Documents that arrive in an invoice inbox but are not invoices
+    for name, make in (("quote", quote_pdf), ("receipt", receipt_pdf), ("contract", contract_pdf),
+                       ("snapshot", lambda: snapshot_jpg(rng))):
+        docs.insert(rng.randrange(len(docs)), dict(kind="not_invoice", trap=name, invoice=NOT_INVOICE, raw=make(),
+                                                   raw_ext=".jpg" if name == "snapshot" else ".pdf", flags=[]))
+
     out.mkdir(parents=True, exist_ok=True)
     for old in [*out.glob("*.pdf"), *out.glob("*.jpg")]:
         old.unlink()
     manifest = []
     for n, d in enumerate(docs, start=1):
-        inv, vendor = d["invoice"], d["vendor"]
+        inv, vendor = d["invoice"], d.get("vendor")
+        if "raw" in d:
+            name = f"{n:03d}{d['raw_ext']}"
+            (out / name).write_bytes(d["raw"])
+            manifest.append({"file": name, "received_order": n, "kind": d["kind"], "trap": d["trap"],
+                             "scanned": False, "base_currency": "USD", "expected_flags": [], "truth": inv.model_dump()})
+            continue
         if isinstance(vendor, ClVendor):
             pdf = render_cl(inv, vendor, rng)
         elif "look" in d:

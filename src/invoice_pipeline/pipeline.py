@@ -38,12 +38,14 @@ class Summary:
     queued: int = 0
     flagged: int = 0
     errors: int = 0
+    not_invoices: int = 0
     cost_usd: float = 0.0
     ids: list[int] = field(default_factory=list)
 
     def __str__(self) -> str:
         return (f"{self.seen} files: {self.queued} queued for approval ({self.flagged} with alerts), "
-                f"{self.errors} could not be read, {self.skipped} already processed · US$ {self.cost_usd:.4f}")
+                f"{self.errors - self.not_invoices} could not be read, {self.not_invoices} not invoices, "
+                f"{self.skipped} already processed · US$ {self.cost_usd:.4f}")
 
 
 def sha256_of(path: Path) -> str:
@@ -69,7 +71,13 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
         ex = extractor(path)
         summary.cost_usd += ex.cost_usd
 
-        if ex.invoice is None:
+        if ex.invoice is not None and not ex.invoice.is_invoice:
+            new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="error", flags=[],
+                               invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds,
+                               error="This does not look like an invoice.", source=sources.get(path.name))
+            summary.errors += 1
+            summary.not_invoices += 1
+        elif ex.invoice is None:
             new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="error", flags=[],
                                invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds, error=ex.error,
                                source=sources.get(path.name))

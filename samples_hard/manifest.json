@@ -8,6 +8,7 @@
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#226",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -199,6 +200,7 @@
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#244",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -234,6 +236,7 @@
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#227",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -431,6 +434,7 @@
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "GF2026-0803",
       "vendor_name": "Greenleaf Facilities",
       "vendor_tax_id": "00-5508613",
@@ -478,6 +482,7 @@
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#237",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -529,14 +534,38 @@
     }
   },
   {
-    "file": "006.jpg",
+    "file": "006.pdf",
     "received_order": 6,
+    "kind": "not_invoice",
+    "trap": "receipt",
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": false,
+      "invoice_number": "",
+      "vendor_name": "",
+      "vendor_tax_id": null,
+      "customer_name": "",
+      "issue_date": "",
+      "due_date": null,
+      "currency": "",
+      "line_items": [],
+      "subtotal": 0.0,
+      "tax": 0.0,
+      "total": 0.0
+    }
+  },
+  {
+    "file": "007.jpg",
+    "received_order": 7,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "822",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -570,14 +599,15 @@
     }
   },
   {
-    "file": "007.pdf",
-    "received_order": 7,
+    "file": "008.pdf",
+    "received_order": 8,
     "kind": "wrapped",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/381",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -611,14 +641,15 @@
     }
   },
   {
-    "file": "008.pdf",
-    "received_order": 8,
+    "file": "009.pdf",
+    "received_order": 9,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "244",
       "vendor_name": "Limpiezas Cordillera Ltda.",
       "vendor_tax_id": "99.904.118-3",
@@ -640,14 +671,15 @@
     }
   },
   {
-    "file": "009.jpg",
-    "received_order": 9,
+    "file": "010.jpg",
+    "received_order": 10,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/369",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -669,14 +701,15 @@
     }
   },
   {
-    "file": "010.pdf",
-    "received_order": 10,
+    "file": "011.pdf",
+    "received_order": 11,
     "kind": "wrapped",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/392",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -704,14 +737,15 @@
     }
   },
   {
-    "file": "011.jpg",
-    "received_order": 11,
+    "file": "012.jpg",
+    "received_order": 12,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "INV-2026-0758",
       "vendor_name": "Northwind Cleaning Co.",
       "vendor_tax_id": "00-4821937",
@@ -733,14 +767,15 @@
     }
   },
   {
-    "file": "012.jpg",
-    "received_order": 12,
+    "file": "013.jpg",
+    "received_order": 13,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "SPS-000393",
       "vendor_name": "Summit Payroll Services",
       "vendor_tax_id": "00-3374901",
@@ -774,14 +809,38 @@
     }
   },
   {
-    "file": "013.pdf",
-    "received_order": 13,
+    "file": "014.pdf",
+    "received_order": 14,
+    "kind": "not_invoice",
+    "trap": "quote",
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": false,
+      "invoice_number": "",
+      "vendor_name": "",
+      "vendor_tax_id": null,
+      "customer_name": "",
+      "issue_date": "",
+      "due_date": null,
+      "currency": "",
+      "line_items": [],
+      "subtotal": 0.0,
+      "tax": 0.0,
+      "total": 0.0
+    }
+  },
+  {
+    "file": "015.pdf",
+    "received_order": 15,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "813",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -821,14 +880,15 @@
     }
   },
   {
-    "file": "014.pdf",
-    "received_order": 14,
+    "file": "016.pdf",
+    "received_order": 16,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "806",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -856,14 +916,15 @@
     }
   },
   {
-    "file": "015.pdf",
-    "received_order": 15,
+    "file": "017.pdf",
+    "received_order": 17,
     "kind": "discount",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "QW-2026222",
       "vendor_name": "Quillwork Design Studio",
       "vendor_tax_id": "00-9182736",
@@ -897,8 +958,8 @@
     }
   },
   {
-    "file": "016.jpg",
-    "received_order": 16,
+    "file": "018.jpg",
+    "received_order": 18,
     "kind": "trap",
     "trap": "Chilean invoice photographed again",
     "scanned": true,
@@ -907,6 +968,7 @@
       "duplicate"
     ],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "244",
       "vendor_name": "Limpiezas Cordillera Ltda.",
       "vendor_tax_id": "99.904.118-3",
@@ -928,14 +990,15 @@
     }
   },
   {
-    "file": "017.pdf",
-    "received_order": 17,
+    "file": "019.pdf",
+    "received_order": 19,
     "kind": "wrapped",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/391",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -963,14 +1026,15 @@
     }
   },
   {
-    "file": "018.pdf",
-    "received_order": 18,
+    "file": "020.pdf",
+    "received_order": 20,
     "kind": "wrapped",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/386",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -998,14 +1062,15 @@
     }
   },
   {
-    "file": "019.jpg",
-    "received_order": 19,
+    "file": "021.jpg",
+    "received_order": 21,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "252",
       "vendor_name": "Limpiezas Cordillera Ltda.",
       "vendor_tax_id": "99.904.118-3",
@@ -1027,14 +1092,15 @@
     }
   },
   {
-    "file": "020.jpg",
-    "received_order": 20,
+    "file": "022.jpg",
+    "received_order": 22,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "GF2026-0800",
       "vendor_name": "Greenleaf Facilities",
       "vendor_tax_id": "00-5508613",
@@ -1062,8 +1128,8 @@
     }
   },
   {
-    "file": "021.pdf",
-    "received_order": 21,
+    "file": "023.pdf",
+    "received_order": 23,
     "kind": "trap",
     "trap": "same Chilean charge, new folio",
     "scanned": false,
@@ -1072,6 +1138,7 @@
       "possible_duplicate"
     ],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "828",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -1111,14 +1178,15 @@
     }
   },
   {
-    "file": "022.pdf",
-    "received_order": 22,
+    "file": "024.pdf",
+    "received_order": 24,
     "kind": "ambiguous",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/375",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -1146,14 +1214,38 @@
     }
   },
   {
-    "file": "023.pdf",
-    "received_order": 23,
+    "file": "025.pdf",
+    "received_order": 25,
+    "kind": "not_invoice",
+    "trap": "contract",
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": false,
+      "invoice_number": "",
+      "vendor_name": "",
+      "vendor_tax_id": null,
+      "customer_name": "",
+      "issue_date": "",
+      "due_date": null,
+      "currency": "",
+      "line_items": [],
+      "subtotal": 0.0,
+      "tax": 0.0,
+      "total": 0.0
+    }
+  },
+  {
+    "file": "026.pdf",
+    "received_order": 26,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "674",
       "vendor_name": "Imprenta Del Pacífico Ltda.",
       "vendor_tax_id": "99.936.251-6",
@@ -1175,14 +1267,15 @@
     }
   },
   {
-    "file": "024.pdf",
-    "received_order": 24,
+    "file": "027.pdf",
+    "received_order": 27,
     "kind": "discount",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "INV-2026-0762",
       "vendor_name": "Northwind Cleaning Co.",
       "vendor_tax_id": "00-4821937",
@@ -1222,14 +1315,15 @@
     }
   },
   {
-    "file": "025.pdf",
-    "received_order": 25,
+    "file": "028.pdf",
+    "received_order": 28,
     "kind": "ambiguous",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#239",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -1269,14 +1363,15 @@
     }
   },
   {
-    "file": "026.pdf",
-    "received_order": 26,
+    "file": "029.pdf",
+    "received_order": 29,
     "kind": "wrapped",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "HLP/2026/387",
       "vendor_name": "Harbor Legal Partners",
       "vendor_tax_id": "00-6650371",
@@ -1310,14 +1405,15 @@
     }
   },
   {
-    "file": "027.pdf",
-    "received_order": 27,
+    "file": "030.pdf",
+    "received_order": 30,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "712",
       "vendor_name": "Arriendos Oficina Plaza SpA",
       "vendor_tax_id": "99.921.874-1",
@@ -1339,14 +1435,15 @@
     }
   },
   {
-    "file": "028.pdf",
-    "received_order": 28,
+    "file": "031.pdf",
+    "received_order": 31,
     "kind": "two_page",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#217",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -1536,14 +1633,15 @@
     }
   },
   {
-    "file": "029.jpg",
-    "received_order": 29,
+    "file": "032.jpg",
+    "received_order": 32,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "717",
       "vendor_name": "Arriendos Oficina Plaza SpA",
       "vendor_tax_id": "99.921.874-1",
@@ -1565,14 +1663,15 @@
     }
   },
   {
-    "file": "030.pdf",
-    "received_order": 30,
+    "file": "033.pdf",
+    "received_order": 33,
     "kind": "discount",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "INV-2026-0768",
       "vendor_name": "Northwind Cleaning Co.",
       "vendor_tax_id": "00-4821937",
@@ -1606,14 +1705,15 @@
     }
   },
   {
-    "file": "031.pdf",
-    "received_order": 31,
+    "file": "034.pdf",
+    "received_order": 34,
     "kind": "two_page",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#222",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -1791,14 +1891,15 @@
     }
   },
   {
-    "file": "032.pdf",
-    "received_order": 32,
+    "file": "035.pdf",
+    "received_order": 35,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "709",
       "vendor_name": "Arriendos Oficina Plaza SpA",
       "vendor_tax_id": "99.921.874-1",
@@ -1820,14 +1921,15 @@
     }
   },
   {
-    "file": "033.pdf",
-    "received_order": 33,
+    "file": "036.pdf",
+    "received_order": 36,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "798",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -1867,14 +1969,38 @@
     }
   },
   {
-    "file": "034.jpg",
-    "received_order": 34,
+    "file": "037.jpg",
+    "received_order": 37,
+    "kind": "not_invoice",
+    "trap": "snapshot",
+    "scanned": false,
+    "base_currency": "USD",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": false,
+      "invoice_number": "",
+      "vendor_name": "",
+      "vendor_tax_id": null,
+      "customer_name": "",
+      "issue_date": "",
+      "due_date": null,
+      "currency": "",
+      "line_items": [],
+      "subtotal": 0.0,
+      "tax": 0.0,
+      "total": 0.0
+    }
+  },
+  {
+    "file": "038.jpg",
+    "received_order": 38,
     "kind": "photo",
     "trap": null,
     "scanned": true,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "BL-00337",
       "vendor_name": "Blue Ladder Coworking",
       "vendor_tax_id": "00-2295018",
@@ -1896,8 +2022,8 @@
     }
   },
   {
-    "file": "035.pdf",
-    "received_order": 35,
+    "file": "039.pdf",
+    "received_order": 39,
     "kind": "trap",
     "trap": "IVA off by $1.000",
     "scanned": false,
@@ -1906,6 +2032,7 @@
       "iva_mismatch"
     ],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "827",
       "vendor_name": "Soporte TI Andino SpA",
       "vendor_tax_id": "99.957.603-6",
@@ -1945,14 +2072,15 @@
     }
   },
   {
-    "file": "036.pdf",
-    "received_order": 36,
+    "file": "040.pdf",
+    "received_order": 40,
     "kind": "ambiguous",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "GF2026-0809",
       "vendor_name": "Greenleaf Facilities",
       "vendor_tax_id": "00-5508613",
@@ -1980,14 +2108,15 @@
     }
   },
   {
-    "file": "037.pdf",
-    "received_order": 37,
+    "file": "041.pdf",
+    "received_order": 41,
     "kind": "two_page",
     "trap": null,
     "scanned": false,
     "base_currency": "USD",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#233",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -2159,8 +2288,8 @@
     }
   },
   {
-    "file": "038.pdf",
-    "received_order": 38,
+    "file": "042.pdf",
+    "received_order": 42,
     "kind": "trap",
     "trap": "subtotal skips the last line on page 2",
     "scanned": false,
@@ -2169,6 +2298,7 @@
       "subtotal_mismatch"
     ],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "#245",
       "vendor_name": "Cedar IT Support",
       "vendor_tax_id": "00-7310442",
@@ -2352,14 +2482,15 @@
     }
   },
   {
-    "file": "039.pdf",
-    "received_order": 39,
+    "file": "043.pdf",
+    "received_order": 43,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "704",
       "vendor_name": "Arriendos Oficina Plaza SpA",
       "vendor_tax_id": "99.921.874-1",
@@ -2387,14 +2518,15 @@
     }
   },
   {
-    "file": "040.pdf",
-    "received_order": 40,
+    "file": "044.pdf",
+    "received_order": 44,
     "kind": "chile",
     "trap": null,
     "scanned": false,
     "base_currency": "CLP",
     "expected_flags": [],
     "truth": {
+      "is_invoice": true,
       "invoice_number": "683",
       "vendor_name": "Imprenta Del Pacífico Ltda.",
       "vendor_tax_id": "99.936.251-6",

@@ -112,9 +112,13 @@ def run(samples: Path, model: str, effort: str | None, dry: bool, limit: int | N
         res = DocResult(doc["file"], doc["kind"], doc["trap"], doc["scanned"], doc["expected_flags"], ex)
         if ex.invoice is not None:
             got = ex.invoice
-            res.field_ok = {f: same(f, getattr(truth, f), getattr(got, f)) for f in HEADER_FIELDS}
-            res.field_ok["line_items"] = same_lines(truth, got)
-            res.flags = check(got, doc.get("base_currency", "USD")) + ledger.check_and_add(got)
+            if not truth.is_invoice:
+                res.field_ok = {"is_invoice": not got.is_invoice}
+            else:
+                res.field_ok = {f: same(f, getattr(truth, f), getattr(got, f)) for f in HEADER_FIELDS}
+                res.field_ok["line_items"] = same_lines(truth, got)
+                res.field_ok["is_invoice"] = got.is_invoice
+                res.flags = check(got, doc.get("base_currency", "USD")) + ledger.check_and_add(got)
         results.append(res)
     return results
 
@@ -130,15 +134,16 @@ def report(results: list[DocResult], samples: Path, model: str, effort: str | No
     manifest = {d["file"]: d for d in json.loads((samples / "manifest.json").read_text())}
     n = len(results)
     read = [r for r in results if r.extraction.invoice is not None]
-    fields = (*HEADER_FIELDS, "line_items")
+    fields = (*HEADER_FIELDS, "line_items", "is_invoice")
     field_hits = Counter(f for r in read for f, ok in r.field_ok.items() if ok)
+    field_seen = Counter(f for r in read for f in r.field_ok)
     total_fields = sum(len(r.field_ok) for r in read)
     cost = sum(r.extraction.cost_usd for r in results)
     secs = [r.extraction.seconds for r in read]
 
     traps = [r for r in results if r.kind == "trap"]
     caught = [r for r in traps if set(r.expected_flags) <= set(r.flags)]
-    calm = [r for r in results if r.kind != "trap" and not r.expected_flags]
+    calm = [r for r in results if r.kind not in ("trap", "not_invoice") and not r.expected_flags]
     false_alarms = [r for r in calm if r.flags]
 
     label = "dry run (right answers fed in; checks the plumbing, not the model)" if dry else model + (f", effort {effort}" if effort else "")
@@ -154,7 +159,7 @@ def report(results: list[DocResult], samples: Path, model: str, effort: str | No
             f"| Time per document | {sum(secs) / max(len(secs), 1):.1f} s average, {max(secs, default=0):.1f} s slowest |", ""]
 
     out += ["## By field", "", "| Field | Correct |", "|---|---|"]
-    out += [f"| {f} | {_pct(field_hits[f], len(read))} |" for f in fields]
+    out += [f"| {f} | {_pct(field_hits[f], field_seen[f])} |" for f in fields if field_seen[f]]
     out += ["", "## By kind of document", "", "| Kind | Documents | Every field correct |", "|---|---|---|"]
     for kind in sorted({r.kind for r in results}, key=lambda k: (k == "trap", k)):
         group = [r for r in read if r.kind == kind]

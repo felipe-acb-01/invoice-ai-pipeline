@@ -7,7 +7,7 @@ evaluation compares like with like.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class LineItem(BaseModel):
@@ -17,7 +17,19 @@ class LineItem(BaseModel):
     amount: float = Field(description="Line amount, as printed. Do not recompute it.")
 
 
+def _require_is_invoice(schema: dict) -> None:
+    # Defaults to True so older ground-truth files still load, but the model must always answer it.
+    if "is_invoice" not in schema.setdefault("required", []):
+        schema["required"].insert(0, "is_invoice")
+
+
 class Invoice(BaseModel):
+    model_config = ConfigDict(json_schema_extra=_require_is_invoice)
+
+    is_invoice: bool = Field(default=True, description=(
+        "True only for a vendor invoice or tax invoice (factura) asking to be paid. False for anything else: a quote, "
+        "a receipt already paid, a contract, a delivery note, a photo of something else. When false, fill the other "
+        "fields with empty strings, 0 and empty lists."))
     invoice_number: str = Field(description="Invoice number exactly as printed, including prefixes like 'INV-' or '#'.")
     vendor_name: str = Field(description="Legal name of the company that issued the invoice.")
     vendor_tax_id: str | None = Field(description="Vendor tax ID (EIN, VAT number) as printed, or null if absent.")

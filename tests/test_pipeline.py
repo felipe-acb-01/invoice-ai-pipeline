@@ -114,7 +114,8 @@ def hard_bank(tmp_path_factory):
 
 def test_hard_bank_mix_and_files(hard_bank):
     manifest = json.loads((hard_bank / "manifest.json").read_text())
-    assert len(manifest) == 40
+    assert len(manifest) == 44
+    assert sum(d['kind'] == 'not_invoice' for d in manifest) == 4
     assert sum(d["kind"] == "trap" for d in manifest) == 4
     assert all((hard_bank / d["file"]).exists() for d in manifest)
     assert any(d["file"].endswith(".jpg") for d in manifest)
@@ -140,3 +141,24 @@ def test_model_setting_is_read_when_used_not_when_imported(monkeypatch):
     assert default_model() == "claude-haiku-5-5"
     monkeypatch.setenv("INVOICE_MODEL", "claude-sonnet-5-5")
     assert default_model() == "claude-sonnet-5-5"
+
+
+def test_is_invoice_is_required_for_the_model_and_changes_the_cache_version():
+    from anthropic.lib._parse._transform import transform_schema
+    from pydantic import TypeAdapter
+    assert "is_invoice" in transform_schema(TypeAdapter(Invoice).json_schema())["required"]
+    assert Invoice.model_validate({**make().model_dump(), "is_invoice": True}).is_invoice
+
+
+def test_a_document_that_is_not_an_invoice_goes_to_errors(tmp_path):
+    from invoice_pipeline.extract import Extraction
+    from invoice_pipeline.pipeline import process_folder
+    from invoice_pipeline.store import Store
+    inbox = tmp_path / "in"
+    inbox.mkdir()
+    (inbox / "cat.jpg").write_bytes(b"\xff\xd8 not really a cat")
+    store = Store(tmp_path / "data")
+    alerts = []
+    s = process_folder(inbox, store, lambda p: Extraction(make(is_invoice=False), "fake", 0, 0, 0), alert=alerts.append)
+    rec = store.list()[0]
+    assert (rec.status, rec.error, s.not_invoices, alerts) == ("error", "This does not look like an invoice.", 1, [])

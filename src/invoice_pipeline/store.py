@@ -35,9 +35,14 @@ create table if not exists invoices (
     error         text,
     decided_at    text,
     decided_by    text,
-    note          text
+    note          text,
+    source        text,
+    notified_at   text
 );
 """
+
+# Columns added after the first version: added in place, so an existing database keeps its data.
+LATER_COLUMNS = {"source": "text", "notified_at": "text"}
 
 
 def now() -> str:
@@ -61,13 +66,16 @@ class Record:
     decided_at: str | None
     decided_by: str | None
     note: str | None
+    source: str | None = None
+    notified_at: str | None = None
 
     @classmethod
     def from_row(cls, row: sqlite3.Row) -> Record:
         data = row["data"]
         return cls(row["id"], row["sha256"], row["file_name"], row["stored_as"], row["received_at"], row["status"],
                    json.loads(row["flags"]), Invoice.model_validate_json(data) if data else None, row["model"],
-                   row["cost_usd"], row["seconds"], row["error"], row["decided_at"], row["decided_by"], row["note"])
+                   row["cost_usd"], row["seconds"], row["error"], row["decided_at"], row["decided_by"], row["note"],
+                   row["source"], row["notified_at"])
 
 
 class Store:
@@ -78,6 +86,11 @@ class Store:
         self.db = sqlite3.connect(root / "invoices.db", check_same_thread=False)
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
+        have = {r["name"] for r in self.db.execute("pragma table_info(invoices)")}
+        for name, kind in LATER_COLUMNS.items():
+            if name not in have:
+                self.db.execute(f"alter table invoices add column {name} {kind}")
+        self.db.commit()
 
     # ── writing ──
 
@@ -90,12 +103,13 @@ class Store:
         return name
 
     def add(self, *, sha256: str, file_name: str, stored_as: str, status: str, flags: list[str],
-            invoice: Invoice | None, model: str | None, cost_usd: float, seconds: float, error: str | None) -> int:
+            invoice: Invoice | None, model: str | None, cost_usd: float, seconds: float, error: str | None,
+            source: str | None = None) -> int:
         cur = self.db.execute(
             "insert into invoices (sha256, file_name, stored_as, received_at, status, flags, data, model, cost_usd,"
-            " seconds, error) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " seconds, error, source) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (sha256, file_name, stored_as, now(), status, json.dumps(flags),
-             invoice.model_dump_json() if invoice else None, model, cost_usd, seconds, error))
+             invoice.model_dump_json() if invoice else None, model, cost_usd, seconds, error, source))
         self.db.commit()
         return cur.lastrowid
 
@@ -108,6 +122,10 @@ class Store:
             (status, now(), who, (note or "").strip() or None, invoice_id))
         self.db.commit()
         return cur.rowcount == 1
+
+    def mark_notified(self, invoice_id: int) -> None:
+        self.db.execute("update invoices set notified_at = ? where id = ?", (now(), invoice_id))
+        self.db.commit()
 
     # ── reading ──
 

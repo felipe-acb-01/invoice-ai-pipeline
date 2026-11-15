@@ -51,7 +51,10 @@ def sha256_of(path: Path) -> str:
 
 
 def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None, alert: Alert = log_alert,
-                   base_currency: str | tuple[str, ...] = "USD", model: str = DEFAULT_MODEL) -> Summary:
+                   base_currency: str | tuple[str, ...] = "USD", model: str = DEFAULT_MODEL,
+                   sources: dict[str, str] | None = None) -> Summary:
+    """`sources` maps a file name to where it came from (e.g. the email's sender and subject)."""
+    sources = sources or {}
     extractor = extractor or (lambda p: extract(p, model=model))
     files = sorted(p for p in inbox.iterdir() if p.suffix.lower() in ACCEPTED)
     ledger = store.ledger()
@@ -68,14 +71,15 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
 
         if ex.invoice is None:
             new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="error", flags=[],
-                               invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds, error=ex.error)
+                               invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds, error=ex.error,
+                               source=sources.get(path.name))
             summary.errors += 1
             alert(f"{path.name} could not be read ({ex.error}). It is in the Errors tab.")
         else:
             flags = check(ex.invoice, base_currency) + ledger.check_and_add(ex.invoice)
             new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="pending",
                                flags=flags, invoice=ex.invoice, model=ex.model, cost_usd=ex.cost_usd,
-                               seconds=ex.seconds, error=None)
+                               seconds=ex.seconds, error=None, source=sources.get(path.name))
             summary.queued += 1
             summary.flagged += bool(flags)
         summary.ids.append(new_id)

@@ -1,0 +1,160 @@
+"""Gmail and Sheets glue, against small fakes of the Google clients (no network)."""
+
+import base64
+import json
+import shutil
+from email import message_from_bytes, policy
+
+import pytest
+from fastapi.testclient import TestClient
+
+from invoice_pipeline.extract import Extraction
+from invoice_pipeline.google_io import Gmail, approval_email, notify_pending, sync_approved
+from invoice_pipeline.pipeline import process_folder
+from invoice_pipeline.schema import Invoice
+from invoice_pipeline.store import Store
+from invoice_pipeline.synth import generate
+from invoice_pipeline.web import create_app
+
+
+class Call:
+    """Mimics googleapiclient's chained-builder style: svc.users().messages().list(...).execute()."""
+
+    def __init__(self, fn):
+        self.fn = fn
+
+    def execute(self):
+        return self.fn()
+
+
+class FakeGmail:
+    def __init__(self, messages):
+        self.msgs = messages  # id -> dict(payload, attachments)
+        self.label_list = []
+        self.labelled = {}
+        self.sent = []
+
+    def users(self): return self
+
+    def getProfile(self, userId): return Call(lambda: {"emailAddress": "demo@example.com"})
+
+    def list(self, userId, q=None, maxResults=None):
+        if q is None:  # labels().list
+            return Call(lambda: {"labels": list(self.label_list)})
+        unprocessed = [m for m in self.msgs if m not in self.labelled]
+        return Call(lambda: {"messages": [{"id": m} for m in unprocessed]})
+
+    def create(self, userId, body):
+        def go():
+            self.label_list.append({"id": "L1", "name": body["name"]})
+            return {"id": "L1"}
+        return Call(go)
+
+    def get(self, userId, id, messageId=None):
+        if messageId is not None:  # attachments().get
+            return Call(lambda: {"data": base64.urlsafe_b64encode(self.msgs[messageId]["attachments"][id]).decode()})
+        return Call(lambda: self.msgs[id])
+
+    def modify(self, userId, id, body):
+        return Call(lambda: self.labelled.setdefault(id, body["addLabelIds"]))
+
+    def send(self, userId, body):
+        return Call(lambda: self.sent.append(message_from_bytes(base64.urlsafe_b64decode(body["raw"]), policy=policy.default)))
+
+
+
+class GmailService(FakeGmail):
+    def labels(self): return self
+    def messages(self): return self
+    def attachments(self): return self
+
+
+class FakeSheets:
+    def __init__(self):
+        self.rows = []
+
+    def spreadsheets(self): return self
+    def values(self): return self
+
+    def get(self, spreadsheetId, range):
+        return Call(lambda: {"values": [[r[0]] for r in self.rows]} if self.rows else {})
+
+    def append(self, spreadsheetId, range, valueInputOption, insertDataOption, body):
+        return Call(lambda: self.rows.extend(body["values"]))
+
+
+@pytest.fixture
+def world(tmp_path):
+    bank = tmp_path / "bank"
+    manifest = generate(bank)
+    truth = {d["file"]: Invoice.model_validate(d["truth"]) for d in manifest}
+    pdf_a, pdf_b = manifest[0]["file"], manifest[1]["file"]
+    svc = GmailService({
+        "m1": {"payload": {"headers": [{"name": "From", "value": "Northwind <billing@northwind.example>"},
+                                       {"name": "Subject", "value": "October invoice"}],
+                           "parts": [{"filename": pdf_a, "body": {"attachmentId": "a1"}},
+                                     {"filename": "logo.gif", "body": {"attachmentId": "a2"}}]},
+               "attachments": {"a1": (bank / pdf_a).read_bytes(), "a2": b"GIF89a"}},
+        "m2": {"payload": {"headers": [{"name": "From", "value": "ap@cedar.example"}, {"name": "Subject", "value": "Inv"}],
+                           "parts": [{"mimeType": "multipart/mixed",
+                                      "parts": [{"filename": pdf_b, "body": {"attachmentId": "b1"}}]}]},
+               "attachments": {"b1": (bank / pdf_b).read_bytes()}},
+    })
+    store = Store(tmp_path / "data")
+    reader = lambda p: Extraction(truth[p.name.split("-", 1)[1]], "fake", 0.1, 10, 1)  # noqa: E731
+    return dict(svc=svc, gmail=Gmail(svc), store=store, reader=reader, tmp=tmp_path)
+
+
+def test_fetch_saves_only_invoice_attachments_and_labels_messages(world):
+    gmail, svc = world["gmail"], world["svc"]
+    fetched = gmail.fetch_invoices(world["tmp"] / "incoming")
+    assert fetched.messages == 2 and len(fetched.files) == 2  # the GIF logo is ignored
+    assert set(svc.labelled) == {"m1", "m2"}
+    assert any("billing@northwind.example · October invoice" == s for s in fetched.sources.values())
+    # nothing new the second time: processed messages carry the label
+    assert gmail.fetch_invoices(world["tmp"] / "incoming").messages == 0
+
+
+def test_end_to_end_gmail_to_approval_email_to_sheet(world):
+    gmail, store = world["gmail"], world["store"]
+    fetched = gmail.fetch_invoices(world["tmp"] / "incoming")
+    process_folder(world["tmp"] / "incoming", store, world["reader"], sources=fetched.sources)
+    assert store.list()[0].source.startswith("billing@northwind.example")
+
+    assert notify_pending(store, gmail, "approver@example.com", "http://app.test") == 2
+    assert notify_pending(store, gmail, "approver@example.com", "http://app.test") == 0  # never twice
+    mail = world["svc"].sent[0]
+    assert mail["Subject"].startswith("[Approve] ") and mail["To"] == "approver@example.com"
+    assert any(part.get_filename() for part in mail.walk())  # the original document is attached
+    body = next(p for p in mail.walk() if p.get_content_type() == "text/plain").get_content()
+    assert "http://app.test/invoices/" in body
+    assert "/approve" not in body  # decisions only happen on the screen, never from a link a scanner can open
+
+    sheets = FakeSheets()
+    first = store.list("pending")[0]
+    app = create_app(store, "Ana", after_decision=lambda: sync_approved(store, sheets, "SHEET"))
+    TestClient(app).post(f"/invoices/{first.id}/approve", data={"note": "ok"})
+    assert sheets.rows[0][0] == "ID" and sheets.rows[1][0] == first.id and sheets.rows[1][-1].startswith("billing@")
+    assert sync_approved(store, sheets, "SHEET") == 0  # idempotent
+    assert len(sheets.rows) == 2
+
+
+def test_a_failing_sheet_does_not_undo_the_approval(world):
+    store = world["store"]
+    process_folder(world["gmail"].fetch_invoices(world["tmp"] / "incoming").files[0].parent, store, world["reader"])
+    first = store.list("pending")[0]
+
+    def broken():
+        raise RuntimeError("Sheets is down")
+    TestClient(create_app(store, "Ana", after_decision=broken)).post(f"/invoices/{first.id}/approve")
+    assert store.get(first.id).status == "approved"
+
+
+def test_flagged_invoice_email_says_why():
+    inv = Invoice(invoice_number="1", vendor_name="V", vendor_tax_id=None, customer_name="C", issue_date="2026-10-01",
+                  due_date=None, currency="USD", line_items=[], subtotal=0, tax=0, total=10)
+    from invoice_pipeline.store import Record
+    rec = Record(1, "x", "f.pdf", "x.pdf", "", "pending", ["total_mismatch"], inv, "m", 0, 1.0, None, None, None, None)
+    subject, text, html = approval_email(rec, "http://x/invoices/1")
+    assert "needs a closer look" in subject and "Subtotal plus tax does not equal the total." in text
+    assert "<script" not in html

@@ -73,7 +73,9 @@ def page_count(path: Path) -> int:
     return len(pdfium.PdfDocument(path))
 
 
-def create_app(store: Store, approver: str = "Approver") -> FastAPI:
+def create_app(store: Store, approver: str = "Approver", after_decision=None) -> FastAPI:
+    """`after_decision` runs after each approval or rejection (e.g. copy approved invoices to Google Sheets).
+    If it fails, the decision still stands: the error is logged and the next run catches up."""
     app = FastAPI(title="Invoice approvals", docs_url=None, redoc_url=None)
 
     @app.get("/")
@@ -103,7 +105,13 @@ def create_app(store: Store, approver: str = "Approver") -> FastAPI:
     def decide(invoice_id: int, status: str, note: str) -> RedirectResponse:
         if store.get(invoice_id) is None:
             raise HTTPException(404)
-        store.decide(invoice_id, status, approver, note)
+        if store.decide(invoice_id, status, approver, note) and after_decision:
+            try:
+                after_decision()
+            except Exception:  # noqa: BLE001
+                import logging
+
+                logging.getLogger("invoice_pipeline").exception("After-decision step failed; will retry on next sync")
         waiting = [r.id for r in store.list("pending")]
         following = [i for i in waiting if i > invoice_id] or waiting
         return RedirectResponse(f"/invoices/{following[0]}" if following else "/invoices", status_code=303)

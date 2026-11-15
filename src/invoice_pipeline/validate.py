@@ -46,8 +46,9 @@ def _parse_date(value: str | None) -> date | None:
     return date.fromisoformat(value)
 
 
-def check(invoice: Invoice, base_currency: str = "USD") -> list[str]:
-    """Flags that only need this one invoice."""
+def check(invoice: Invoice, base_currency: str | tuple[str, ...] = "USD") -> list[str]:
+    """Flags that only need this one invoice. `base_currency` is the currency, or currencies, the company books in."""
+    bases = {base_currency} if isinstance(base_currency, str) else set(base_currency)
     flags: list[str] = []
 
     if any(abs(li.quantity * li.unit_price - li.amount) > TOLERANCE for li in invoice.line_items):
@@ -68,7 +69,7 @@ def check(invoice: Invoice, base_currency: str = "USD") -> list[str]:
     if invoice.currency.upper() == "CLP" and abs(round(invoice.subtotal * CHILE_IVA) - invoice.tax) > 1:
         flags.append("iva_mismatch")
 
-    if invoice.currency.upper() != base_currency:
+    if invoice.currency.upper() not in bases:
         flags.append("foreign_currency")
     return flags
 

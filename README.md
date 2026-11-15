@@ -4,8 +4,19 @@ Vendor invoices arrive by email as PDFs, some of them scanned. This pipeline rea
 checks it with plain rules (do the lines add up? was it already paid? is it in another currency?), sends
 anything doubtful to a person for approval, and writes the rest to a spreadsheet.
 
-> **Status: work in progress.** Done: two test banks (100 documents), extraction from PDFs and photos, the rules and the evaluation.
-> Next: approval by email, Google Sheets, alerts and a live demo.
+> **Status: work in progress.** Done: two test banks (100 documents), extraction from PDFs and photos, the rules,
+> the evaluation, the approval queue and the Excel export. Next: Gmail in, Google Sheets out, alerts by email, a live demo.
+
+## How it works
+
+1. `python -m invoice_pipeline process --inbox inbox/` reads every new PDF or photo (a file already seen is skipped),
+   checks it, and puts it in the approval queue. Unreadable files go to their own tab and raise an alert.
+2. `python -m invoice_pipeline serve` opens the approval screen: every invoice next to its original document, with
+   the reason for any alert in one sentence and a link to the earlier invoice it may repeat.
+3. Approved invoices export to Excel (one sheet of invoices, one of lines), with who approved them, when, and their note.
+
+Settings: `ANTHROPIC_API_KEY`, `INVOICE_MODEL` (default `claude-opus-5-5`; the evaluation recommends
+`claude-haiku-5-5`), `BASE_CURRENCIES` (e.g. `USD,CLP`), `APPROVER_NAME`, `INVOICE_DATA_DIR`.
 
 ## How well it reads: measured, not claimed
 

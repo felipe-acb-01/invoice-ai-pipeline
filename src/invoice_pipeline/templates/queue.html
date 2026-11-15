@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% set current_tab = status %}
+{% block head %}
+<style>
+  .tablebox { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 820px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { font-size: 12px; font-weight: 600; color: var(--muted); background: #FAFBFC; }
+  tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: #FAFBFC; }
+  td.amount, th.amount { text-align: right; }
+  td.vendor a { color: var(--ink); font-weight: 600; text-decoration: none; }
+  td.vendor a:hover { color: var(--accent); }
+  td .sub { color: var(--subtle); font-size: 12px; }
+  .empty { padding: 48px 24px; text-align: center; color: var(--muted); }
+  .empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  h1 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
+</style>
+{% endblock %}
+{% block main %}
+<div class="head">
+  <h1>{{ TAB_LABELS[status] }}</h1>
+  {% if status == "pending" and records %}
+    <span class="sub">{{ records | selectattr("flags") | list | length }} of {{ records | length }} need a closer look</span>
+  {% endif %}
+</div>
+<div class="panel tablebox">
+{% if records %}
+  <table>
+    <thead><tr>
+      <th>Vendor</th><th>Invoice</th><th>Issued</th><th>Due</th><th class="amount">Total</th><th>Checks</th>
+      {% if status in ("approved", "rejected") %}<th>Decided</th>{% endif %}
+    </tr></thead>
+    <tbody>
+    {% for r in records %}
+      <tr>
+      {% if r.invoice %}
+        <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.invoice.vendor_name }}</a><div class="sub">{{ r.file_name }}</div></td>
+        <td class="num">{{ r.invoice.invoice_number }}</td>
+        <td>{{ r.invoice.issue_date | nice_date }}</td>
+        <td>{{ r.invoice.due_date | nice_date if r.invoice.due_date else "On receipt" }}</td>
+        <td class="amount num">{{ r.invoice.total | money(r.invoice.currency) }}</td>
+        <td>
+          {% if r.flags %}<span class="chip warn">{{ r.flags | length }} to review</span>
+          {% else %}<span class="chip ok">All checks passed</span>{% endif %}
+        </td>
+      {% else %}
+        <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.file_name }}</a></td>
+        <td colspan="4" class="sub">{{ r.error }}</td>
+        <td><span class="chip bad">Not read</span></td>
+      {% endif %}
+      {% if status in ("approved", "rejected") %}<td>{{ r.decided_at | nice_date }}<div class="sub">{{ r.decided_by }}</div></td>{% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="empty">
+    {% if status == "pending" %}<strong>Nothing waiting for approval</strong>New invoices appear here as soon as they are read.
+    {% elif status == "error" %}<strong>Every document was read</strong>Files that cannot be read land here, with the reason.
+    {% else %}<strong>No {{ TAB_LABELS[status] | lower }} invoices yet</strong>{% endif %}
+  </div>
+{% endif %}
+</div>
+<p class="footnote num">Reading cost so far: US$ {{ "%.4f" | format(spent) }}</p>
+{% endblock %}

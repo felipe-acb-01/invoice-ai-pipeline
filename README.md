@@ -10,6 +10,8 @@ in the queue. Approve or reject them, export to Excel, or upload an invoice of y
 
 ![The review screen: an invoice next to what was read from it, with an alert that explains itself](docs/demo.gif)
 
+**[Watch the 70-second video (MP4)](docs/invoice-pipeline-demo.mp4)**: from the inbox to the spreadsheet, no voice-over.
+
 ## What it does
 
 - **Reads PDFs, scans and phone photos**, in English, Spanish and Portuguese, with US, European and Chilean number

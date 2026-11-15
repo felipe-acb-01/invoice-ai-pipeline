@@ -1,0 +1,62 @@
+{
+ "queue_closer": {
+  "x": 1423,
+  "y": 280,
+  "width": 153,
+  "height": 21
+ },
+ "queue_iva_row": {
+  "x": 359,
+  "y": 743,
+  "width": 168,
+  "height": 18
+ },
+ "iva_alert": {
+  "x": 1012,
+  "y": 345,
+  "width": 564,
+  "height": 107
+ },
+ "iva_note": {
+  "x": 1033,
+  "y": 515,
+  "width": 522,
+  "height": 64
+ },
+ "iva_reject": {
+  "x": 1132,
+  "y": 589,
+  "width": 75,
+  "height": 38
+ },
+ "iva_total": {
+  "x": 1012,
+  "y": 266,
+  "width": 564,
+  "height": 42
+ },
+ "iva_decided": {
+  "x": 1012,
+  "y": 468,
+  "width": 564,
+  "height": 110
+ },
+ "photo_doc": {
+  "x": 357,
+  "y": 228,
+  "width": 622,
+  "height": 764
+ },
+ "photo_total": {
+  "x": 1012,
+  "y": 266,
+  "width": 564,
+  "height": 42
+ },
+ "photo_approve": {
+  "x": 1033,
+  "y": 589,
+  "width": 88,
+  "height": 38
+ }
+}

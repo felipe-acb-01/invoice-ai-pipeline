@@ -45,7 +45,8 @@ class Summary:
 
     def __str__(self) -> str:
         return (f"{self.seen} files: {self.queued} queued for approval ({self.flagged} with alerts), "
-                f"{self.errors - self.not_invoices} could not be read, {self.not_invoices} not invoices, "
+                f"{self.errors - self.not_invoices} could not be read, "
+                f"{self.not_invoices} not {'an invoice' if self.not_invoices == 1 else 'invoices'}, "
                 f"{self.skipped} already processed · US$ {self.cost_usd:.4f}")
 
 

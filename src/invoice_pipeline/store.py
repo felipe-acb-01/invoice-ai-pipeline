@@ -97,6 +97,10 @@ class Store:
     def has(self, sha256: str) -> bool:
         return self.db.execute("select 1 from invoices where sha256 = ?", (sha256,)).fetchone() is not None
 
+    def id_for(self, sha256: str) -> int | None:
+        row = self.db.execute("select id from invoices where sha256 = ?", (sha256,)).fetchone()
+        return row["id"] if row else None
+
     def keep_document(self, source: Path, sha256: str) -> str:
         name = f"{sha256[:16]}{source.suffix.lower()}"
         shutil.copyfile(source, self.docs / name)

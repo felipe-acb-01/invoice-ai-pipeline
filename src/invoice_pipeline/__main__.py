@@ -39,6 +39,8 @@ def main() -> None:
     s.add_argument("--port", type=int, default=8040)
     e = sub.add_parser("export", help="write approved invoices to Excel")
     e.add_argument("out", type=Path)
+    dm = sub.add_parser("demo", help="public demo: a private sandbox per visitor (what Railway runs)")
+    dm.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8050)))
     sub.add_parser("authorize", help="one-time Gmail consent")
     sub.add_parser("run", help="Gmail → queue → approval emails → Sheets")
     sub.add_parser("sync-sheets", help="copy approved invoices to Google Sheets")
@@ -69,6 +71,16 @@ def main() -> None:
 
             after = lambda: sync_approved(store, sheets_service(), sheet_id)  # noqa: E731
         uvicorn.run(create_app(store, os.environ.get("APPROVER_NAME", "Approver"), after), host="127.0.0.1", port=args.port)
+    elif args.command == "demo":
+        import uvicorn
+
+        from .demo import Demo
+        from .web import create_app
+
+        demo = Demo.from_env(Path(os.environ.get("DEMO_DATA_DIR", "demo_data")))
+        host = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
+        uvicorn.run(create_app(approver="Demo visitor", demo=demo), host=host, port=args.port,
+                    proxy_headers=True, forwarded_allow_ips="*")
     elif args.command == "authorize":
         from .google_io import Gmail, gmail_service
 

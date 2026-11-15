@@ -22,6 +22,7 @@ from .validate import check
 log = logging.getLogger("invoice_pipeline")
 
 ACCEPTED = (".pdf", ".jpg", ".jpeg", ".png")
+NOT_AN_INVOICE = "This does not look like an invoice."
 
 Extractor = Callable[[Path], Extraction]
 Alert = Callable[[str], None]
@@ -74,7 +75,7 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
         if ex.invoice is not None and not ex.invoice.is_invoice:
             new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="error", flags=[],
                                invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds,
-                               error="This does not look like an invoice.", source=sources.get(path.name))
+                               error=NOT_AN_INVOICE, source=sources.get(path.name))
             summary.errors += 1
             summary.not_invoices += 1
         elif ex.invoice is None:
@@ -82,7 +83,7 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
                                invoice=None, model=ex.model, cost_usd=ex.cost_usd, seconds=ex.seconds, error=ex.error,
                                source=sources.get(path.name))
             summary.errors += 1
-            alert(f"{path.name} could not be read ({ex.error}). It is in the Errors tab.")
+            alert(f"{path.name} could not be read ({ex.error}). It is in the Set aside tab.")
         else:
             flags = check(ex.invoice, base_currency) + ledger.check_and_add(ex.invoice)
             new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="pending",

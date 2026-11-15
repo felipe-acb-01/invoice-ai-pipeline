@@ -1,0 +1,14 @@
+# Never upload these to Railway (the build only needs src/, demo_seed/, pyproject.toml, README.md, Dockerfile)
+.env
+secrets/
+.venv/
+runs/
+logs/
+data/
+demo/
+demo_data/
+samples/
+samples_hard/
+reports/
+tests/
+.git/

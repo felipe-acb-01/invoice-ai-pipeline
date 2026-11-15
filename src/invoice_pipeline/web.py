@@ -9,18 +9,19 @@ import os
 from datetime import date
 from pathlib import Path
 
-from fastapi import FastAPI, Form, HTTPException, Query
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 
 from .export import approved_workbook
 from .store import STATUSES, Record, Store
+from .pipeline import NOT_AN_INVOICE
 from .validate import FLAGS, norm_number
 
 TEMPLATES = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 MEDIA = {".pdf": "application/pdf", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png"}
-TAB_LABELS = {"pending": "To approve", "approved": "Approved", "rejected": "Rejected", "error": "Could not read"}
+TAB_LABELS = {"pending": "To approve", "approved": "Approved", "rejected": "Rejected", "error": "Set aside"}
 
 
 def money(value: float, currency: str) -> str:
@@ -74,6 +75,7 @@ def explain(flag: str, inv) -> str:
 
 TEMPLATES.env.filters["money"] = money
 TEMPLATES.env.globals["explain"] = explain
+TEMPLATES.env.globals["NOT_AN_INVOICE"] = NOT_AN_INVOICE
 TEMPLATES.env.filters["nice_date"] = nice_date
 TEMPLATES.env.globals["FLAGS"] = FLAGS
 TEMPLATES.env.globals["TAB_LABELS"] = TAB_LABELS
@@ -104,77 +106,113 @@ def page_count(path: Path) -> int:
     return len(pdfium.PdfDocument(path))
 
 
-def create_app(store: Store, approver: str = "Approver", after_decision=None) -> FastAPI:
-    """`after_decision` runs after each approval or rejection (e.g. copy approved invoices to Google Sheets).
+NOTICES = {  # the only messages the URL may carry: codes, never free text
+    "reset": "Started a fresh demo with the sample invoices.",
+}
+COOKIE = "demo_sandbox"
+
+
+def create_app(store: Store | None = None, approver: str = "Approver", after_decision=None, demo=None) -> FastAPI:
+    """One store for a real deployment, or `demo` (a demo.Demo) for a private sandbox per visitor.
+
+    `after_decision` runs after each approval or rejection (e.g. copy approved invoices to Google Sheets).
     If it fails, the decision still stands: the error is logged and the next run catches up."""
     app = FastAPI(title="Invoice approvals", docs_url=None, redoc_url=None)
+
+    if demo is not None:
+        @app.middleware("http")
+        async def sandbox_cookie(request: Request, call_next):
+            sandbox = request.cookies.get(COOKIE)
+            new = not demo.valid_id(sandbox)
+            request.state.sandbox = demo.new_id() if new else sandbox
+            response = await call_next(request)
+            if new or getattr(request.state, "reset", False):
+                response.set_cookie(COOKIE, request.state.sandbox, max_age=24 * 3600, httponly=True, samesite="lax",
+                                    secure=request.url.scheme == "https")
+            return response
+
+    def S(request: Request) -> Store:
+        return demo.store(request.state.sandbox) if demo is not None else store
+
+    def ctx(request: Request, st: Store, **extra) -> dict:
+        base = {"counts": st.counts(), "approver": approver, "demo": demo is not None}
+        if demo is not None:
+            base["remaining"] = demo.remaining(request.state.sandbox)
+        return {**base, **extra}
+
+    @app.get("/health")
+    def health() -> dict:
+        return {"ok": True}
 
     @app.get("/")
     def home() -> RedirectResponse:
         return RedirectResponse("/invoices", status_code=303)
 
     @app.get("/invoices")
-    def queue(request: Request, status: str = Query("pending")):
+    def queue(request: Request, status: str = Query("pending"), notice: str = Query("", alias="msg")):
         if status not in STATUSES:
             raise HTTPException(404)
-        records = store.list(status)
-        return TEMPLATES.TemplateResponse(request, "queue.html", {
-            "records": records, "status": status, "counts": store.counts(),
-            "spent": sum(r.cost_usd for r in store.list()), "approver": approver})
+        st = S(request)
+        return TEMPLATES.TemplateResponse(request, "queue.html", ctx(
+            request, st, records=st.list(status), status=status, spent=sum(r.cost_usd for r in st.list()),
+            notice=NOTICES.get(notice), upload_error=None))
 
     @app.get("/invoices/{invoice_id}")
     def detail(request: Request, invoice_id: int):
-        rec = store.get(invoice_id)
+        st = S(request)
+        rec = st.get(invoice_id)
         if rec is None:
             raise HTTPException(404)
         is_pdf = Path(rec.stored_as).suffix.lower() == ".pdf"
-        return TEMPLATES.TemplateResponse(request, "detail.html", {
-            "rec": rec, "counts": store.counts(), "approver": approver, "is_pdf": is_pdf,
-            "pages": page_count(store.docs / rec.stored_as) if is_pdf else 0,
-            "matches": earlier_matches(store, rec)})
+        return TEMPLATES.TemplateResponse(request, "detail.html", ctx(
+            request, st, rec=rec, is_pdf=is_pdf, pages=page_count(st.docs / rec.stored_as) if is_pdf else 0,
+            matches=earlier_matches(st, rec)))
 
-    def decide(invoice_id: int, status: str, note: str) -> RedirectResponse:
-        if store.get(invoice_id) is None:
+    def decide(request: Request, invoice_id: int, status: str, note: str) -> RedirectResponse:
+        st = S(request)
+        if st.get(invoice_id) is None:
             raise HTTPException(404)
-        if store.decide(invoice_id, status, approver, note) and after_decision:
+        if st.decide(invoice_id, status, approver, note) and after_decision:
             try:
                 after_decision()
             except Exception:  # noqa: BLE001
                 import logging
 
                 logging.getLogger("invoice_pipeline").exception("After-decision step failed; will retry on next sync")
-        waiting = [r.id for r in store.list("pending")]
+        waiting = [r.id for r in st.list("pending")]
         following = [i for i in waiting if i > invoice_id] or waiting
         return RedirectResponse(f"/invoices/{following[0]}" if following else "/invoices", status_code=303)
 
     @app.post("/invoices/{invoice_id}/approve")
-    def approve(invoice_id: int, note: str = Form("")):
-        return decide(invoice_id, "approved", note)
+    def approve(request: Request, invoice_id: int, note: str = Form("")):
+        return decide(request, invoice_id, "approved", note)
 
     @app.post("/invoices/{invoice_id}/reject")
-    def reject(invoice_id: int, note: str = Form("")):
-        return decide(invoice_id, "rejected", note)
+    def reject(request: Request, invoice_id: int, note: str = Form("")):
+        return decide(request, invoice_id, "rejected", note)
 
     @app.get("/documents/{invoice_id}")
-    def document(invoice_id: int):
-        rec = store.get(invoice_id)
+    def document(request: Request, invoice_id: int):
+        st = S(request)
+        rec = st.get(invoice_id)
         if rec is None:
             raise HTTPException(404)
-        path = store.docs / rec.stored_as
+        path = st.docs / rec.stored_as
         return FileResponse(path, media_type=MEDIA[path.suffix.lower()],
                             headers={"Content-Disposition": f'inline; filename="{rec.file_name}"'})
 
     @app.get("/documents/{invoice_id}/pages/{page}.png")
-    def page_image(invoice_id: int, page: int):
+    def page_image(request: Request, invoice_id: int, page: int):
         """PDF pages as images: every browser shows them the same way, phones included."""
         import io
 
         import pypdfium2 as pdfium
 
-        rec = store.get(invoice_id)
+        st = S(request)
+        rec = st.get(invoice_id)
         if rec is None or not rec.stored_as.endswith(".pdf"):
             raise HTTPException(404)
-        doc = pdfium.PdfDocument(store.docs / rec.stored_as)
+        doc = pdfium.PdfDocument(st.docs / rec.stored_as)
         if not 1 <= page <= len(doc):
             raise HTTPException(404)
         buf = io.BytesIO()
@@ -182,10 +220,31 @@ def create_app(store: Store, approver: str = "Approver", after_decision=None) ->
         return Response(buf.getvalue(), media_type="image/png", headers={"Cache-Control": "private, max-age=3600"})
 
     @app.get("/export.xlsx")
-    def export() -> Response:
-        return Response(approved_workbook(store),
+    def export(request: Request) -> Response:
+        return Response(approved_workbook(S(request)),
                         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         headers={"Content-Disposition": 'attachment; filename="approved-invoices.xlsx"'})
+
+    if demo is not None:
+        from .demo import DemoLimit
+
+        @app.post("/invoices")
+        async def upload(request: Request, document: UploadFile = File(...)):
+            data = await document.read(5 * 1024 * 1024 + 1)
+            try:
+                new_id = demo.read_upload(request.state.sandbox, document.filename or "upload", data)
+            except DemoLimit as exc:
+                st = S(request)
+                return TEMPLATES.TemplateResponse(request, "queue.html", ctx(
+                    request, st, records=st.list("pending"), status="pending",
+                    spent=sum(r.cost_usd for r in st.list()), notice=None, upload_error=str(exc)), status_code=400)
+            return RedirectResponse(f"/invoices/{new_id}", status_code=303)
+
+        @app.post("/demo/restart")
+        def restart(request: Request):
+            request.state.sandbox = demo.new_id()
+            request.state.reset = True
+            return RedirectResponse("/invoices?msg=reset", status_code=303)
 
     return app
 

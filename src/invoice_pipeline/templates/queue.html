@@ -16,9 +16,33 @@
   .empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
   .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
   h1 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
+  .upload { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; padding: 16px 18px; margin-bottom: 20px; }
+  .upload > div { flex: 1 1 280px; }
+  .upload .sub { margin: 2px 0 0; color: var(--muted); }
+  .upload input[type=file] { max-width: 100%; }
+  .upload .error { flex-basis: 100%; margin: 0; color: var(--bad); font-weight: 600; }
+  .btn:disabled { opacity: .55; cursor: not-allowed; }
+  .notice { background: var(--ok-soft); color: var(--ok); padding: 10px 14px; border-radius: var(--r); margin: 0 0 16px; font-weight: 600; }
 </style>
 {% endblock %}
 {% block main %}
+{% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
+{% if demo %}
+<form class="panel upload" method="post" action="/invoices" enctype="multipart/form-data" id="upload-form">
+  <div>
+    <label for="document"><strong>Try it with your own invoice</strong></label>
+    <p class="sub">PDF, JPG or PNG, up to 5 MB and 3 pages. {{ remaining }} upload{{ "" if remaining == 1 else "s" }} left today.</p>
+  </div>
+  <input type="file" id="document" name="document" accept=".pdf,.jpg,.jpeg,.png" required {{ "disabled" if not remaining }}>
+  <button class="btn primary" id="upload-btn" {{ "disabled" if not remaining }}>Read it</button>
+  {% if upload_error %}<p class="error" role="alert">{{ upload_error }}</p>{% endif %}
+</form>
+<script>
+  document.getElementById("upload-form").addEventListener("submit", function () {
+    var b = document.getElementById("upload-btn"); b.disabled = true; b.textContent = "Reading…";
+  });
+</script>
+{% endif %}
 <div class="head">
   <h1>{{ TAB_LABELS[status] }}</h1>
   {% if status == "pending" and records %}
@@ -48,7 +72,7 @@
       {% else %}
         <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.file_name }}</a></td>
         <td colspan="4" class="sub">{{ r.error }}</td>
-        <td><span class="chip bad">Not read</span></td>
+        <td>{% if r.error == NOT_AN_INVOICE %}<span class="chip plain">Not an invoice</span>{% else %}<span class="chip bad">Not read</span>{% endif %}</td>
       {% endif %}
       {% if status in ("approved", "rejected") %}<td>{{ r.decided_at | nice_date }}<div class="sub">{{ r.decided_by }}</div></td>{% endif %}
       </tr>
@@ -58,7 +82,7 @@
 {% else %}
   <div class="empty">
     {% if status == "pending" %}<strong>Nothing waiting for approval</strong>New invoices appear here as soon as they are read.
-    {% elif status == "error" %}<strong>Every document was read</strong>Files that cannot be read land here, with the reason.
+    {% elif status == "error" %}<strong>Nothing set aside</strong>Files that cannot be read, or that are not invoices, land here with the reason.
     {% else %}<strong>No {{ TAB_LABELS[status] | lower }} invoices yet</strong>{% endif %}
   </div>
 {% endif %}

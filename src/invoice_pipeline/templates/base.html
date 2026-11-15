@@ -45,6 +45,10 @@
   .chip.plain { background: var(--bg); color: var(--muted); }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
   .footnote { color: var(--subtle); font-size: 12px; margin-top: 16px; }
+  .demo-bar { background: var(--accent-soft); border-bottom: 1px solid var(--line); }
+  .demo-bar .in { max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .demo-bar p { margin: 0; max-width: 95ch; color: var(--ink); }
+  .btn.small { padding: 6px 12px; font-size: 13px; }
 </style>
 {% block head %}{% endblock %}
 </head>
@@ -57,10 +61,18 @@
     {% endfor %}
   </nav>
   <div class="right">
-    <span>Signed in as {{ approver }}</span>
+    <span>{% if demo %}Approving as a demo visitor{% else %}Signed in as {{ approver }}{% endif %}</span>
     <a class="btn" href="/export.xlsx">Export approved (.xlsx)</a>
   </div>
 </div></header>
+{% if demo %}
+<div class="demo-bar"><div class="in">
+  <p><strong>Live demo.</strong> The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export,
+    or upload your own invoice to watch it being read. Please don't upload documents with personal data: everything here is
+    deleted after 24 hours.</p>
+  <form method="post" action="/demo/restart"><button class="btn small">Start over</button></form>
+</div></div>
+{% endif %}
 <main>{% block main %}{% endblock %}</main>
 </body>
 </html>

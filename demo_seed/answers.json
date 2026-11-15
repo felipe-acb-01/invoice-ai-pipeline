@@ -1,0 +1,479 @@
+{
+ "01-std-001.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "QW-2026866",
+   "vendor_name": "Quillwork Design Studio",
+   "vendor_tax_id": "00-9182736",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-10-17",
+   "due_date": "2026-11-16",
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Logo refresh",
+     "quantity": 1.0,
+     "unit_price": 900.0,
+     "amount": 900.0
+    }
+   ],
+   "subtotal": 900.0,
+   "tax": 74.25,
+   "total": 974.25
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 3.8871938749998662,
+  "input_tokens": 3505,
+  "output_tokens": 192,
+  "error": null
+ },
+ "02-hard-009.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "N° 244",
+   "vendor_name": "LIMPIEZAS CORDILLERA LTDA.",
+   "vendor_tax_id": "99.904.118-3",
+   "customer_name": "Estudio Contable Brightline SpA",
+   "issue_date": "2026-10-14",
+   "due_date": null,
+   "currency": "CLP",
+   "line_items": [
+    {
+     "description": "Insumos de baño",
+     "quantity": 3.0,
+     "unit_price": 28900.0,
+     "amount": 86700.0
+    }
+   ],
+   "subtotal": 86700.0,
+   "tax": 16473.0,
+   "total": 103173.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 2.424539833000381,
+  "input_tokens": 3620,
+  "output_tokens": 423,
+  "error": null
+ },
+ "03-std-044.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "INV-2026-0795",
+   "vendor_name": "Northwind Cleaning Co.",
+   "vendor_tax_id": "00-4821937",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-10-30",
+   "due_date": "2026-11-29",
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Carpet deep clean",
+     "quantity": 1.0,
+     "unit_price": 95.0,
+     "amount": 95.0
+    }
+   ],
+   "subtotal": 95.0,
+   "tax": 0.0,
+   "total": 195.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 5.110830957999497,
+  "input_tokens": 3484,
+  "output_tokens": 333,
+  "error": null
+ },
+ "04-hard-001.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "#226",
+   "vendor_name": "Cedar IT Support",
+   "vendor_tax_id": "00-7310442",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-10-14",
+   "due_date": null,
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Remote support, Sep 4",
+     "quantity": 2.0,
+     "unit_price": 85.0,
+     "amount": 170.0
+    },
+    {
+     "description": "Remote support, Sep 5",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Sep 9",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Sep 11",
+     "quantity": 1.0,
+     "unit_price": 85.0,
+     "amount": 85.0
+    },
+    {
+     "description": "Remote support, Sep 13",
+     "quantity": 2.0,
+     "unit_price": 85.0,
+     "amount": 170.0
+    },
+    {
+     "description": "Remote support, Sep 15",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Sep 17",
+     "quantity": 2.0,
+     "unit_price": 85.0,
+     "amount": 170.0
+    },
+    {
+     "description": "Remote support, Sep 18",
+     "quantity": 2.0,
+     "unit_price": 85.0,
+     "amount": 170.0
+    },
+    {
+     "description": "Remote support, Sep 19",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Sep 20",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Sep 21",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Sep 23",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Sep 25",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Sep 26",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Sep 27",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Sep 28",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Sep 29",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Oct 3",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Oct 4",
+     "quantity": 1.0,
+     "unit_price": 85.0,
+     "amount": 85.0
+    },
+    {
+     "description": "Remote support, Oct 5",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Oct 6",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Oct 7",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Oct 8",
+     "quantity": 1.5,
+     "unit_price": 85.0,
+     "amount": 127.5
+    },
+    {
+     "description": "Remote support, Oct 9",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    },
+    {
+     "description": "Remote support, Oct 10",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Oct 11",
+     "quantity": 2.5,
+     "unit_price": 85.0,
+     "amount": 212.5
+    },
+    {
+     "description": "Remote support, Oct 12",
+     "quantity": 2.0,
+     "unit_price": 85.0,
+     "amount": 170.0
+    },
+    {
+     "description": "Remote support, Oct 13",
+     "quantity": 0.5,
+     "unit_price": 85.0,
+     "amount": 42.5
+    }
+   ],
+   "subtotal": 3612.5,
+   "tax": 0.0,
+   "total": 3612.5
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 9.299093207999249,
+  "input_tokens": 5789,
+  "output_tokens": 2207,
+  "error": null
+ },
+ "05-hard-010.jpg": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "HLP/2026/369",
+   "vendor_name": "Harbor Legal Partners",
+   "vendor_tax_id": "00-6650371",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-10-15",
+   "due_date": "2026-11-14",
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Corporate filing",
+     "quantity": 1.0,
+     "unit_price": 450.0,
+     "amount": 450.0
+    }
+   ],
+   "subtotal": 450.0,
+   "tax": 0.0,
+   "total": 450.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 1.6425714580000204,
+  "input_tokens": 3254,
+  "output_tokens": 194,
+  "error": null
+ },
+ "06-std-002.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "SPS-000170",
+   "vendor_name": "Summit Payroll Services",
+   "vendor_tax_id": "00-3374901",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-10-05",
+   "due_date": null,
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Quarterly tax filing",
+     "quantity": 1.0,
+     "unit_price": 180.0,
+     "amount": 180.0
+    },
+    {
+     "description": "Payroll processing per employee",
+     "quantity": 12.0,
+     "unit_price": 12.5,
+     "amount": 150.0
+    }
+   ],
+   "subtotal": 330.0,
+   "tax": 0.0,
+   "total": 330.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 3.603931957999521,
+  "input_tokens": 3256,
+  "output_tokens": 518,
+  "error": null
+ },
+ "07-hard-039.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "N° 827",
+   "vendor_name": "SOPORTE TI ANDINO SPA",
+   "vendor_tax_id": "99.957.603-6",
+   "customer_name": "Estudio Contable Brightline SpA",
+   "issue_date": "2026-09-30",
+   "due_date": "2026-10-15",
+   "currency": "CLP",
+   "line_items": [
+    {
+     "description": "Configuración de notebook",
+     "quantity": 2.0,
+     "unit_price": 70000.0,
+     "amount": 140000.0
+    },
+    {
+     "description": "Respaldo en la nube, mensual",
+     "quantity": 1.0,
+     "unit_price": 59990.0,
+     "amount": 59990.0
+    },
+    {
+     "description": "Visita técnica",
+     "quantity": 1.0,
+     "unit_price": 45000.0,
+     "amount": 45000.0
+    },
+    {
+     "description": "Soporte remoto (horas)",
+     "quantity": 3.0,
+     "unit_price": 32000.0,
+     "amount": 96000.0
+    }
+   ],
+   "subtotal": 340990.0,
+   "tax": 65788.0,
+   "total": 406778.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 3.845696375001353,
+  "input_tokens": 3727,
+  "output_tokens": 596,
+  "error": null
+ },
+ "08-std-011.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "LT-2026-539",
+   "vendor_name": "LUMEN TRANSLATION SERVICES LDA.",
+   "vendor_tax_id": "PT 000123456",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-08-28",
+   "due_date": "2026-09-27",
+   "currency": "EUR",
+   "line_items": [
+    {
+     "description": "Translation, per 1,000 words",
+     "quantity": 12.0,
+     "unit_price": 95.0,
+     "amount": 1140.0
+    }
+   ],
+   "subtotal": 1140.0,
+   "tax": 262.2,
+   "total": 1402.2
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 2.1712180000013177,
+  "input_tokens": 3510,
+  "output_tokens": 214,
+  "error": null
+ },
+ "09-hard-004.pdf": {
+  "invoice": {
+   "is_invoice": true,
+   "invoice_number": "GF2026-0803",
+   "vendor_name": "Greenleaf Facilities",
+   "vendor_tax_id": "00-5508613",
+   "customer_name": "Brightline Accounting LLC",
+   "issue_date": "2026-09-11",
+   "due_date": "2026-10-11",
+   "currency": "USD",
+   "line_items": [
+    {
+     "description": "Filter replacement",
+     "quantity": 2.0,
+     "unit_price": 38.0,
+     "amount": 76.0
+    },
+    {
+     "description": "HVAC maintenance visit",
+     "quantity": 3.0,
+     "unit_price": 240.0,
+     "amount": 720.0
+    },
+    {
+     "description": "Technician hours",
+     "quantity": 6.5,
+     "unit_price": 92.0,
+     "amount": 598.0
+    },
+    {
+     "description": "Discount (10%)",
+     "quantity": 1.0,
+     "unit_price": -139.4,
+     "amount": -139.4
+    }
+   ],
+   "subtotal": 1254.6,
+   "tax": 94.09,
+   "total": 1348.69
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 2.962898583000424,
+  "input_tokens": 3541,
+  "output_tokens": 576,
+  "error": null
+ },
+ "10-hard-014.pdf": {
+  "invoice": {
+   "is_invoice": false,
+   "invoice_number": "",
+   "vendor_name": "",
+   "vendor_tax_id": null,
+   "customer_name": "",
+   "issue_date": "",
+   "due_date": null,
+   "currency": "",
+   "line_items": [],
+   "subtotal": 0.0,
+   "tax": 0.0,
+   "total": 0.0
+  },
+  "model": "claude-haiku-5-5",
+  "seconds": 3.1779048339994915,
+  "input_tokens": 3404,
+  "output_tokens": 493,
+  "error": null
+ }
+}

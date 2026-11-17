@@ -93,7 +93,7 @@ echo "ANTHROPIC_API_KEY=..." > .env
 .venv/bin/python -m invoice_pipeline serve                       # review screen on http://127.0.0.1:8040
 .venv/bin/python -m invoice_pipeline export approved.xlsx        # approved invoices to Excel
 .venv/bin/python -m invoice_pipeline.evaluate --dry              # the evaluation, with the right answers ($0)
-.venv/bin/pytest                                                 # 64 tests, no network
+.venv/bin/pytest                                                 # 67 tests, no network
 ```
 
 With Google (credentials in `secrets/`, see `python -m invoice_pipeline --help`):
@@ -119,7 +119,7 @@ Settings (environment or `.env`): `ANTHROPIC_API_KEY`, `INVOICE_MODEL` (default 
 
 ## Limitations
 
-- Up to two pages per invoice; one invoice per file.
+- Measured on invoices of up to two pages (the demo accepts three); one invoice per file.
 - Reads PDF, JPG and PNG. HEIC photos, XML and Office files are set aside for a person, not read.
 - Gmail access uses a desktop OAuth flow: for a production deployment the Google app needs verification, or the
   client's own Google Workspace.

@@ -24,12 +24,26 @@ ES = {
     "Export approved (.xlsx)": "Exportar aprobadas (.xlsx)",
     "Language": "Idioma",
     "Live demo.": "Demo en vivo.",
-    "The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export, or upload "
-    "your own invoice to watch it being read. Please don't upload documents with personal data: everything here is "
-    "deleted after 24 hours.":
-        "Las facturas de abajo son ejemplos sintéticos, ya leídos por Claude Haiku. Aprueba, rechaza, exporta o sube "
-        "tu propia factura para ver cómo se lee. No subas documentos con datos personales: todo se borra a las 24 horas.",
     "How it works ↗": "Cómo funciona ↗",
+    "Sample invoices, already read by Claude Haiku. Approve them, reject them, export them, or try one of your own.":
+        "Facturas de ejemplo, ya leídas por Claude Haiku. Apruébalas, recházalas, expórtalas o prueba con una tuya.",
+    "No personal data, please: everything is deleted after 24 hours.":
+        "Sin datos personales, por favor: todo se borra a las 24 horas.",
+    "Invoices read by AI, checked by rules and approved by a person. A live demo with sample invoices: approve, reject, export or upload your own.":
+        "Facturas leídas con IA, revisadas con reglas y aprobadas por una persona. Una demo en vivo con facturas de ejemplo: aprueba, rechaza, exporta o sube una tuya.",
+    "Invoice approvals · live demo": "Aprobación de facturas · demo en vivo",
+    "Approved: {vendor}. This is the next one waiting.": "Aprobada: {vendor}. Ésta es la siguiente por aprobar.",
+    "Rejected: {vendor}. This is the next one waiting.": "Rechazada: {vendor}. Ésta es la siguiente por aprobar.",
+    "Approved: {vendor}. Nothing else is waiting.": "Aprobada: {vendor}. No queda nada por aprobar.",
+    "Rejected: {vendor}. Nothing else is waiting.": "Rechazada: {vendor}. No queda nada por aprobar.",
+    "The reading service returned an error. Open it to see the details.":
+        "El servicio de lectura devolvió un error. Ábrela para ver el detalle.",
+    "The reading service returned an error, so nothing was taken from this file.":
+        "El servicio de lectura devolvió un error, así que no se tomó nada de este archivo.",
+    "This page does not exist": "Esta página no existe",
+    "The invoice may belong to another visitor, or the demo was started over. Your invoices are in the queue.":
+        "Puede que la factura sea de otro visitante o que la demo se haya reiniciado. Tus facturas están en la cola.",
+    "Back to the queue": "Volver a la cola",
     "Start over": "Empezar de nuevo",
     "Started a fresh demo with the sample invoices.": "Empezaste una demo nueva con las facturas de ejemplo.",
     # queue

@@ -5,7 +5,15 @@
 {% block head %}
 <style>
   .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; }
-  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+  @media (max-width: 960px) {  /* one column: what was read, the alert and the decision first; then the original */
+    .layout { grid-template-columns: 1fr; }
+    .side { display: contents; }
+    .layout > .viewer { order: 4; }
+    .side > .facts { order: 5; }
+    .side > .lines { order: 6; }
+  }
+  .notice { background: var(--ok-soft); color: var(--ok); padding: 10px 14px; border-radius: var(--r-sm); margin: 0; font-weight: 600; }
+  .tech { margin-top: 8px !important; font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
   .viewer { position: sticky; top: 16px; height: calc(100vh - 120px); min-height: 520px; display: flex; flex-direction: column; overflow: hidden; }
   @media (max-width: 960px) { .viewer { position: static; height: auto; min-height: 0; } }
   .viewer-bar { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
@@ -56,6 +64,7 @@
   </section>
 
   <div class="side">
+    {% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
     <div>
       <a class="back" href="/invoices?status={{ rec.status }}">← {{ _(TAB_LABELS[rec.status]) }}</a>
       {% if inv %}
@@ -74,8 +83,10 @@
     {% elif not inv and rec.error == UNSUPPORTED %}
       <div class="panel checks attention"><h2>{{ _("A file type that cannot be read") }}</h2><p>{{ _(rec.error) }}</p></div>
     {% elif not inv %}
-      <div class="panel checks attention"><h2>{{ _("This document could not be read") }}</h2><p class="num">{{ _(rec.error) }}</p>
-      <p>{{ _("Open the original on the left. If it is an invoice, enter it by hand; if it is not, it can be ignored.") }}</p></div>
+      <div class="panel checks attention"><h2>{{ _("This document could not be read") }}</h2>
+      <p>{{ _("The reading service returned an error, so nothing was taken from this file.") }}
+        {{ _("Open the original on the left. If it is an invoice, enter it by hand; if it is not, it can be ignored.") }}</p>
+      <p class="tech">{{ rec.error }}</p></div>
     {% elif rec.flags %}
       <div class="panel checks attention">
         <h2>{{ _("Review before approving") }}</h2>
@@ -106,7 +117,7 @@
     {% endif %}
 
     {% if inv %}
-    <div class="panel">
+    <div class="panel facts">
       <dl class="num">
         <dt>{{ _("Vendor tax ID") }}</dt><dd>{{ inv.vendor_tax_id or "—" }}</dd>
         <dt>{{ _("Billed to") }}</dt><dd>{{ inv.customer_name }}</dd>

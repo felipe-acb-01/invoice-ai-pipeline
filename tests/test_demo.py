@@ -152,3 +152,36 @@ def test_many_pages_at_once_do_not_kill_the_server():
     )
     run = subprocess.run([sys.executable, "-c", script], capture_output=True, timeout=120)
     assert run.returncode == 0, run.stderr.decode()[-500:]
+
+
+def test_a_missing_page_is_a_page_in_the_visitors_language(demo):
+    c = visitor(demo)
+    c.get("/invoices?lang=es")
+    for url in ("/invoices/999", "/invoices?status=nope", "/nope"):
+        r = c.get(url)
+        assert r.status_code == 404 and "text/html" in r.headers["content-type"]
+        assert "Esta página no existe" in r.text and 'href="/invoices"' in r.text
+
+
+def test_the_link_previews_well_and_monitors_can_ask_with_head(demo):
+    c = visitor(demo)
+    page = c.get("/invoices?lang=es").text
+    assert '<meta property="og:image" content="http://testserver/og-es.png">' in page
+    assert 'name="description"' in page and 'rel="icon"' in page
+    assert c.get("/og-es.png").headers["content-type"] == "image/png" and c.get("/og-fr.png").status_code == 404
+    assert c.get("/favicon.ico").headers["content-type"].startswith("image/svg+xml")
+    assert "Disallow: /documents" in c.get("/robots.txt").text and "Disallow: /invoices" not in c.get("/robots.txt").text
+    head = c.head("/invoices")
+    assert head.status_code == 200 and head.content == b"" and head.headers["x-content-type-options"] == "nosniff"
+    assert c.head("/health").status_code == 200
+
+
+def test_an_api_error_reads_as_a_sentence_with_the_code_underneath(tmp_path):
+    from invoice_pipeline.extract import Extraction
+    d = Demo(tmp_path / "demo", extractor=lambda p: Extraction(None, "claude-haiku-5-5", 0.4, 0, 0, "529: Overloaded"))
+    c = visitor(d)
+    c.get("/invoices?lang=es")
+    r = c.post("/invoices", files={"document": ("x.jpg", jpg(), "image/jpeg")}, follow_redirects=False)
+    page = c.get(r.headers["location"]).text
+    assert "El servicio de lectura devolvió un error" in page and "529: Overloaded" in page
+    assert "El servicio de lectura devolvió un error. Ábrela" in c.get("/invoices?status=error").text

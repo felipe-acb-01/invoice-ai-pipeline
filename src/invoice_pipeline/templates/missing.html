@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ _("This page does not exist") }} · {{ _('Invoice approvals') }}{% endblock %}
+{% block head %}
+<style>
+  .missing { max-width: 560px; margin: 56px auto; padding: 32px 28px; text-align: center; display: grid; gap: 12px; justify-items: center; }
+  .missing h1 { font-size: 24px; font-weight: 800; letter-spacing: -.015em; margin: 0; }
+  .missing p { margin: 0; color: var(--muted); }
+</style>
+{% endblock %}
+{% block main %}
+<div class="panel missing">
+  <h1>{{ _("This page does not exist") }}</h1>
+  <p>{{ _("The invoice may belong to another visitor, or the demo was started over. Your invoices are in the queue.") }}</p>
+  <a class="btn primary" href="/invoices">{{ _("Back to the queue") }}</a>
+</div>
+{% endblock %}

@@ -9,7 +9,8 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
-from fastapi.responses import FileResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse, Response
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.templating import Jinja2Templates
 from jinja2 import pass_context
 from starlette.requests import Request
@@ -129,7 +130,16 @@ def earlier_matches(store: Store, rec: Record) -> list[tuple[str, Record]]:
 NOTICES = {  # the only messages the URL may carry: codes, never free text
     "reset": "Started a fresh demo with the sample invoices.",
 }
+DECIDED = {  # after Approve / Reject: what the next screen says, by where it lands
+    ("approved", "next"): "Approved: {vendor}. This is the next one waiting.",
+    ("rejected", "next"): "Rejected: {vendor}. This is the next one waiting.",
+    ("approved", "done"): "Approved: {vendor}. Nothing else is waiting.",
+    ("rejected", "done"): "Rejected: {vendor}. Nothing else is waiting.",
+}
 COOKIE = "demo_sandbox"
+# The queue stays crawlable: link previews (LinkedIn honours robots.txt) read its title and image.
+ROBOTS = "User-agent: *\nDisallow: /documents\nDisallow: /export.xlsx\n"
+STATIC = Path(__file__).parent / "static"
 CASE_URL = {  # the case study on the portfolio, in each language
     "en": "https://felipe-cortes.felipe-acb01.workers.dev/invoices/",
     "es": "https://felipe-cortes.felipe-acb01.workers.dev/es/facturas/",
@@ -142,6 +152,20 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
     `after_decision` runs after each approval or rejection (e.g. copy approved invoices to Google Sheets).
     If it fails, the decision still stands: the error is logged and the next run catches up."""
     app = FastAPI(title="Invoice approvals", docs_url=None, redoc_url=None)
+
+    @app.middleware("http")
+    async def head_and_headers(request: Request, call_next):
+        """HEAD answers like GET without a body (uptime monitors use it), and every answer carries basic headers."""
+        head = request.scope["method"] == "HEAD"
+        if head:
+            request.scope["method"] = "GET"
+        response = await call_next(request)
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        if head:
+            return Response(status_code=response.status_code, headers=dict(response.headers))
+        return response
 
     @app.middleware("http")
     async def language(request: Request, call_next):
@@ -173,7 +197,7 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
         lang = request.state.lang
         base = {"counts": st.counts(), "approver": approver, "demo": demo is not None, "lang": lang,
                 "lang_urls": {code: str(request.url.include_query_params(lang=code)) for code in i18n.LANGS},
-                "case_url": CASE_URL[lang]}
+                "case_url": CASE_URL[lang], "base_url": str(request.base_url)}
         if demo is not None:
             base["remaining"] = demo.remaining(request.state.sandbox)
         return {**base, **extra}
@@ -182,21 +206,55 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
     def health() -> dict:
         return {"ok": True}
 
+    @app.get("/favicon.svg")
+    @app.get("/favicon.ico")
+    def favicon() -> FileResponse:
+        return FileResponse(STATIC / "favicon.svg", media_type="image/svg+xml", headers={"Cache-Control": "public, max-age=86400"})
+
+    @app.get("/og-{lang}.png")
+    def preview_image(lang: str) -> FileResponse:
+        if lang not in i18n.LANGS:
+            raise HTTPException(404)
+        return FileResponse(STATIC / f"og-{lang}.png", media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
+
+    @app.get("/robots.txt")
+    def robots() -> PlainTextResponse:
+        return PlainTextResponse(ROBOTS)
+
+    @app.exception_handler(StarletteHTTPException)
+    async def not_found(request: Request, exc: StarletteHTTPException):
+        """A page in the app's own look and language, never a bare JSON error."""
+        if exc.status_code != 404 or request.url.path == "/health":
+            return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
+        st = S(request)
+        return TEMPLATES.TemplateResponse(request, "missing.html", ctx(request, st, current_tab=None), status_code=404)
+
+    def decided_notice(request: Request, st: Store, msg: str, prev: int | None, where: str) -> str | None:
+        rec = st.get(prev) if prev else None
+        if rec is None or rec.status != msg or (msg, where) not in DECIDED:
+            return None
+        vendor = (rec.invoice.vendor_name if rec.invoice else rec.file_name).rstrip(".")  # "Co." + "." would read "Co.."
+        return i18n.tr(DECIDED[(msg, where)], request.state.lang, vendor=vendor)
+
     @app.get("/")
     def home() -> RedirectResponse:
         return RedirectResponse("/invoices", status_code=303)
 
     @app.get("/invoices")
-    def queue(request: Request, status: str = Query("pending"), notice: str = Query("", alias="msg")):
+    def queue(request: Request, status: str = Query("pending"), notice: str = Query("", alias="msg"),
+              prev: int | None = Query(None, alias="prev")):
         if status not in STATUSES:
             raise HTTPException(404)
         st = S(request)
+        said = decided_notice(request, st, notice, prev, "done")
         return TEMPLATES.TemplateResponse(request, "queue.html", ctx(
             request, st, records=st.list(status), status=status, spent=sum(r.cost_usd for r in st.list()),
-            notice=NOTICES.get(notice), upload_error=None))
+            notice=said or (i18n.tr(NOTICES[notice], request.state.lang) if notice in NOTICES else None),
+            upload_error=None))
 
     @app.get("/invoices/{invoice_id}")
-    def detail(request: Request, invoice_id: int):
+    def detail(request: Request, invoice_id: int, notice: str = Query("", alias="msg"),
+               prev: int | None = Query(None, alias="prev")):
         st = S(request)
         rec = st.get(invoice_id)
         if rec is None:
@@ -205,13 +263,14 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
         is_pdf = suffix == ".pdf"
         return TEMPLATES.TemplateResponse(request, "detail.html", ctx(
             request, st, rec=rec, is_pdf=is_pdf, is_image=suffix in MEDIA and not is_pdf, pages=page_count(st.docs / rec.stored_as) if is_pdf else 0,
-            matches=earlier_matches(st, rec)))
+            matches=earlier_matches(st, rec), notice=decided_notice(request, st, notice, prev, "next")))
 
     def decide(request: Request, invoice_id: int, status: str, note: str) -> RedirectResponse:
         st = S(request)
         if st.get(invoice_id) is None:
             raise HTTPException(404)
-        if st.decide(invoice_id, status, approver, note) and after_decision:
+        decided = st.decide(invoice_id, status, approver, note)
+        if decided and after_decision:
             try:
                 after_decision()
             except Exception:  # noqa: BLE001
@@ -220,7 +279,10 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
                 logging.getLogger("invoice_pipeline").exception("After-decision step failed; will retry on next sync")
         waiting = [r.id for r in st.list("pending")]
         following = [i for i in waiting if i > invoice_id] or waiting
-        return RedirectResponse(f"/invoices/{following[0]}" if following else "/invoices", status_code=303)
+        said = f"msg={status}&prev={invoice_id}" if decided else ""
+        if following:
+            return RedirectResponse(f"/invoices/{following[0]}" + (f"?{said}" if said else ""), status_code=303)
+        return RedirectResponse("/invoices" + (f"?{said}" if said else ""), status_code=303)
 
     @app.post("/invoices/{invoice_id}/approve")
     def approve(request: Request, invoice_id: int, note: str = Form("")):

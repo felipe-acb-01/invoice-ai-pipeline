@@ -90,8 +90,15 @@ def test_approve_and_reject_from_the_screen_then_export(system):
     page = client.get(f"/invoices/{first.id}")
     assert 'formaction="/invoices/%d/approve"' % first.id in page.text  # press the screen's own button
     r = client.post(f"/invoices/{first.id}/approve", data={"note": "cost center 12"}, follow_redirects=False)
-    assert r.status_code == 303 and r.headers["location"] == f"/invoices/{second.id}"
+    assert r.status_code == 303 and r.headers["location"] == f"/invoices/{second.id}?msg=approved&prev={first.id}"
+    vendor = first.invoice.vendor_name.rstrip(".")
+    shown = client.get(r.headers["location"]).text
+    assert f"Approved: {vendor}. This is the next one waiting." in shown and ".. This" not in shown
+    # the notice is read from the store, never taken from the URL: a link cannot make it lie
+    assert "Approved:" not in client.get(f"/invoices/{second.id}?msg=rejected&prev={first.id}").text
     client.post(f"/invoices/{second.id}/reject", data={"note": ""})
+    again = client.post(f"/invoices/{first.id}/approve", follow_redirects=False)
+    assert "msg=" not in again.headers["location"]  # nothing was decided, nothing is announced
 
     assert store.get(first.id).status == "approved" and store.get(first.id).decided_by == "Ana"
     assert store.get(second.id).status == "rejected"

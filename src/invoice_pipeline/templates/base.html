@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{{ _('Invoice approvals') }}{% endblock %}</title>
+<meta name="description" content="{{ _('Invoices read by AI, checked by rules and approved by a person. A live demo with sample invoices: approve, reject, export or upload your own.') }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ _('Invoice approvals · live demo') }}">
+<meta property="og:description" content="{{ _('Invoices read by AI, checked by rules and approved by a person. A live demo with sample invoices: approve, reject, export or upload your own.') }}">
+<meta property="og:image" content="{{ base_url }}og-{{ lang }}.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:locale" content="{{ 'es_CL' if lang == 'es' else 'en_US' }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -69,6 +78,16 @@
   .demo-bar .acts { display: flex; gap: 14px; align-items: center; }
   .demo-bar .acts a { font-weight: 700; }
   .btn.small { padding: 7px 12px; font-size: 13px; }
+  @media (max-width: 640px) {
+    header.top .in { padding-block: 10px; gap: 8px 16px; }
+    nav.tabs { flex-wrap: nowrap; overflow-x: auto; width: 100%; scrollbar-width: none; }
+    nav.tabs { gap: 0; margin-inline: -6px; }
+    nav.tabs a { white-space: nowrap; padding: 6px 5px; font-size: 13px; }
+    nav.tabs .count { margin-left: 2px; }
+    header.top .btn { padding: 7px 12px; font-size: 13px; }
+    .demo-bar .in { padding-block: 8px; gap: 6px 14px; }
+    .demo-bar p { font-size: 14px; }
+  }
 </style>
 {% block head %}{% endblock %}
 </head>
@@ -88,7 +107,7 @@
 </div></header>
 {% if demo %}
 <div class="demo-bar"><div class="in">
-  <p><strong>{{ _("Live demo.") }}</strong> {{ _("The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export, or upload your own invoice to watch it being read. Please don't upload documents with personal data: everything here is deleted after 24 hours.") }}</p>
+  <p><strong>{{ _("Live demo.") }}</strong> {{ _("Sample invoices, already read by Claude Haiku. Approve them, reject them, export them, or try one of your own.") }}</p>
   <div class="acts">
     <a href="{{ case_url }}">{{ _("How it works ↗") }}</a>
     <form method="post" action="/demo/restart"><button class="btn small">{{ _("Start over") }}</button></form>

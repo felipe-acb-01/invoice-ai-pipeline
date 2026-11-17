@@ -5,42 +5,66 @@
   .tablebox { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; min-width: 820px; }
   th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  th { font-size: 12px; font-weight: 600; color: var(--muted); background: #FAFBFC; }
+  th { font-size: 12px; font-weight: 700; color: var(--muted); background: #F9FAFC; letter-spacing: .02em; }
   tr:last-child td { border-bottom: 0; }
-  tbody tr:hover { background: #FAFBFC; }
+  tbody tr:hover { background: #F9FAFC; }
   td.amount, th.amount { text-align: right; }
   td.vendor a { color: var(--ink); font-weight: 600; text-decoration: none; }
   td.vendor a:hover { color: var(--accent); }
-  td .sub { color: var(--subtle); font-size: 12px; }
+  td .sub { color: var(--subtle); font-size: 12px; margin-top: 2px; }
   .empty { padding: 48px 24px; text-align: center; color: var(--muted); }
   .empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
   .head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
-  h1 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
-  .upload { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; padding: 16px 18px; margin-bottom: 20px; }
-  .upload > div { flex: 1 1 280px; }
-  .upload .sub { margin: 2px 0 0; color: var(--muted); }
-  .upload input[type=file] { max-width: 100%; }
+  h1 { font-size: 22px; font-weight: 800; margin: 0; letter-spacing: -.015em; }
+  .head .sub { color: var(--muted); }
+  .upload { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; padding: 14px; margin-bottom: 22px; }
+  .drop { flex: 1 1 360px; position: relative; display: flex; gap: 14px; align-items: center; padding: 14px 16px;
+          border: 1.5px dashed var(--line-strong); border-radius: var(--r-sm); background: #FAFBFD; cursor: pointer; transition: border-color .15s, background .15s; }
+  .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+  .drop.has-file { border-style: solid; border-color: var(--accent); background: var(--surface); }
+  .drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .drop svg { flex: none; color: var(--accent); }
+  .drop strong { display: block; }
+  .drop .sub { display: block; margin: 2px 0 0; color: var(--muted); }
+  .drop .chosen { color: var(--accent-ink); font-weight: 600; overflow-wrap: anywhere; }
+  .upload.off .drop { cursor: not-allowed; opacity: .6; }
   .upload .error { flex-basis: 100%; margin: 0; color: var(--bad); font-weight: 600; }
-  .btn:disabled { opacity: .55; cursor: not-allowed; }
-  .notice { background: var(--ok-soft); color: var(--ok); padding: 10px 14px; border-radius: var(--r); margin: 0 0 16px; font-weight: 600; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .notice { background: var(--ok-soft); color: var(--ok); padding: 10px 14px; border-radius: var(--r-sm); margin: 0 0 16px; font-weight: 600; }
 </style>
 {% endblock %}
 {% block main %}
 {% if notice %}<p class="notice" role="status">{{ notice }}</p>{% endif %}
 {% if demo %}
-<form class="panel upload" method="post" action="/invoices" enctype="multipart/form-data" id="upload-form">
-  <div>
-    <label for="document"><strong>Try it with your own invoice</strong></label>
-    <p class="sub">PDF, JPG or PNG, up to 5 MB and 3 pages. {{ remaining }} upload{{ "" if remaining == 1 else "s" }} left today.</p>
-  </div>
-  <input type="file" id="document" name="document" accept=".pdf,.jpg,.jpeg,.png" required {{ "disabled" if not remaining }}>
+<form class="panel upload{{ ' off' if not remaining }}" method="post" action="/invoices" enctype="multipart/form-data" id="upload-form">
+  <label class="drop" id="drop" for="document">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 18v-6"/><path d="m9 14.5 3-3 3 3"/></svg>
+    <span>
+      <strong>Try it with your own invoice</strong>
+      <span class="sub" id="drop-sub">Drop it here or choose a file · PDF, JPG or PNG, up to 5 MB and 3 pages.</span>
+      <span class="sub num">{{ remaining }} upload{{ "" if remaining == 1 else "s" }} left today.</span>
+    </span>
+    <input type="file" id="document" name="document" accept=".pdf,.jpg,.jpeg,.png" required {{ "disabled" if not remaining }}>
+  </label>
   <button class="btn primary" id="upload-btn" {{ "disabled" if not remaining }}>Read it</button>
   {% if upload_error %}<p class="error" role="alert">{{ upload_error }}</p>{% endif %}
 </form>
 <script>
-  document.getElementById("upload-form").addEventListener("submit", function () {
-    var b = document.getElementById("upload-btn"); b.disabled = true; b.textContent = "Reading…";
-  });
+  (function () {
+    var form = document.getElementById("upload-form"), drop = document.getElementById("drop"),
+        input = document.getElementById("document"), sub = document.getElementById("drop-sub");
+    function show() {
+      var f = input.files && input.files[0];
+      drop.classList.toggle("has-file", !!f);
+      if (f) { sub.innerHTML = ""; var s = document.createElement("span"); s.className = "chosen file"; s.textContent = f.name; sub.appendChild(s); }
+    }
+    input.addEventListener("change", show);
+    ["dragenter", "dragover"].forEach(function (e) { drop.addEventListener(e, function () { if (!input.disabled) drop.classList.add("over"); }); });
+    ["dragleave", "drop"].forEach(function (e) { drop.addEventListener(e, function () { drop.classList.remove("over"); }); });
+    form.addEventListener("submit", function () {
+      var b = document.getElementById("upload-btn"); b.disabled = true; b.textContent = "Reading…";
+    });
+  })();
 </script>
 {% endif %}
 <div class="head">
@@ -60,7 +84,7 @@
     {% for r in records %}
       <tr>
       {% if r.invoice %}
-        <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.invoice.vendor_name }}</a><div class="sub">{{ r.file_name }}</div></td>
+        <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.invoice.vendor_name }}</a><div class="sub file">{{ r.file_name }}</div></td>
         <td class="num">{{ r.invoice.invoice_number }}</td>
         <td>{{ r.invoice.issue_date | nice_date }}</td>
         <td>{{ r.invoice.due_date | nice_date if r.invoice.due_date else "On receipt" }}</td>
@@ -70,7 +94,7 @@
           {% else %}<span class="chip ok">All checks passed</span>{% endif %}
         </td>
       {% else %}
-        <td class="vendor"><a href="/invoices/{{ r.id }}">{{ r.file_name }}</a></td>
+        <td class="vendor"><a class="file" href="/invoices/{{ r.id }}">{{ r.file_name }}</a></td>
         <td colspan="4" class="sub">{{ r.error }}</td>
         <td>{% if r.error == NOT_AN_INVOICE %}<span class="chip plain">Not an invoice</span>{% else %}<span class="chip bad">Not read</span>{% endif %}</td>
       {% endif %}

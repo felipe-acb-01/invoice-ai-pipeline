@@ -5,50 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}Invoice approvals{% endblock %}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  /* An accounts-payable desk: quiet ink, one navy accent, state colors only where a decision is needed. */
+  /* An accounts-payable desk dressed like the portfolio (direction B): Hanken Grotesk, a cool canvas, white
+     surfaces, teal #006885 as the only voice; the header sits on the same petrol stage. State colors only
+     where a decision is needed. */
   :root {
-    --bg: #F5F6F8; --surface: #FFFFFF; --line: #E2E5EA; --line-strong: #CBD0D8;
-    --ink: #17202B; --muted: #5C6774; --subtle: #8A939E;
-    --accent: #1C4E80; --accent-soft: #E6EEF7;
-    --ok: #0F6A47; --ok-strong: #0B5538; --ok-soft: #E3F4EC; --ok-line: #C5E6D6; --warn: #9A5B00; --warn-soft: #FDF1DD; --warn-line: #F0D9AE; --bad: #A82424; --bad-soft: #FBE7E7;
-    --font: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-    --r: 8px;
+    --bg: #F5F6F9; --surface: #FFFFFF; --alt: #ECEEF3; --line: #E1E4EB; --line-strong: #D2D6DF;
+    --ink: #202B2F; --muted: #5F6B70; --subtle: #7C878C;
+    --accent: #006885; --accent-strong: #005670; --accent-soft: #DFF0F7; --accent-ink: #005C79;
+    --ok: #047857; --ok-soft: #E6F7F1; --ok-line: #BFE6D6;
+    --warn: #8A5A0B; --warn-soft: #FEF4E6; --warn-line: #F1D9AE;
+    --bad: #A82424; --bad-soft: #FBE9E9;
+    --stage: #0A2731; --stage-ink: #EEF6F8; --stage-muted: #A9C3CB; --stage-line: #23454F; --stage-card: #11333E;
+    --font: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --r: 10px; --r-sm: 7px;
+    color-scheme: light;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--font); }
-  a { color: var(--accent); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font); }
+  a { color: var(--accent); text-underline-offset: 2px; }
   .num { font-variant-numeric: tabular-nums; }
-  header.top { background: var(--surface); border-bottom: 1px solid var(--line); }
-  header.top .in { max-width: 1280px; margin: 0 auto; padding: 14px 24px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
-  header.top .brand { font-weight: 700; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+  .file { font-family: var(--mono); font-size: .82em; }
+  header.top { background: var(--stage); color: var(--stage-ink); }
+  header.top .in { max-width: 1280px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 10px 24px; align-items: center; flex-wrap: wrap; }
+  header.top .brand { font-weight: 800; letter-spacing: -.01em; color: var(--stage-ink); text-decoration: none; }
   nav.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-  nav.tabs a { text-decoration: none; color: var(--muted); font-weight: 500; padding: 6px 10px; border-radius: 6px; }
-  nav.tabs a:hover { background: var(--bg); color: var(--ink); }
-  nav.tabs a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
-  nav.tabs .count { font-variant-numeric: tabular-nums; color: var(--subtle); margin-left: 4px; }
-  nav.tabs a[aria-current="page"] .count { color: inherit; }
-  header.top .right { margin-left: auto; display: flex; gap: 16px; align-items: center; color: var(--muted); }
+  nav.tabs a { text-decoration: none; color: var(--stage-muted); font-weight: 600; padding: 6px 10px; border-radius: var(--r-sm); }
+  nav.tabs a:hover { background: var(--stage-card); color: var(--stage-ink); }
+  nav.tabs a[aria-current="page"] { background: var(--stage-card); color: var(--stage-ink); box-shadow: inset 0 -2px 0 #7FCDE3; }
+  nav.tabs .count { font-variant-numeric: tabular-nums; opacity: .75; margin-left: 5px; }
+  header.top .right { margin-left: auto; display: flex; gap: 16px; align-items: center; color: var(--stage-muted); font-size: 14px; }
+  header.top .btn { background: transparent; border-color: var(--stage-line); color: var(--stage-ink); }
+  header.top .btn:hover { background: var(--stage-card); border-color: var(--stage-line); }
   main { max-width: 1280px; margin: 0 auto; padding: 24px; }
+  @media (max-width: 640px) { main { padding: 16px; } header.top .in, .demo-bar .in { padding-inline: 16px; } header.top .right { margin-left: 0; } }
   .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
-         font: 600 14px var(--font); padding: 9px 16px; border-radius: 6px; cursor: pointer; text-decoration: none; }
-  .btn:hover { border-color: var(--muted); }
-  .btn.primary { background: var(--ok); border-color: var(--ok); color: #fff; }
-  .btn.primary:hover { background: var(--ok-strong); }
+         font: 700 14px/1.2 var(--font); padding: 10px 16px; border-radius: var(--r-sm); cursor: pointer; text-decoration: none; white-space: nowrap; }
+  .btn:hover { border-color: var(--subtle); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
   .btn.danger { color: var(--bad); }
-  .btn:focus-visible, a:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .btn:focus-visible, a:focus-visible, textarea:focus-visible, .drop:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+  header.top a:focus-visible, header.top .btn:focus-visible { outline-color: #7FCDE3; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
   .chip.ok { background: var(--ok-soft); color: var(--ok); }
   .chip.warn { background: var(--warn-soft); color: var(--warn); }
   .chip.bad { background: var(--bad-soft); color: var(--bad); }
-  .chip.plain { background: var(--bg); color: var(--muted); }
+  .chip.plain { background: var(--alt); color: var(--muted); }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-  .footnote { color: var(--subtle); font-size: 12px; margin-top: 16px; }
-  .demo-bar { background: var(--accent-soft); border-bottom: 1px solid var(--line); }
-  .demo-bar .in { max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .demo-bar p { margin: 0; max-width: 95ch; color: var(--ink); }
-  .btn.small { padding: 6px 12px; font-size: 13px; }
+  .footnote { color: var(--subtle); font-size: 13px; margin-top: 16px; }
+  .demo-bar { background: var(--accent-soft); border-bottom: 1px solid #C9E3EE; }
+  .demo-bar .in { max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; gap: 10px 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .demo-bar p { margin: 0; max-width: 100ch; color: var(--ink); }
+  .demo-bar strong { color: var(--accent-ink); }
+  .demo-bar .acts { display: flex; gap: 14px; align-items: center; }
+  .demo-bar .acts a { font-weight: 700; }
+  .btn.small { padding: 7px 12px; font-size: 13px; }
 </style>
 {% block head %}{% endblock %}
 </head>
@@ -70,7 +85,10 @@
   <p><strong>Live demo.</strong> The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export,
     or upload your own invoice to watch it being read. Please don't upload documents with personal data: everything here is
     deleted after 24 hours.</p>
-  <form method="post" action="/demo/restart"><button class="btn small">Start over</button></form>
+  <div class="acts">
+    <a href="https://felipe-cortes.felipe-acb01.workers.dev/invoices/">How it works ↗</a>
+    <form method="post" action="/demo/restart"><button class="btn small">Start over</button></form>
+  </div>
 </div></div>
 {% endif %}
 <main>{% block main %}{% endblock %}</main>

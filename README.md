@@ -28,7 +28,8 @@ in the queue. Approve or reject them, export to Excel, or upload an invoice of y
   never carries approve/reject links of its own, because mail scanners open links, and a scanner must never approve
   a payment.
 - **Writes approved invoices to Google Sheets and Excel**, with who approved, when and why.
-- **Never fails silently:** unreadable files go to their own tab and an alert goes out by email.
+- **Never fails silently:** unreadable files go to their own tab and an alert goes out by email. That includes an
+  email whose only attachment is a format it cannot read (an iPhone HEIC photo, a Word file): it is set aside, not dropped.
 
 | The queue | A phone photo, read | Not an invoice |
 |---|---|---|
@@ -115,6 +116,7 @@ Settings (environment or `.env`): `ANTHROPIC_API_KEY`, `INVOICE_MODEL` (default 
 ## Limitations
 
 - Up to two pages per invoice; one invoice per file.
+- Reads PDF, JPG and PNG. HEIC photos, XML and Office files are set aside for a person, not read.
 - Gmail access uses a desktop OAuth flow: for a production deployment the Google app needs verification, or the
   client's own Google Workspace.
 - The approval screen has no login of its own; in production it sits behind the client's SSO or a reverse proxy.

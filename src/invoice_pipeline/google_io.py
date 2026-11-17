@@ -20,7 +20,7 @@ from email.message import EmailMessage
 from email.utils import parseaddr
 from pathlib import Path
 
-from .pipeline import ACCEPTED
+from .pipeline import ACCEPTED, DOCUMENT_LIKE
 from .store import Record, Store
 from .validate import FLAGS
 from .web import explain, money, nice_date
@@ -110,7 +110,11 @@ class Gmail:
         return found
 
     def fetch_invoices(self, into: Path, max_messages: int = 50) -> Fetched:
-        """Save the PDF and image attachments of unprocessed inbox messages, then label those messages."""
+        """Save the PDF and image attachments of unprocessed inbox messages, then label those messages.
+
+        A message with no PDF, JPG or PNG but with a document-like attachment (an iPhone HEIC photo, an XML, a Word
+        file) keeps that attachment too, so it lands in Set aside with an alert instead of vanishing. Next to a PDF
+        those files are skipped: a Chilean invoice arrives as PDF + XML of the same document."""
         into.mkdir(parents=True, exist_ok=True)
         query = f'in:inbox has:attachment -label:"{PROCESSED_LABEL}" -subject:"[Approve]" -subject:"[Alert]"'
         found = self.svc.users().messages().list(userId="me", q=query, maxResults=max_messages).execute()
@@ -121,10 +125,11 @@ class Gmail:
             headers = {h["name"].lower(): h["value"] for h in msg["payload"].get("headers", [])}
             sender = parseaddr(headers.get("from", ""))[1] or headers.get("from", "unknown sender")
             source = f"{sender} · {headers.get('subject', '(no subject)')}"
-            for part in _parts(msg["payload"]):
-                name, att_id = part.get("filename"), part.get("body", {}).get("attachmentId")
-                if not name or not att_id or Path(name).suffix.lower() not in ACCEPTED:
-                    continue
+            parts = [(p["filename"], p["body"]["attachmentId"]) for p in _parts(msg["payload"])
+                     if p.get("filename") and p.get("body", {}).get("attachmentId")]
+            readable = [p for p in parts if Path(p[0]).suffix.lower() in ACCEPTED]
+            keep = readable or [p for p in parts if Path(p[0]).suffix.lower() in DOCUMENT_LIKE]
+            for name, att_id in keep:
                 data = self.svc.users().messages().attachments().get(
                     userId="me", messageId=ref["id"], id=att_id).execute()["data"]
                 path = into / f"{ref['id'][:10]}-{_safe(name)}"

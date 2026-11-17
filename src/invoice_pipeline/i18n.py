@@ -130,6 +130,12 @@ ES = {
         "Mismo proveedor, fecha y total que una factura anterior, con otro número.",
     "Chilean IVA is not 19 % of the net amount.": "El IVA no es el 19 % del neto.",
     "This does not look like an invoice.": "Esto no parece una factura.",
+    "This file type cannot be read: only PDF, JPG and PNG. Open it and enter it by hand if it is an invoice.":
+        "Este tipo de archivo no se puede leer: sólo PDF, JPG y PNG. Ábrelo e ingrésalo a mano si es una factura.",
+    "A file type that cannot be read": "Un tipo de archivo que no se puede leer",
+    "This file cannot be shown here.": "Este archivo no se puede mostrar aquí.",
+    "Download it": "Descárgalo",
+    "Not a PDF or image": "No es PDF ni imagen",
     # upload limits (demo.DemoLimit)
     "This demo reads {limit} uploads per visitor per day. Try again tomorrow.":
         "La demo lee {limit} subidas por visitante al día. Vuelve a intentarlo mañana.",

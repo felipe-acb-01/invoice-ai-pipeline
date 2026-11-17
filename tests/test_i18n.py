@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 
 from invoice_pipeline import i18n, web
 from invoice_pipeline.demo import Demo
-from invoice_pipeline.pipeline import NOT_AN_INVOICE
+from invoice_pipeline.pipeline import NOT_AN_INVOICE, UNSUPPORTED
 from invoice_pipeline.validate import FLAGS
 from invoice_pipeline.web import create_app
 
@@ -38,7 +38,7 @@ def code_sentences() -> set[str]:
 
 def test_every_sentence_on_screen_has_its_spanish():
     sentences = (template_sentences() | code_sentences() | set(FLAGS.values()) | set(web.TAB_LABELS.values())
-                 | set(web.NOTICES.values()) | {NOT_AN_INVOICE, "same number", "same date and total", "Demo visitor"})
+                 | set(web.NOTICES.values()) | {NOT_AN_INVOICE, UNSUPPORTED, "same number", "same date and total", "Demo visitor"})
     assert len(sentences) > 80
     assert sorted(s for s in sentences if s not in i18n.ES) == []
 

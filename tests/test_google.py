@@ -192,3 +192,45 @@ def test_alerts_carry_their_numbers():
                                             "$65.788 CLP, $1.000 CLP too much.")
     bad = inv.model_copy(update=dict(line_items=[LineItem(description="Visita", quantity=2, unit_price=45000, amount=100000)]))
     assert explain("line_math", bad) == "“Visita”: 2 × $45.000 CLP = $90.000 CLP, but the line says $100.000 CLP."
+
+
+def test_an_unreadable_attachment_is_set_aside_with_an_alert_never_dropped(world):
+    """An iPhone photo (HEIC) alone in an email used to vanish: the message was labelled and nobody knew."""
+    svc, gmail, store = world["svc"], world["gmail"], world["store"]
+    svc.msgs["m3"] = {"payload": {"headers": [{"name": "From", "value": "pepe@local.example"}, {"name": "Subject", "value": "boleta"}],
+                                  "parts": [{"filename": "IMG_0042.HEIC", "body": {"attachmentId": "c1"}},
+                                            {"filename": "invite.ics", "body": {"attachmentId": "c2"}}]},
+                      "attachments": {"c1": b"\x00\x00\x00\x18ftypheic", "c2": b"BEGIN:VCALENDAR"}}
+    pdf = next(iter(svc.msgs["m2"]["attachments"].values()))
+    svc.msgs["m4"] = {"payload": {"headers": [{"name": "From", "value": "dte@proveedor.example"}, {"name": "Subject", "value": "DTE"}],
+                                  "parts": [{"filename": "factura.pdf", "body": {"attachmentId": "d1"}},
+                                            {"filename": "factura.xml", "body": {"attachmentId": "d2"}}]},
+                      "attachments": {"d1": pdf + b"\n%m4", "d2": b"<DTE/>"}}
+    fetched = gmail.fetch_invoices(world["tmp"] / "incoming")
+    names = sorted(p.name.split("-", 1)[1] for p in fetched.files)
+    assert "IMG_0042.HEIC" in names and "invite.ics" not in names  # the photo is kept, the calendar invite is not
+    assert "factura.xml" not in names  # next to its PDF, a Chilean DTE's XML is the same invoice again
+
+    alerts = []
+    process_folder(world["tmp"] / "incoming", store, lambda p: Extraction(None, "fake", 0, 0, 0, "unused")
+                   if "factura" in p.name else world["reader"](p), alert=alerts.append, sources=fetched.sources)
+    heic = next(r for r in store.list("error") if r.file_name.endswith(".HEIC"))
+    assert heic.source.startswith("pepe@local.example") and heic.cost_usd == 0  # never sent to the API
+    assert any("IMG_0042.HEIC" in a and "Set aside" in a for a in alerts)
+
+    client = TestClient(create_app(store, "Ana"))
+    page = client.get(f"/invoices/{heic.id}")
+    assert "A file type that cannot be read" in page.text and "<img" not in page.text.split("viewer")[1].split("</section>")[0]
+    doc = client.get(f"/documents/{heic.id}")
+    assert doc.status_code == 200 and doc.headers["content-disposition"].startswith("attachment")
+    queue = client.get("/invoices?status=error")
+    assert "Not a PDF or image" in queue.text
+
+
+def test_a_folder_sets_aside_what_it_cannot_read_and_skips_hidden_files(tmp_path):
+    inbox = tmp_path / "inbox"; inbox.mkdir()
+    (inbox / ".DS_Store").write_bytes(b"junk")
+    (inbox / "invoice.docx").write_bytes(b"PK\x03\x04 word")
+    store, alerts = Store(tmp_path / "data"), []
+    summary = process_folder(inbox, store, lambda p: (_ for _ in ()).throw(AssertionError("not read")), alert=alerts.append)
+    assert summary.seen == 1 and store.counts()["error"] == 1 and "invoice.docx" in alerts[0]

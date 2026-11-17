@@ -96,7 +96,7 @@
       {% else %}
         <td class="vendor"><a class="file" href="/invoices/{{ r.id }}">{{ r.file_name }}</a></td>
         <td colspan="4" class="sub">{{ _(r.error) }}</td>
-        <td>{% if r.error == NOT_AN_INVOICE %}<span class="chip plain">{{ _("Not an invoice") }}</span>{% else %}<span class="chip bad">{{ _("Not read") }}</span>{% endif %}</td>
+        <td>{% if r.error == NOT_AN_INVOICE %}<span class="chip plain">{{ _("Not an invoice") }}</span>{% elif r.error == UNSUPPORTED %}<span class="chip bad">{{ _("Not a PDF or image") }}</span>{% else %}<span class="chip bad">{{ _("Not read") }}</span>{% endif %}</td>
       {% endif %}
       {% if status in ("approved", "rejected") %}<td>{{ r.decided_at | nice_date }}<div class="sub">{{ _(r.decided_by) }}</div></td>{% endif %}
       </tr>

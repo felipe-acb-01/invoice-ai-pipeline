@@ -18,7 +18,7 @@ from . import i18n
 from .export import approved_workbook
 from .pdf import page_count, page_png
 from .store import STATUSES, Record, Store
-from .pipeline import NOT_AN_INVOICE
+from .pipeline import NOT_AN_INVOICE, UNSUPPORTED
 from .validate import FLAGS, norm_number
 
 TEMPLATES = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
@@ -91,6 +91,7 @@ def _decimal_filter(context, value: float, places: int = 1) -> str:
 TEMPLATES.env.filters["money"] = money
 TEMPLATES.env.globals["explain"] = explain
 TEMPLATES.env.globals["NOT_AN_INVOICE"] = NOT_AN_INVOICE
+TEMPLATES.env.globals["UNSUPPORTED"] = UNSUPPORTED
 TEMPLATES.env.filters["nice_date"] = _date_filter
 TEMPLATES.env.filters["dec"] = _decimal_filter
 TEMPLATES.env.globals["_"] = _translate
@@ -192,9 +193,10 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
         rec = st.get(invoice_id)
         if rec is None:
             raise HTTPException(404)
-        is_pdf = Path(rec.stored_as).suffix.lower() == ".pdf"
+        suffix = Path(rec.stored_as).suffix.lower()
+        is_pdf = suffix == ".pdf"
         return TEMPLATES.TemplateResponse(request, "detail.html", ctx(
-            request, st, rec=rec, is_pdf=is_pdf, pages=page_count(st.docs / rec.stored_as) if is_pdf else 0,
+            request, st, rec=rec, is_pdf=is_pdf, is_image=suffix in MEDIA and not is_pdf, pages=page_count(st.docs / rec.stored_as) if is_pdf else 0,
             matches=earlier_matches(st, rec)))
 
     def decide(request: Request, invoice_id: int, status: str, note: str) -> RedirectResponse:
@@ -227,8 +229,9 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
         if rec is None:
             raise HTTPException(404)
         path = st.docs / rec.stored_as
-        return FileResponse(path, media_type=MEDIA[path.suffix.lower()],
-                            headers={"Content-Disposition": f'inline; filename="{rec.file_name}"'})
+        shown = path.suffix.lower() in MEDIA  # anything else (HEIC, XML, Word…) is downloaded, never rendered here
+        return FileResponse(path, media_type=MEDIA.get(path.suffix.lower(), "application/octet-stream"),
+                            headers={"Content-Disposition": f'{"inline" if shown else "attachment"}; filename="{rec.file_name}"'})
 
     @app.get("/documents/{invoice_id}/pages/{page}.png")
     def page_image(request: Request, invoice_id: int, page: int):

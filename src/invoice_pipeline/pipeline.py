@@ -22,7 +22,11 @@ from .validate import check
 log = logging.getLogger("invoice_pipeline")
 
 ACCEPTED = (".pdf", ".jpg", ".jpeg", ".png")
+# Files that may well be an invoice but cannot be read here: they are set aside with this reason, never dropped.
+DOCUMENT_LIKE = (".heic", ".heif", ".tif", ".tiff", ".webp", ".bmp", ".xml", ".doc", ".docx", ".odt", ".xls", ".xlsx",
+                 ".ods", ".zip", ".rar", ".7z")
 NOT_AN_INVOICE = "This does not look like an invoice."
+UNSUPPORTED = "This file type cannot be read: only PDF, JPG and PNG. Open it and enter it by hand if it is an invoice."
 
 Extractor = Callable[[Path], Extraction]
 Alert = Callable[[str], None]
@@ -60,7 +64,8 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
     """`sources` maps a file name to where it came from (e.g. the email's sender and subject)."""
     sources = sources or {}
     extractor = extractor or (lambda p: extract(p, model=model))
-    files = sorted(p for p in inbox.iterdir() if p.suffix.lower() in ACCEPTED)
+    files = sorted(p for p in inbox.iterdir()
+                   if p.is_file() and not p.name.startswith(".") and p.suffix.lower() in ACCEPTED + DOCUMENT_LIKE)
     ledger = store.ledger()
     summary = Summary(seen=len(files))
 
@@ -70,6 +75,14 @@ def process_folder(inbox: Path, store: Store, extractor: Extractor | None = None
             summary.skipped += 1
             continue
         stored_as = store.keep_document(path, digest)
+        if path.suffix.lower() not in ACCEPTED:  # set aside, with the reason and an alert: never dropped silently
+            new_id = store.add(sha256=digest, file_name=path.name, stored_as=stored_as, status="error", flags=[],
+                               invoice=None, model=None, cost_usd=0.0, seconds=0.0, error=UNSUPPORTED,
+                               source=sources.get(path.name))
+            summary.errors += 1
+            alert(f"{path.name} is not a PDF, JPG or PNG, so it was not read. It is in the Set aside tab.")
+            summary.ids.append(new_id)
+            continue
         ex = extractor(path)
         summary.cost_usd += ex.cost_usd
 

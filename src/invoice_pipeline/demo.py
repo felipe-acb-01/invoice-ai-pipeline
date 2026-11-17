@@ -169,10 +169,10 @@ class Demo:
         if ext is None:
             raise DemoLimit("Upload a PDF, JPG or PNG.")
         if ext == ".pdf":
-            import pypdfium2 as pdfium
+            from .pdf import page_count
 
             try:
-                pages = len(pdfium.PdfDocument(data))
+                pages = page_count(data)
             except Exception:  # noqa: BLE001
                 raise DemoLimit("That PDF could not be opened.") from None
             if pages > MAX_PAGES:

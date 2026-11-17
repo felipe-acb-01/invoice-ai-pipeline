@@ -133,3 +133,22 @@ def test_a_forged_cookie_cannot_reach_outside_the_sandboxes(demo):
 
 def test_health():
     assert TestClient(create_app(demo=Demo.__new__(Demo))).get("/health").json() == {"ok": True}
+
+
+def test_many_pages_at_once_do_not_kill_the_server():
+    """PDFium is not thread-safe: the browser asking for every page of a document at once used to crash the process."""
+    import subprocess
+    import sys
+
+    script = (
+        "from concurrent.futures import ThreadPoolExecutor\n"
+        "from pathlib import Path\n"
+        "from invoice_pipeline.pdf import page_count, page_png\n"
+        "docs = sorted(Path('demo_seed').glob('*.pdf'))\n"
+        "jobs = [d for d in docs for _ in range(4)]\n"
+        "with ThreadPoolExecutor(16) as pool:\n"
+        "    pngs = list(pool.map(lambda d: page_png(d, 1), jobs)) + list(pool.map(page_count, jobs))\n"
+        "assert all(pngs)\n"
+    )
+    run = subprocess.run([sys.executable, "-c", script], capture_output=True, timeout=120)
+    assert run.returncode == 0, run.stderr.decode()[-500:]

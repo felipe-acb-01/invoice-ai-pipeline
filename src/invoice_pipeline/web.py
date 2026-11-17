@@ -15,6 +15,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 
 from .export import approved_workbook
+from .pdf import page_count, page_png
 from .store import STATUSES, Record, Store
 from .pipeline import NOT_AN_INVOICE
 from .validate import FLAGS, norm_number
@@ -98,12 +99,6 @@ def earlier_matches(store: Store, rec: Record) -> list[tuple[str, Record]]:
         elif other.invoice.issue_date == inv.issue_date and round(other.invoice.total, 2) == round(inv.total, 2):
             found.append(("same date and total", other))
     return found
-
-
-def page_count(path: Path) -> int:
-    import pypdfium2 as pdfium
-
-    return len(pdfium.PdfDocument(path))
 
 
 NOTICES = {  # the only messages the URL may carry: codes, never free text
@@ -204,20 +199,14 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
     @app.get("/documents/{invoice_id}/pages/{page}.png")
     def page_image(request: Request, invoice_id: int, page: int):
         """PDF pages as images: every browser shows them the same way, phones included."""
-        import io
-
-        import pypdfium2 as pdfium
-
         st = S(request)
         rec = st.get(invoice_id)
         if rec is None or not rec.stored_as.endswith(".pdf"):
             raise HTTPException(404)
-        doc = pdfium.PdfDocument(st.docs / rec.stored_as)
-        if not 1 <= page <= len(doc):
+        png = page_png(st.docs / rec.stored_as, page)
+        if png is None:
             raise HTTPException(404)
-        buf = io.BytesIO()
-        doc[page - 1].render(scale=1.6).to_pil().save(buf, "PNG", optimize=True)
-        return Response(buf.getvalue(), media_type="image/png", headers={"Cache-Control": "private, max-age=3600"})
+        return Response(png, media_type="image/png", headers={"Cache-Control": "private, max-age=3600"})
 
     @app.get("/export.xlsx")
     def export(request: Request) -> Response:

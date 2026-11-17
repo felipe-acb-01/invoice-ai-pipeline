@@ -4,12 +4,12 @@
 |---|---|
 | Documents | 44 (5 two_page, 4 ambiguous, 5 discount, 4 not_invoice, 8 photo, 5 wrapped, 9 chile, 4 trap) |
 | Read without error | 44 / 44 |
-| Fields correct | **100.0 %** (484 / 484) |
+| Fields correct | **100.0 %** (564 / 564) |
 | Documents with every field correct | 100.0 % |
 | Traps caught | **4 / 4** |
 | False alarms on normal invoices | 0 / 36 |
-| Cost | US$ 0.0317 total, US$ 0.0007 per document |
-| Time per document | 3.9 s average, 18.7 s slowest |
+| Cost | US$ 0.0330 total, US$ 0.0007 per document |
+| Time per document | 3.5 s average, 8.2 s slowest |
 
 ## By field
 
@@ -24,6 +24,8 @@
 | currency | 100.0 % |
 | subtotal | 100.0 % |
 | tax | 100.0 % |
+| exempt_amount | 100.0 % |
+| other_taxes | 100.0 % |
 | total | 100.0 % |
 | line_items | 100.0 % |
 | is_invoice | 100.0 % |

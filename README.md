@@ -17,7 +17,8 @@ in the queue. Approve or reject them, export to Excel, or upload an invoice of y
 - **Reads PDFs, scans and phone photos**, in English, Spanish and Portuguese, with US, European and Chilean number
   and date formats, up to two pages.
 - **Checks every invoice with rules an accountant can read:** the lines multiply out, the lines add up to the
-  subtotal, subtotal plus tax is the total, Chilean IVA is 19 %, the due date comes after the issue date, the currency
+  subtotal, subtotal plus tax is the total, Chilean IVA is 19 % of the net (exempt amounts and additional taxes such
+  as ILA sit outside it), the due date comes after the issue date, the currency
   is one the company books in.
 - **Catches duplicates across batches:** the same invoice sent twice (even as a new scan or photo), and the same charge
   under a new invoice number.
@@ -58,8 +59,9 @@ Two banks of synthetic invoices, each with the right answer, scored field by fie
 
 | Bank | Model | Fields correct | Traps caught | False alarms | Cost per invoice | Time per invoice |
 |---|---|---|---|---|---|---|
-| Standard (60) | **Claude Haiku 5.5** | 720 / 720 | 5 / 5 | 0 / 55 | **US$ 0.0005** | 2.6 s |
-| Hard (44) | **Claude Haiku 5.5** | 484 / 484 | 4 / 4 | 0 / 36 | **US$ 0.0007** | 3.9 s |
+| Standard (60) | **Claude Haiku 5.5** | 840 / 840 | 5 / 5 | 0 / 55 | **US$ 0.0005** | 2.4 s |
+| Hard (44) | **Claude Haiku 5.5** | 564 / 564 | 4 / 4 | 0 / 36 | **US$ 0.0007** | 3.5 s |
+| Chilean taxes (4) | **Claude Haiku 5.5** | 56 / 56 | 1 / 1 | 0 / 3 | **US$ 0.0007** | 4.0 s |
 | Standard (60) | Claude Sonnet 5.5 · v1 prompt | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0088 | 2.6 s |
 | Standard (60) | Claude Opus 5.5 · v1 prompt | 660 / 660 | 5 / 5 | 0 / 55 | US$ 0.0177 | 3.0 s |
 | Hard (40) | Claude Opus 5.5 · v1 prompt | 440 / 440 | 4 / 4 | 0 / 36 | US$ 0.0230 | 4.2 s |
@@ -71,6 +73,8 @@ Two banks of synthetic invoices, each with the right answer, scored field by fie
   two-page invoices, discounts and split taxes, unlabeled dates such as 08/12/2026 that only the address and payment
   terms settle, wrapped descriptions, four documents that are not invoices, and four traps (an invoice photographed
   twice, the same charge under a new folio, IVA off by $1.000, a subtotal that skips the last line on page 2).
+- **Chilean taxes** (`samples_cl/`): an exempt invoice (*factura no afecta o exenta*), net plus exempt on one invoice,
+  wine with ILA, and a trap: IVA taken over net + ILA. Kept apart so the other two banks never change.
 
 **Decision: Claude Haiku 5.5.** It matched Opus field for field at about 1/30 of the cost: roughly **US$ 0.50–0.70
 per thousand invoices**. The "v1" rows were measured before the not-an-invoice check existed.
@@ -89,7 +93,7 @@ echo "ANTHROPIC_API_KEY=..." > .env
 .venv/bin/python -m invoice_pipeline serve                       # review screen on http://127.0.0.1:8040
 .venv/bin/python -m invoice_pipeline export approved.xlsx        # approved invoices to Excel
 .venv/bin/python -m invoice_pipeline.evaluate --dry              # the evaluation, with the right answers ($0)
-.venv/bin/pytest                                                 # 51 tests, no network
+.venv/bin/pytest                                                 # 64 tests, no network
 ```
 
 With Google (credentials in `secrets/`, see `python -m invoice_pipeline --help`):

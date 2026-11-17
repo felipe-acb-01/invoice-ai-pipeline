@@ -1,0 +1,156 @@
+[
+  {
+    "file": "001.pdf",
+    "received_order": 1,
+    "kind": "chile_tax",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": true,
+      "invoice_number": "307",
+      "vendor_name": "Capacitación Andes Ltda.",
+      "vendor_tax_id": "99.948.327-5",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-07",
+      "due_date": "2026-11-06",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Curso Excel avanzado (exento)",
+          "quantity": 2.0,
+          "unit_price": 180000.0,
+          "amount": 360000.0
+        }
+      ],
+      "subtotal": 0.0,
+      "tax": 0.0,
+      "exempt_amount": 360000.0,
+      "other_taxes": 0.0,
+      "total": 360000.0
+    }
+  },
+  {
+    "file": "002.pdf",
+    "received_order": 2,
+    "kind": "chile_tax",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": true,
+      "invoice_number": "314",
+      "vendor_name": "Eventos Quillay SpA",
+      "vendor_tax_id": "99.965.102-K",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-10",
+      "due_date": "2026-10-10",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Arriendo de salón",
+          "quantity": 1.0,
+          "unit_price": 450000.0,
+          "amount": 450000.0
+        },
+        {
+          "description": "Coffee break (20 personas)",
+          "quantity": 1.0,
+          "unit_price": 90000.0,
+          "amount": 90000.0
+        },
+        {
+          "description": "Charla de capacitación (exento)",
+          "quantity": 1.0,
+          "unit_price": 250000.0,
+          "amount": 250000.0
+        }
+      ],
+      "subtotal": 540000.0,
+      "tax": 102600.0,
+      "exempt_amount": 250000.0,
+      "other_taxes": 0.0,
+      "total": 892600.0
+    }
+  },
+  {
+    "file": "003.pdf",
+    "received_order": 3,
+    "kind": "chile_tax",
+    "trap": null,
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [],
+    "truth": {
+      "is_invoice": true,
+      "invoice_number": "321",
+      "vendor_name": "Distribuidora de Vinos Maule Ltda.",
+      "vendor_tax_id": "99.972.446-9",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-09-27",
+      "due_date": "2026-10-27",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Vino tinto reserva 750 ml",
+          "quantity": 24.0,
+          "unit_price": 4990.0,
+          "amount": 119760.0
+        },
+        {
+          "description": "Vino blanco 750 ml",
+          "quantity": 12.0,
+          "unit_price": 3990.0,
+          "amount": 47880.0
+        }
+      ],
+      "subtotal": 167640.0,
+      "tax": 31852.0,
+      "exempt_amount": 0.0,
+      "other_taxes": 34366.0,
+      "total": 233858.0
+    }
+  },
+  {
+    "file": "004.pdf",
+    "received_order": 4,
+    "kind": "trap",
+    "trap": "IVA taken over net + ILA",
+    "scanned": false,
+    "base_currency": "CLP",
+    "expected_flags": [
+      "iva_mismatch"
+    ],
+    "truth": {
+      "is_invoice": true,
+      "invoice_number": "328",
+      "vendor_name": "Distribuidora de Vinos Maule Ltda.",
+      "vendor_tax_id": "99.972.446-9",
+      "customer_name": "Estudio Contable Brightline SpA",
+      "issue_date": "2026-10-28",
+      "due_date": "2026-11-27",
+      "currency": "CLP",
+      "line_items": [
+        {
+          "description": "Vino tinto reserva 750 ml",
+          "quantity": 12.0,
+          "unit_price": 4990.0,
+          "amount": 59880.0
+        },
+        {
+          "description": "Vino blanco 750 ml",
+          "quantity": 12.0,
+          "unit_price": 3990.0,
+          "amount": 47880.0
+        }
+      ],
+      "subtotal": 107760.0,
+      "tax": 24672.0,
+      "exempt_amount": 0.0,
+      "other_taxes": 22091.0,
+      "total": 154523.0
+    }
+  }
+]

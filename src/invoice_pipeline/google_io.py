@@ -32,7 +32,7 @@ GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]  # read, label a
 SHEETS_SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 PROCESSED_LABEL = "Invoices/Processed"
 SHEET_HEADER = ["Document ID", "Vendor", "Vendor tax ID", "Invoice number", "Issue date", "Due date", "Currency", "Subtotal",
-                "Tax", "Total", "Approved at (UTC)", "Approved by", "Note", "Source"]
+                "Tax", "Total", "Approved at (UTC)", "Approved by", "Note", "Source", "Exempt amount", "Other taxes"]
 
 
 # ── Credentials ────────────────────────────────────────────────────────────
@@ -227,7 +227,7 @@ def sheet_row(rec: Record) -> list:
     inv = rec.invoice
     return [document_key(rec), inv.vendor_name, inv.vendor_tax_id or "", inv.invoice_number, inv.issue_date, inv.due_date or "",
             inv.currency, inv.subtotal, inv.tax, inv.total, rec.decided_at, rec.decided_by, rec.note or "",
-            rec.source or rec.file_name]
+            rec.source or rec.file_name, inv.exempt_amount, inv.other_taxes]
 
 
 def sync_approved(store: Store, service, sheet_id: str) -> int:

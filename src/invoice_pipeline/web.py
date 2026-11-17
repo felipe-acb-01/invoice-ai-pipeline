@@ -52,12 +52,20 @@ def explain(flag: str, inv, lang: str = "en") -> str:
         return t("The IVA should be {expected} (19 % of {net}); the invoice says {tax}, {off}.",
                  expected=m(expected), net=m(inv.subtotal), tax=m(inv.tax), off=off(inv.tax - expected))
     if flag == "total_mismatch":
-        expected = inv.subtotal + inv.tax
+        expected = inv.subtotal + inv.exempt_amount + inv.tax + inv.other_taxes
+        if inv.exempt_amount or inv.other_taxes:
+            return t("Net {subtotal} + exempt {exempt} + IVA {tax} + other taxes {other} is {expected}; the invoice "
+                     "says {total}, {off}.", subtotal=m(inv.subtotal), exempt=m(inv.exempt_amount), tax=m(inv.tax),
+                     other=m(inv.other_taxes), expected=m(expected), total=m(inv.total), off=off(inv.total - expected))
         return t("Subtotal {subtotal} plus tax {tax} is {expected}; the invoice says {total}, {off}.",
                  subtotal=m(inv.subtotal), tax=m(inv.tax), expected=m(expected), total=m(inv.total),
                  off=off(inv.total - expected))
     if flag == "subtotal_mismatch":
         lines = sum(li.amount for li in inv.line_items)
+        if inv.exempt_amount:
+            return t("The lines add up to {lines}; net {subtotal} plus exempt {exempt} is {printed}, {off}.",
+                     lines=m(lines), subtotal=m(inv.subtotal), exempt=m(inv.exempt_amount),
+                     printed=m(inv.subtotal + inv.exempt_amount), off=off(inv.subtotal + inv.exempt_amount - lines))
         return t("The lines add up to {lines}; the subtotal says {subtotal}, {off}.",
                  lines=m(lines), subtotal=m(inv.subtotal), off=off(inv.subtotal - lines))
     if flag == "line_math":

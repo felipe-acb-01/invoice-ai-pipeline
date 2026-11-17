@@ -126,7 +126,9 @@
         </tbody>
         <tfoot>
           <tr><td colspan="3" class="r">{{ _("Subtotal") }}</td><td class="r">{{ inv.subtotal | money(inv.currency) }}</td></tr>
+          {% if inv.exempt_amount %}<tr><td colspan="3" class="r">{{ _("Exempt") }}</td><td class="r">{{ inv.exempt_amount | money(inv.currency) }}</td></tr>{% endif %}
           <tr><td colspan="3" class="r">{{ _("Tax") }}</td><td class="r">{{ inv.tax | money(inv.currency) }}</td></tr>
+          {% if inv.other_taxes %}<tr><td colspan="3" class="r">{{ _("Other taxes") }}</td><td class="r">{{ inv.other_taxes | money(inv.currency) }}</td></tr>{% endif %}
           <tr><td colspan="3" class="r">{{ _("Total") }}</td><td class="r">{{ inv.total | money(inv.currency) }}</td></tr>
         </tfoot>
       </table>

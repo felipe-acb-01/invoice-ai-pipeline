@@ -104,6 +104,8 @@ ES = {
     "Amount": "Monto",
     "Subtotal": "Subtotal",
     "Tax": "Impuesto",
+    "Exempt": "Exento",
+    "Other taxes": "Otros impuestos",
     # alerts (web.explain and validate.FLAGS)
     "{amount} too much": "{amount} de más",
     "{amount} too little": "{amount} de menos",
@@ -113,6 +115,10 @@ ES = {
         "Subtotal {subtotal} más impuesto {tax} da {expected}; la factura dice {total}, {off}.",
     "The lines add up to {lines}; the subtotal says {subtotal}, {off}.":
         "Las líneas suman {lines}; el subtotal dice {subtotal}, {off}.",
+    "Net {subtotal} + exempt {exempt} + IVA {tax} + other taxes {other} is {expected}; the invoice says {total}, {off}.":
+        "Neto {subtotal} + exento {exempt} + IVA {tax} + otros impuestos {other} da {expected}; la factura dice {total}, {off}.",
+    "The lines add up to {lines}; net {subtotal} plus exempt {exempt} is {printed}, {off}.":
+        "Las líneas suman {lines}; neto {subtotal} más exento {exempt} da {printed}, {off}.",
     "“{description}”: {quantity} × {price} = {product}, but the line says {amount}.":
         "«{description}»: {quantity} × {price} = {product}, pero la línea dice {amount}.",
     "Due {due}, before the issue date {issued}.": "Vence el {due}, antes de la fecha de emisión ({issued}).",

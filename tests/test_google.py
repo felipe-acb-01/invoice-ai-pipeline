@@ -134,7 +134,7 @@ def test_end_to_end_gmail_to_approval_email_to_sheet(world):
     first = store.list("pending")[0]
     app = create_app(store, "Ana", after_decision=lambda: sync_approved(store, sheets, "SHEET"))
     TestClient(app).post(f"/invoices/{first.id}/approve", data={"note": "ok"})
-    assert sheets.rows[0][0] == "Document ID" and sheets.rows[1][0] == first.sha256[:12] and sheets.rows[1][-1].startswith("billing@")
+    assert sheets.rows[0][0] == "Document ID" and sheets.rows[1][0] == first.sha256[:12] and sheets.rows[1][13].startswith("billing@") and sheets.rows[0][-2:] == ["Exempt amount", "Other taxes"]
     assert sync_approved(store, sheets, "SHEET") == 0  # idempotent
     assert len(sheets.rows) == 2
 

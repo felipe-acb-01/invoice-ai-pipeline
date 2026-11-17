@@ -20,7 +20,7 @@ import anthropic
 
 from .schema import Invoice
 
-# Chosen by the evaluation (see README): Haiku matched Opus on all 100 test documents at ~1/30 of the cost.
+# Chosen by the evaluation (see README): Haiku matched Opus on every test document at ~1/30 of the cost.
 FALLBACK_MODEL = "claude-haiku-5-5"
 
 

@@ -11,7 +11,7 @@ from openpyxl.utils import get_column_letter
 from .store import Store
 
 INVOICE_COLUMNS = ("ID", "Vendor", "Vendor tax ID", "Invoice number", "Issue date", "Due date", "Currency",
-                   "Subtotal", "Tax", "Total", "Approved at (UTC)", "Approved by", "Note", "Source file")
+                   "Subtotal", "Tax", "Total", "Approved at (UTC)", "Approved by", "Note", "Source file", "Exempt amount", "Other taxes")
 LINE_COLUMNS = ("Invoice ID", "Vendor", "Invoice number", "Description", "Quantity", "Unit price", "Amount")
 
 
@@ -27,7 +27,7 @@ def approved_workbook(store: Store) -> bytes:
         inv = rec.invoice
         inv_ws.append((rec.id, inv.vendor_name, inv.vendor_tax_id, inv.invoice_number, inv.issue_date,
                        inv.due_date, inv.currency, inv.subtotal, inv.tax, inv.total, rec.decided_at,
-                       rec.decided_by, rec.note, rec.file_name))
+                       rec.decided_by, rec.note, rec.file_name, inv.exempt_amount, inv.other_taxes))
         for li in inv.line_items:
             line_ws.append((rec.id, inv.vendor_name, inv.invoice_number, li.description, li.quantity,
                             li.unit_price, li.amount))

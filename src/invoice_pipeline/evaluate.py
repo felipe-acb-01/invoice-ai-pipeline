@@ -22,7 +22,7 @@ from .extract import PROMPT_VERSION, Extraction, default_model, extract
 from .schema import HEADER_FIELDS, Invoice
 from .validate import FLAGS, Ledger, check, norm_number
 
-MONEY_FIELDS = {"subtotal", "tax", "total"}
+MONEY_FIELDS = {"subtotal", "tax", "exempt_amount", "other_taxes", "total"}
 
 
 def _norm_text(value: str | None) -> str | None:

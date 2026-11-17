@@ -120,7 +120,13 @@ def render_cl(inv: Invoice, vendor: ClVendor, rng: random.Random) -> bytes:
     c.setFillColor(red)
     c.setFont("Helvetica-Bold", 11)
     c.drawCentredString(w - 139, h - 58, f"R.U.T.: {vendor.rut}")
-    c.drawCentredString(w - 139, h - 76, "FACTURA ELECTRÓNICA")
+    if inv.exempt_amount and not inv.subtotal:  # all of it exempt: the SII's own document type
+        c.setFont("Helvetica-Bold", 9.5)
+        c.drawCentredString(w - 139, h - 72, "FACTURA NO AFECTA O")
+        c.drawCentredString(w - 139, h - 83, "EXENTA ELECTRÓNICA")
+        c.setFont("Helvetica-Bold", 11)
+    else:
+        c.drawCentredString(w - 139, h - 76, "FACTURA ELECTRÓNICA")
     c.drawCentredString(w - 139, h - 94, f"N° {inv.invoice_number}")
     c.setFont("Helvetica", 8)
     c.drawCentredString(w - 139, h - 134, "S.I.I. - SANTIAGO CENTRO")
@@ -159,8 +165,14 @@ def render_cl(inv: Invoice, vendor: ClVendor, rng: random.Random) -> bytes:
         y -= 17
 
     y -= 16
-    for label, value, bold in (("MONTO NETO", inv.subtotal, False), ("I.V.A. 19%", inv.tax, False),
-                               ("TOTAL", inv.total, True)):
+    totals = [("MONTO NETO", inv.subtotal, False), ("I.V.A. 19%", inv.tax, False), ("TOTAL", inv.total, True)]
+    if inv.exempt_amount:
+        totals.insert(1, ("MONTO EXENTO", inv.exempt_amount, False))
+        if not inv.subtotal:
+            totals = [t for t in totals if t[0] not in ("MONTO NETO", "I.V.A. 19%")]
+    if inv.other_taxes:
+        totals.insert(-1, ("IMPTO. ADICIONAL ILA 20,5%", inv.other_taxes, False))
+    for label, value, bold in totals:
         c.setFont("Helvetica-Bold" if bold else "Helvetica", 10.5 if bold else 9.5)
         c.drawRightString(470, y, label)
         c.drawRightString(560, y, _clp(value))
@@ -180,6 +192,57 @@ def render_cl(inv: Invoice, vendor: ClVendor, rng: random.Random) -> bytes:
     c.showPage()
     c.save()
     return buf.getvalue()
+
+
+# ── Chilean taxes beyond IVA: the bank samples_cl ────────────────────────────
+
+CL_EXTRA_VENDORS = (
+    ClVendor("Capacitación Andes Ltda.", "Educación y capacitación", "Agustinas 1185, of. 501, Santiago", rut(99_948_327),
+             (("Curso Excel avanzado (exento)", 180_000, (1, 2)),), (30,)),
+    ClVendor("Eventos Quillay SpA", "Organización de eventos", "Av. Italia 1320, Ñuñoa", rut(99_965_102),
+             (("Arriendo de salón", 450_000, (1,)), ("Coffee break (20 personas)", 90_000, (1,)),
+              ("Charla de capacitación (exento)", 250_000, (1,))), (30,)),
+    ClVendor("Distribuidora de Vinos Maule Ltda.", "Distribución de vinos", "San Pablo 3120, Quinta Normal",
+             rut(99_972_446), (("Vino tinto reserva 750 ml", 4_990, (12, 24)), ("Vino blanco 750 ml", 3_990, (12,))),
+             (30,)),
+)
+ILA_WINE = 0.205
+
+
+def build_cl_tax(rng: random.Random, kind: str, folio: int) -> tuple[ClVendor, Invoice, list[str]]:
+    """An exempt invoice, net + exempt, or wine with ILA; 'ila_bad_iva' is the trap: IVA taken over net + ILA."""
+    vendor = CL_EXTRA_VENDORS[{"exenta": 0, "mixta": 1}.get(kind, 2)]
+    issued = date(2026, 9, 1) + timedelta(days=rng.randrange(0, 60))
+    items = [LineItem(description=d, quantity=q, unit_price=p, amount=q * p)
+             for d, p, qs in vendor.catalog for q in (rng.choice(qs),)]
+    exempt = sum(li.amount for li in items if "(exento)" in li.description)
+    neto = sum(li.amount for li in items) - exempt
+    iva = round(neto * 0.19)
+    ila = round(neto * ILA_WINE) if vendor is CL_EXTRA_VENDORS[2] else 0
+    flags = []
+    if kind == "ila_bad_iva":
+        iva, flags = round((neto + ila) * 0.19), ["iva_mismatch"]
+    inv = Invoice(invoice_number=str(folio), vendor_name=vendor.name, vendor_tax_id=vendor.rut,
+                  customer_name=CL_CUSTOMER[0], issue_date=issued.isoformat(),
+                  due_date=(issued + timedelta(days=30)).isoformat(), currency="CLP", line_items=items,
+                  subtotal=neto, tax=iva, exempt_amount=exempt, other_taxes=ila, total=neto + exempt + iva + ila)
+    return vendor, inv, flags
+
+
+def generate_cl_tax(out: Path, seed: int = 211) -> list[dict]:
+    """samples_cl/: kept apart so the 104 documents of the other two banks never change."""
+    rng = random.Random(seed)
+    out.mkdir(parents=True, exist_ok=True)
+    manifest = []
+    for n, kind in enumerate(("exenta", "mixta", "ila", "ila_bad_iva"), start=1):
+        vendor, inv, flags = build_cl_tax(rng, kind, 300 + n * 7)
+        name = f"{n:03d}.pdf"
+        (out / name).write_bytes(render_cl(inv, vendor, rng))
+        manifest.append({"file": name, "received_order": n, "kind": "trap" if flags else "chile_tax",
+                         "trap": "IVA taken over net + ILA" if flags else None, "scanned": False,
+                         "base_currency": "CLP", "expected_flags": flags, "truth": inv.model_dump()})
+    (out / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
+    return manifest
 
 
 # ── US layouts with hard features ──────────────────────────────────────────
@@ -601,10 +664,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--out", type=Path, default=Path("samples_hard"))
     parser.add_argument("--seed", type=int, default=197)
+    parser.add_argument("--cl-tax", action="store_true", help="write the Chilean-tax bank (samples_cl/) instead")
     args = parser.parse_args()
-    manifest = generate(args.out, args.seed)
+    manifest = generate_cl_tax(Path("samples_cl")) if args.cl_tax else generate(args.out, args.seed)
     from collections import Counter
-    print(f"{len(manifest)} documents in {args.out}/:", dict(Counter(d["kind"] for d in manifest)))
+    print(f"{len(manifest)} documents in {'samples_cl' if args.cl_tax else args.out}/:", dict(Counter(d["kind"] for d in manifest)))
 
 
 if __name__ == "__main__":

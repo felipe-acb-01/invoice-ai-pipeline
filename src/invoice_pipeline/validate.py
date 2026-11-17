@@ -35,8 +35,9 @@ def _norm(text: str | None) -> str:
 
 
 def norm_number(text: str | None) -> str:
-    """Invoice numbers compared without labels (N°, No., #), spaces or punctuation."""
-    stripped = re.sub(r"^\s*(n\s*[°º]|no\.|#)\s*", "", (text or "").lower())
+    """Invoice numbers compared without labels (Invoice, Factura, Folio, N°, No., #), spaces or punctuation."""
+    text = re.sub(r"^\s*(invoice|factura|folio)\b[\s:]*", "", (text or "").lower())  # the label the model may copy
+    stripped = re.sub(r"^\s*(n\s*[°º]|no\.|number|#)\s*", "", text)
     return _norm(stripped)
 
 
@@ -53,9 +54,10 @@ def check(invoice: Invoice, base_currency: str | tuple[str, ...] = "USD") -> lis
 
     if any(abs(li.quantity * li.unit_price - li.amount) > TOLERANCE for li in invoice.line_items):
         flags.append("line_math")
-    if abs(sum(li.amount for li in invoice.line_items) - invoice.subtotal) > TOLERANCE:
+    # Exempt lines are part of the lines but not of the net (Chile: Monto exento); both are 0 everywhere else.
+    if abs(sum(li.amount for li in invoice.line_items) - (invoice.subtotal + invoice.exempt_amount)) > TOLERANCE:
         flags.append("subtotal_mismatch")
-    if abs(invoice.subtotal + invoice.tax - invoice.total) > TOLERANCE:
+    if abs(invoice.subtotal + invoice.exempt_amount + invoice.tax + invoice.other_taxes - invoice.total) > TOLERANCE:
         flags.append("total_mismatch")
 
     try:
@@ -66,6 +68,7 @@ def check(invoice: Invoice, base_currency: str | tuple[str, ...] = "USD") -> lis
         if issued and due and due < issued:
             flags.append("date_order")
 
+    # IVA is 19 % of the net only: an exempt amount and additional taxes (ILA) sit outside it.
     if invoice.currency.upper() == "CLP" and abs(round(invoice.subtotal * CHILE_IVA) - invoice.tax) > 1:
         flags.append("iva_mismatch")
 

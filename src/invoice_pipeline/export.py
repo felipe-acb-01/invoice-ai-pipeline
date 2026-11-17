@@ -33,6 +33,10 @@ def approved_workbook(store: Store) -> bytes:
                             li.unit_price, li.amount))
 
     for ws in (inv_ws, line_ws):
+        for row in ws.iter_rows(min_row=2):
+            for cell in row:  # text read from a document is data: "=HYPERLINK(...)" must never become a formula
+                if cell.data_type == "f":
+                    cell.data_type = "s"
         for cell in ws[1]:
             cell.font = Font(bold=True)
         ws.freeze_panes = "A2"

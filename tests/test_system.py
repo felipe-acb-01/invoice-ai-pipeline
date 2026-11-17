@@ -138,3 +138,24 @@ def test_duplicate_links_to_the_earlier_invoice_and_pdf_pages_render(system):
     img = client.get(f"/documents/{original.id}/pages/1.png")
     assert img.status_code == 200 and img.content[:4] == b"\x89PNG"
     assert client.get(f"/documents/{original.id}/pages/9.png").status_code == 404
+
+
+def test_export_never_turns_document_text_into_formulas(tmp_path):
+    """Whoever sends an invoice controls its text; in the accountant's Excel it must stay text."""
+    from invoice_pipeline.export import approved_workbook
+    from invoice_pipeline.schema import Invoice, LineItem
+    from invoice_pipeline.store import Store
+
+    store = Store(tmp_path)
+    evil = Invoice(invoice_number="=1+1", vendor_name='=HYPERLINK("http://evil.example","Click")', vendor_tax_id=None,
+                   customer_name="Me", issue_date="2026-11-01", due_date=None, currency="USD",
+                   line_items=[LineItem(description="=cmd|' /C calc'!A0", quantity=1, unit_price=10, amount=10)],
+                   subtotal=10, tax=0, total=10)
+    rid = store.add(sha256="x", file_name="evil.pdf", stored_as="x.pdf", status="pending", flags=[], invoice=evil,
+                    model="m", cost_usd=0, seconds=0, error=None)
+    store.decide(rid, "approved", "Ana", "=2+2")
+    wb = load_workbook(io.BytesIO(approved_workbook(store)))
+    cells = [c for ws in wb for row in ws.iter_rows(min_row=2) for c in row if isinstance(c.value, str)]
+    texts = {c.value for c in cells}
+    assert {'=HYPERLINK("http://evil.example","Click")', "=1+1", "=2+2", "=cmd|' /C calc'!A0"} <= texts
+    assert [c.coordinate for c in cells if c.data_type == "f"] == []

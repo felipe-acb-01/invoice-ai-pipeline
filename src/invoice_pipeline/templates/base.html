@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}Invoice approvals{% endblock %}</title>
+<title>{% block title %}{{ _('Invoice approvals') }}{% endblock %}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -25,7 +25,7 @@
     color-scheme: light;
   }
   * { box-sizing: border-box; }
-  html { scrollbar-gutter: stable; } /* tabs with and without a scrollbar must not shift the page sideways */
+  html { overflow-y: scroll; } /* always the scrollbar track: tabs with and without one must not shift the page sideways */
   body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font); }
   a { color: var(--accent); text-underline-offset: 2px; }
   .num { font-variant-numeric: tabular-nums; }
@@ -38,11 +38,15 @@
   nav.tabs a:hover { background: var(--stage-card); color: var(--stage-ink); }
   nav.tabs a[aria-current="page"] { background: var(--stage-card); color: var(--stage-ink); box-shadow: inset 0 -2px 0 #7FCDE3; }
   nav.tabs .count { font-variant-numeric: tabular-nums; opacity: .75; margin-left: 5px; }
+  .lang { flex: none; display: inline-flex; border: 1px solid var(--stage-line); border-radius: var(--r-sm); overflow: hidden; font-weight: 700; font-size: 12px; }
+  .lang a { padding: 4px 8px; color: var(--stage-muted); text-decoration: none; }
+  .lang a:hover { color: var(--stage-ink); }
+  .lang a[aria-current="true"] { background: var(--stage-card); color: var(--stage-ink); }
   header.top .right { margin-left: auto; display: flex; gap: 16px; align-items: center; color: var(--stage-muted); font-size: 14px; }
   header.top .btn { background: transparent; border-color: var(--stage-line); color: var(--stage-ink); }
   header.top .btn:hover { background: var(--stage-card); border-color: var(--stage-line); }
   main { max-width: 1280px; margin: 0 auto; padding: 24px; }
-  @media (max-width: 640px) { main { padding: 16px; } header.top .in, .demo-bar .in { padding-inline: 16px; } header.top .right { margin-left: 0; } }
+  @media (max-width: 640px) { main { padding: 16px; } header.top .in, .demo-bar .in { padding-inline: 16px; } header.top .right { margin-left: 0; width: 100%; justify-content: space-between; } header.top .who { display: none; } }
   .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink);
          font: 700 14px/1.2 var(--font); padding: 10px 16px; border-radius: var(--r-sm); cursor: pointer; text-decoration: none; white-space: nowrap; }
   .btn:hover { border-color: var(--subtle); }
@@ -70,25 +74,24 @@
 </head>
 <body>
 <header class="top"><div class="in">
-  <a class="brand" href="/invoices">Invoice approvals</a>
-  <nav class="tabs" aria-label="Invoice status">
+  <a class="brand" href="/invoices">{{ _("Invoice approvals") }}</a>
+  <nav class="tabs" aria-label="{{ _('Invoice status') }}">
     {% for key, label in TAB_LABELS.items() %}
-      <a href="/invoices?status={{ key }}" {% if current_tab == key %}aria-current="page"{% endif %}>{{ label }}<span class="count">{{ counts[key] }}</span></a>
+      <a href="/invoices?status={{ key }}" {% if current_tab == key %}aria-current="page"{% endif %}>{{ _(label) }}<span class="count">{{ counts[key] }}</span></a>
     {% endfor %}
   </nav>
   <div class="right">
-    <span>{% if demo %}Approving as a demo visitor{% else %}Signed in as {{ approver }}{% endif %}</span>
-    <a class="btn" href="/export.xlsx">Export approved (.xlsx)</a>
+    <span class="who">{% if demo %}{{ _("Approving as a demo visitor") }}{% else %}{{ _("Signed in as {who}", who=approver) }}{% endif %}</span>
+    <nav class="lang" aria-label="{{ _('Language') }}">{% for code in ("en", "es") %}<a href="{{ lang_urls[code] }}" hreflang="{{ code }}" {% if lang == code %}aria-current="true"{% endif %}>{{ code | upper }}</a>{% endfor %}</nav>
+    <a class="btn" href="/export.xlsx">{{ _("Export approved (.xlsx)") }}</a>
   </div>
 </div></header>
 {% if demo %}
 <div class="demo-bar"><div class="in">
-  <p><strong>Live demo.</strong> The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export,
-    or upload your own invoice to watch it being read. Please don't upload documents with personal data: everything here is
-    deleted after 24 hours.</p>
+  <p><strong>{{ _("Live demo.") }}</strong> {{ _("The invoices below are synthetic samples, already read by Claude Haiku. Approve, reject, export, or upload your own invoice to watch it being read. Please don't upload documents with personal data: everything here is deleted after 24 hours.") }}</p>
   <div class="acts">
-    <a href="https://felipe-cortes.felipe-acb01.workers.dev/invoices/">How it works ↗</a>
-    <form method="post" action="/demo/restart"><button class="btn small">Start over</button></form>
+    <a href="{{ case_url }}">{{ _("How it works ↗") }}</a>
+    <form method="post" action="/demo/restart"><button class="btn small">{{ _("Start over") }}</button></form>
   </div>
 </div></div>
 {% endif %}

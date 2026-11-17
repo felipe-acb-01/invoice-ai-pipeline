@@ -55,7 +55,12 @@ SEED_PICKS = (
 
 
 class DemoLimit(Exception):
-    """A visitor-facing reason an upload was not read."""
+    """A visitor-facing reason an upload was not read: an English template and its values, so the page can
+    show it in the visitor's language (i18n.ES holds the translations)."""
+
+    def __init__(self, template: str, **values):
+        self.template, self.values = template, values
+        super().__init__(template.format(**values))
 
 
 # ── Seed ───────────────────────────────────────────────────────────────────
@@ -149,7 +154,7 @@ class Demo:
         with self._lock:
             usage = self._usage()
             if usage.get(sandbox, 0) >= self.sandbox_limit:
-                raise DemoLimit(f"This demo reads {self.sandbox_limit} uploads per visitor per day. Try again tomorrow.")
+                raise DemoLimit("This demo reads {limit} uploads per visitor per day. Try again tomorrow.", limit=self.sandbox_limit)
             if usage["all"] >= self.daily_limit:
                 raise DemoLimit("The demo reached today's upload limit. Try again tomorrow, or open a sample invoice.")
             usage[sandbox] = usage.get(sandbox, 0) + 1
@@ -176,7 +181,7 @@ class Demo:
             except Exception:  # noqa: BLE001
                 raise DemoLimit("That PDF could not be opened.") from None
             if pages > MAX_PAGES:
-                raise DemoLimit(f"The demo reads documents of up to {MAX_PAGES} pages; this one has {pages}.")
+                raise DemoLimit("The demo reads documents of up to {most} pages; this one has {pages}.", most=MAX_PAGES, pages=pages)
         store = self.store(sandbox)
         import hashlib
 

@@ -6,14 +6,15 @@
 from __future__ import annotations
 
 import os
-from datetime import date
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
+from jinja2 import pass_context
 from starlette.requests import Request
 
+from . import i18n
 from .export import approved_workbook
 from .pdf import page_count, page_png
 from .store import STATUSES, Record, Store
@@ -34,50 +35,65 @@ def money(value: float, currency: str) -> str:
     return f"{sign}{symbol}{text}" if symbol else f"{sign}{text} {currency}"
 
 
-def nice_date(value: str | None) -> str:
-    if not value:
-        return "—"
-    try:
-        d = date.fromisoformat(value[:10])
-    except ValueError:
-        return value
-    return f"{d.strftime('%b')} {d.day}, {d.year}"
+def nice_date(value: str | None, lang: str = "en") -> str:
+    return i18n.nice_date(value, lang)
 
 
-def explain(flag: str, inv) -> str:
+def explain(flag: str, inv, lang: str = "en") -> str:
     """The alert with its numbers, so the approver never has to redo the arithmetic."""
     m = lambda v: money(v, inv.currency)  # noqa: E731
+    t = lambda text, **values: i18n.tr(text, lang, **values)  # noqa: E731
 
     def off(diff: float) -> str:
-        return f"{m(abs(diff))} {'too much' if diff > 0 else 'too little'}"
+        return t("{amount} too much" if diff > 0 else "{amount} too little", amount=m(abs(diff)))
 
     if flag == "iva_mismatch":
         expected = round(inv.subtotal * 0.19)
-        return (f"The IVA should be {m(expected)} (19 % of {m(inv.subtotal)}); the invoice says {m(inv.tax)}, "
-                f"{off(inv.tax - expected)}.")
+        return t("The IVA should be {expected} (19 % of {net}); the invoice says {tax}, {off}.",
+                 expected=m(expected), net=m(inv.subtotal), tax=m(inv.tax), off=off(inv.tax - expected))
     if flag == "total_mismatch":
         expected = inv.subtotal + inv.tax
-        return (f"Subtotal {m(inv.subtotal)} plus tax {m(inv.tax)} is {m(expected)}; the invoice says "
-                f"{m(inv.total)}, {off(inv.total - expected)}.")
+        return t("Subtotal {subtotal} plus tax {tax} is {expected}; the invoice says {total}, {off}.",
+                 subtotal=m(inv.subtotal), tax=m(inv.tax), expected=m(expected), total=m(inv.total),
+                 off=off(inv.total - expected))
     if flag == "subtotal_mismatch":
         lines = sum(li.amount for li in inv.line_items)
-        return (f"The lines add up to {m(lines)}; the subtotal says {m(inv.subtotal)}, "
-                f"{off(inv.subtotal - lines)}.")
+        return t("The lines add up to {lines}; the subtotal says {subtotal}, {off}.",
+                 lines=m(lines), subtotal=m(inv.subtotal), off=off(inv.subtotal - lines))
     if flag == "line_math":
         bad = next(li for li in inv.line_items if abs(li.quantity * li.unit_price - li.amount) > 0.01)
-        return (f"“{bad.description}”: {bad.quantity:g} × {m(bad.unit_price)} = {m(bad.quantity * bad.unit_price)}, "
-                f"but the line says {m(bad.amount)}.")
+        return t("“{description}”: {quantity} × {price} = {product}, but the line says {amount}.",
+                 description=bad.description, quantity=f"{bad.quantity:g}", price=m(bad.unit_price),
+                 product=m(bad.quantity * bad.unit_price), amount=m(bad.amount))
     if flag == "date_order":
-        return f"Due {nice_date(inv.due_date)}, before the issue date {nice_date(inv.issue_date)}."
+        return t("Due {due}, before the issue date {issued}.",
+                 due=nice_date(inv.due_date, lang), issued=nice_date(inv.issue_date, lang))
     if flag == "foreign_currency":
-        return f"The invoice is in {inv.currency}, not in the currency the books are kept in."
-    return FLAGS[flag]
+        return t("The invoice is in {currency}, not in the currency the books are kept in.", currency=inv.currency)
+    return t(FLAGS[flag])
+
+
+@pass_context
+def _translate(context, text: str, **values) -> str:
+    return i18n.tr(text, context.get("lang", "en"), **values)
+
+
+@pass_context
+def _date_filter(context, value) -> str:
+    return nice_date(value, context.get("lang", "en"))
+
+
+@pass_context
+def _decimal_filter(context, value: float, places: int = 1) -> str:
+    return i18n.decimal(value, places, context.get("lang", "en"))
 
 
 TEMPLATES.env.filters["money"] = money
 TEMPLATES.env.globals["explain"] = explain
 TEMPLATES.env.globals["NOT_AN_INVOICE"] = NOT_AN_INVOICE
-TEMPLATES.env.filters["nice_date"] = nice_date
+TEMPLATES.env.filters["nice_date"] = _date_filter
+TEMPLATES.env.filters["dec"] = _decimal_filter
+TEMPLATES.env.globals["_"] = _translate
 TEMPLATES.env.globals["FLAGS"] = FLAGS
 TEMPLATES.env.globals["TAB_LABELS"] = TAB_LABELS
 
@@ -105,6 +121,10 @@ NOTICES = {  # the only messages the URL may carry: codes, never free text
     "reset": "Started a fresh demo with the sample invoices.",
 }
 COOKIE = "demo_sandbox"
+CASE_URL = {  # the case study on the portfolio, in each language
+    "en": "https://felipe-cortes.felipe-acb01.workers.dev/invoices/",
+    "es": "https://felipe-cortes.felipe-acb01.workers.dev/es/facturas/",
+}
 
 
 def create_app(store: Store | None = None, approver: str = "Approver", after_decision=None, demo=None) -> FastAPI:
@@ -113,6 +133,17 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
     `after_decision` runs after each approval or rejection (e.g. copy approved invoices to Google Sheets).
     If it fails, the decision still stands: the error is logged and the next run catches up."""
     app = FastAPI(title="Invoice approvals", docs_url=None, redoc_url=None)
+
+    @app.middleware("http")
+    async def language(request: Request, call_next):
+        asked = request.query_params.get("lang")
+        chosen = asked if asked in i18n.LANGS else None
+        request.state.lang = chosen or (request.cookies.get(i18n.COOKIE) if request.cookies.get(i18n.COOKIE) in i18n.LANGS else "en")
+        response = await call_next(request)
+        if chosen:
+            response.set_cookie(i18n.COOKIE, chosen, max_age=365 * 24 * 3600, samesite="lax",
+                                secure=request.url.scheme == "https")
+        return response
 
     if demo is not None:
         @app.middleware("http")
@@ -130,7 +161,10 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
         return demo.store(request.state.sandbox) if demo is not None else store
 
     def ctx(request: Request, st: Store, **extra) -> dict:
-        base = {"counts": st.counts(), "approver": approver, "demo": demo is not None}
+        lang = request.state.lang
+        base = {"counts": st.counts(), "approver": approver, "demo": demo is not None, "lang": lang,
+                "lang_urls": {code: str(request.url.include_query_params(lang=code)) for code in i18n.LANGS},
+                "case_url": CASE_URL[lang]}
         if demo is not None:
             base["remaining"] = demo.remaining(request.state.sandbox)
         return {**base, **extra}
@@ -226,7 +260,8 @@ def create_app(store: Store | None = None, approver: str = "Approver", after_dec
                 st = S(request)
                 return TEMPLATES.TemplateResponse(request, "queue.html", ctx(
                     request, st, records=st.list("pending"), status="pending",
-                    spent=sum(r.cost_usd for r in st.list()), notice=None, upload_error=str(exc)), status_code=400)
+                    spent=sum(r.cost_usd for r in st.list()), notice=None,
+                    upload_error=i18n.tr(exc.template, request.state.lang, **exc.values)), status_code=400)
             return RedirectResponse(f"/invoices/{new_id}", status_code=303)
 
         @app.post("/demo/restart")

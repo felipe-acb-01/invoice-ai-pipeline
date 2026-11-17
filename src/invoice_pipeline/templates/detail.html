@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% set current_tab = rec.status %}
 {% set inv = rec.invoice %}
-{% block title %}{{ inv.vendor_name if inv else rec.file_name }} · Invoice approvals{% endblock %}
+{% block title %}{{ inv.vendor_name if inv else rec.file_name }} · {{ _('Invoice approvals') }}{% endblock %}
 {% block head %}
 <style>
   .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; align-items: start; }
@@ -43,61 +43,60 @@
 {% endblock %}
 {% block main %}
 <div class="layout">
-  <section class="panel viewer" aria-label="Original document">
-    <div class="viewer-bar"><span class="file">{{ rec.file_name }}{% if pages > 1 %} · {{ pages }} pages{% endif %}</span>
-      <a href="/documents/{{ rec.id }}" target="_blank" rel="noopener">Open original</a></div>
+  <section class="panel viewer" aria-label="{{ _('Original document') }}">
+    <div class="viewer-bar"><span class="file">{{ rec.file_name }}{% if pages > 1 %} · {{ _("{n} pages", n=pages) }}{% endif %}</span>
+      <a href="/documents/{{ rec.id }}" target="_blank" rel="noopener">{{ _("Open original") }}</a></div>
     <div class="pages">
     {% if is_pdf %}
-      {% for n in range(1, pages + 1) %}<img src="/documents/{{ rec.id }}/pages/{{ n }}.png" alt="Page {{ n }} of the original invoice" loading="lazy">{% endfor %}
-    {% else %}<img src="/documents/{{ rec.id }}" alt="Photo of the original invoice">{% endif %}
+      {% for n in range(1, pages + 1) %}<img src="/documents/{{ rec.id }}/pages/{{ n }}.png" alt="{{ _('Page {n} of the original invoice', n=n) }}" loading="lazy">{% endfor %}
+    {% else %}<img src="/documents/{{ rec.id }}" alt="{{ _('Photo of the original invoice') }}">{% endif %}
     </div>
   </section>
 
   <div class="side">
     <div>
-      <a class="back" href="/invoices?status={{ rec.status }}">← {{ TAB_LABELS[rec.status] }}</a>
+      <a class="back" href="/invoices?status={{ rec.status }}">← {{ _(TAB_LABELS[rec.status]) }}</a>
       {% if inv %}
         <h1>{{ inv.vendor_name }}</h1>
-        <div class="meta num">Invoice {{ inv.invoice_number }} · issued {{ inv.issue_date | nice_date }}</div>
+        <div class="meta num">{{ _("Invoice {number} · issued {date}", number=inv.invoice_number, date=inv.issue_date | nice_date) }}</div>
         <div class="total num">{{ inv.total | money(inv.currency) }}</div>
-        <div class="meta">{{ "Due " ~ (inv.due_date | nice_date) if inv.due_date else "Due on receipt" }}</div>
+        <div class="meta">{{ _("Due {date}", date=inv.due_date | nice_date) if inv.due_date else _("Due on receipt") }}</div>
       {% else %}
         <h1 class="file">{{ rec.file_name }}</h1>
       {% endif %}
     </div>
 
     {% if not inv and rec.error == NOT_AN_INVOICE %}
-      <div class="panel checks plain-box"><h2>Not an invoice</h2>
-      <p>Claude read it and it is not a bill to pay (it looks like a quote, a receipt, a contract or another kind of
-        document), so there is nothing to approve. It stays here in case someone needs it.</p></div>
+      <div class="panel checks plain-box"><h2>{{ _("Not an invoice") }}</h2>
+      <p>{{ _("Claude read it and it is not a bill to pay (it looks like a quote, a receipt, a contract or another kind of document), so there is nothing to approve. It stays here in case someone needs it.") }}</p></div>
     {% elif not inv %}
-      <div class="panel checks attention"><h2>This document could not be read</h2><p class="num">{{ rec.error }}</p>
-      <p>Open the original on the left. If it is an invoice, enter it by hand; if it is not, it can be ignored.</p></div>
+      <div class="panel checks attention"><h2>{{ _("This document could not be read") }}</h2><p class="num">{{ _(rec.error) }}</p>
+      <p>{{ _("Open the original on the left. If it is an invoice, enter it by hand; if it is not, it can be ignored.") }}</p></div>
     {% elif rec.flags %}
       <div class="panel checks attention">
-        <h2>Review before approving</h2>
-        <ul>{% for f in rec.flags %}<li>{{ explain(f, inv) }}</li>{% endfor %}</ul>
-        {% if matches %}<p class="compare">Compare with:
-          {% for why, other in matches %}<a class="file" href="/invoices/{{ other.id }}">{{ other.file_name }}</a> ({{ why }}, {{ TAB_LABELS[other.status] | lower }}){{ ", " if not loop.last }}{% endfor %}</p>{% endif %}
+        <h2>{{ _("Review before approving") }}</h2>
+        <ul>{% for f in rec.flags %}<li>{{ explain(f, inv, lang) }}</li>{% endfor %}</ul>
+        {% if matches %}<p class="compare">{{ _("Compare with:") }}
+          {% for why, other in matches %}<a class="file" href="/invoices/{{ other.id }}">{{ other.file_name }}</a> ({{ _(why) }}, {{ _(TAB_LABELS[other.status]) | lower }}){{ ", " if not loop.last }}{% endfor %}</p>{% endif %}
       </div>
     {% else %}
-      <div class="panel checks clear"><h2>All checks passed</h2>
-        The lines add up, the tax matches, the dates are in order and no earlier invoice looks like this one.</div>
+      <div class="panel checks clear"><h2>{{ _("All checks passed") }}</h2>
+        {{ _("The lines add up, the tax matches, the dates are in order and no earlier invoice looks like this one.") }}</div>
     {% endif %}
 
     {% if rec.status == "pending" %}
       <form class="panel decide" method="post">
-        <label class="small" for="note">Note (optional, saved with your decision)</label>
-        <textarea id="note" name="note" placeholder="{{ 'Why you approve it anyway, or why it is rejected' if rec.flags else 'e.g. cost center' }}"></textarea>
+        <label class="small" for="note">{{ _("Note (optional, saved with your decision)") }}</label>
+        <textarea id="note" name="note" placeholder="{{ _('Why you approve it anyway, or why it is rejected') if rec.flags else _('e.g. cost center') }}"></textarea>
         <div class="row">
-          <button class="btn primary" formaction="/invoices/{{ rec.id }}/approve">Approve</button>
-          <button class="btn danger" formaction="/invoices/{{ rec.id }}/reject">Reject</button>
+          <button class="btn primary" formaction="/invoices/{{ rec.id }}/approve">{{ _("Approve") }}</button>
+          <button class="btn danger" formaction="/invoices/{{ rec.id }}/reject">{{ _("Reject") }}</button>
         </div>
       </form>
     {% elif rec.status in ("approved", "rejected") %}
       <div class="panel decided">
-        <span class="chip {{ 'ok' if rec.status == 'approved' else 'bad' }}" style="align-self:flex-start">{{ rec.status | capitalize }}</span>
-        <span>By {{ rec.decided_by }} on {{ rec.decided_at | nice_date }}</span>
+        <span class="chip {{ 'ok' if rec.status == 'approved' else 'bad' }}" style="align-self:flex-start">{{ _(rec.status) if lang == "es" else rec.status | capitalize }}</span>
+        <span>{{ _("By {who} on {date}", who=_(rec.decided_by), date=rec.decided_at | nice_date) }}</span>
         {% if rec.note %}<span class="meta">“{{ rec.note }}”</span>{% endif %}
       </div>
     {% endif %}
@@ -105,16 +104,16 @@
     {% if inv %}
     <div class="panel">
       <dl class="num">
-        <dt>Vendor tax ID</dt><dd>{{ inv.vendor_tax_id or "—" }}</dd>
-        <dt>Billed to</dt><dd>{{ inv.customer_name }}</dd>
-        <dt>Currency</dt><dd>{{ inv.currency }}</dd>
-        <dt>Source file</dt><dd class="file">{{ rec.file_name }}</dd>
-        <dt>Read by</dt><dd>{{ rec.model }} in {{ "%.1f" | format(rec.seconds) }} s · US$ {{ "%.4f" | format(rec.cost_usd) }}</dd>
+        <dt>{{ _("Vendor tax ID") }}</dt><dd>{{ inv.vendor_tax_id or "—" }}</dd>
+        <dt>{{ _("Billed to") }}</dt><dd>{{ inv.customer_name }}</dd>
+        <dt>{{ _("Currency") }}</dt><dd>{{ inv.currency }}</dd>
+        <dt>{{ _("Source file") }}</dt><dd class="file">{{ rec.file_name }}</dd>
+        <dt>{{ _("Read by") }}</dt><dd>{{ _("{model} in {seconds} s · US$ {cost}", model=rec.model, seconds=rec.seconds | dec(1), cost=rec.cost_usd | dec(4)) }}</dd>
       </dl>
     </div>
     <div class="panel lines">
       <table class="num">
-        <thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit price</th><th class="r">Amount</th></tr></thead>
+        <thead><tr><th>{{ _("Description") }}</th><th class="r">{{ _("Qty") }}</th><th class="r">{{ _("Unit price") }}</th><th class="r">{{ _("Amount") }}</th></tr></thead>
         <tbody>
         {% for li in inv.line_items %}
           <tr><td>{{ li.description }}</td><td class="r">{{ "%g" | format(li.quantity) }}</td>
@@ -122,9 +121,9 @@
         {% endfor %}
         </tbody>
         <tfoot>
-          <tr><td colspan="3" class="r">Subtotal</td><td class="r">{{ inv.subtotal | money(inv.currency) }}</td></tr>
-          <tr><td colspan="3" class="r">Tax</td><td class="r">{{ inv.tax | money(inv.currency) }}</td></tr>
-          <tr><td colspan="3" class="r">Total</td><td class="r">{{ inv.total | money(inv.currency) }}</td></tr>
+          <tr><td colspan="3" class="r">{{ _("Subtotal") }}</td><td class="r">{{ inv.subtotal | money(inv.currency) }}</td></tr>
+          <tr><td colspan="3" class="r">{{ _("Tax") }}</td><td class="r">{{ inv.tax | money(inv.currency) }}</td></tr>
+          <tr><td colspan="3" class="r">{{ _("Total") }}</td><td class="r">{{ inv.total | money(inv.currency) }}</td></tr>
         </tfoot>
       </table>
     </div>
